@@ -1,5 +1,70 @@
 {% extends "users/base_form.html" %}
 {% load static %}
 {% block content %}
-<p>Training Info</p>
+<div class="container p-6">
+    <p>Training Details</p>
+    <hr>
+    <div class="row">
+        <div class="col">
+            <label for="name-of-training">Name of Training</label>
+            <input type="text" id="name-of-training" class="form-control" placeholder="Project Management Certification..." aria-label="Name of Training" required>
+        </div>
+        <div class="col">
+            <label for="name-of-institute">Institute Name</label>
+            <input type="text" id="name-of-institute" class="form-control" placeholder="Name of Institute" aria-label="Institute Name" required>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col">
+            <label for="duration">Duration</label>
+            <input type="text" id="duration" class="form-control" placeholder="Duration" aria-label="Duration" required>
+        </div>
+        <div class="col">
+            <br>
+            <select class="form-control" id="duration-type" aria-label="Duration Type">
+                <option selected>Months</option>
+                <option value="1">Years</option>
+                <option value="2">Weeks</option>
+                <option value="3">Days</option>
+            </select>
+        </div>
+        <div class="col">
+            <p>Completion Year</p>
+            <select class="form-control" id="completion-year" aria-label="Completion Year">
+                <option selected>2021</option>
+                <option value="1">2020</option>
+                <option value="2">2019</option>
+                <option value="3">2018</option>
+            </select>
+        </div>
+        <div class="col">
+            <p> </p>
+            <select class="form-control" id="months" aria-label="months">
+                <option selected>January</option>
+                <option value="1">February</option>
+                <option value="2">March</option>
+                <option value="4">April</option>
+                <option value="5">May</option>
+                <option value="6">June</option>
+                <option value="7">July</option>
+                <option value="8">August</option>
+                <option value="9">September</option>
+                <option value="10">October</option>
+                <option value="11">November</option>
+                <option value="12">December</option>
+            </select>
+        </div>
+    </div>
+
+
+
+
+
+
+    <div class="buttons">
+        <input type="button" value="Skip" style="float: right; color: white; background-color: red;">
+        <input type="button" value="Save" style="float: right; color: white; background-color:green;">
+    </div>
+</div>
 {% endblock %}

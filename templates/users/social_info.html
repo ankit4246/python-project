@@ -1,5 +1,23 @@
 {% extends "users/base_form.html" %}
 {% load static %}
 {% block content %}
-<p>Social Info</p>
+<div class="container p-6">
+    <p>Social Media Accounts</p>
+    <hr>
+    <div class="row">
+        <div class="col">
+            <label for="account-name">Account Name</label>
+            <input type="text" id="account-name" class="form-control" placeholder="Account Name" aria-label="Account Name" required>
+        </div>
+        <div class="col">
+            <label for="url">URL</label>
+            <input type="text" id="url" class="form-control" placeholder="Name of Institute" aria-label="Institute Name" required>
+        </div>
+    </div>
+</div>
+    <div class="buttons">
+        <input type="button" value="Skip" style="float: right; color: white; background-color: red;">
+        <input type="button" value="Save" style="float: right; color: white; background-color:green;">
+    </div>
+</div>
 {% endblock %}
