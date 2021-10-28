@@ -1,5 +1,50 @@
 {% extends "users/base_form.html" %}
 {% load static %}
 {% block content %}
-<p>Work Info</p>
+<div class="container p-6">
+    <p>Work Experience</p>
+    <hr>
+    <div class="row">
+        <div class="col">
+            <label for="organization-name">Organization Name</label>
+            <input type="text" id="organization-name" class="form-control" placeholder="Train" aria-label="Organization Name" required>
+        </div>
+        <div class="col">
+            <label for="mname">Job Location</label>
+            <input type="text" id="job-location" class="form-control" placeholder="Job Location" aria-label="Job Location" required>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col">
+            <p>Job Title</p>
+            <select class="form-control" id="job-title" aria-label="Job Title">
+                <option selected>Developer</option>
+                <option value="1">Software Engineer</option>
+                <option value="2">Intern</option>
+                <option value="3">Quality Assurance</option>
+            </select>
+        </div>
+        <div class="col">
+            <p>Job Level</p>
+            <select class="form-control" id="job-level" aria-label="Job Level">
+                <option selected>Internship</option>
+                <option value="1">Junior Level</option>
+                <option value="2">Mid Level</option>
+                <option value="3">Senior Level</option>
+            </select>
+        </div>
+
+    </div>
+
+
+
+
+
+
+    <div class="buttons">
+        <input type="button" value="Skip" style="float: right; color: white; background-color: red;">
+        <input type="button" value="Save" style="float: right; color: white; background-color:green;">
+    </div>
+</div>
 {% endblock %}
