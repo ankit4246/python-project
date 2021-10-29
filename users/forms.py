@@ -7,16 +7,19 @@ from users.models import Profile, AddressDetails, EducationDetails
 class BasicInformation(ModelForm):
     class Meta:
         model = Profile
+        fields = '__all__'
 
 
 class TrainingForm(ModelForm):
     class Meta:
         model = TrainingDetails
+        fields = '__all__'
 
 
 class ExperienceForm(ModelForm):
     class Meta:
         model = ExperienceDetails
+        fields = '__all__'
 
 
 class SocialMediaForm(ModelForm):
@@ -24,10 +27,12 @@ class SocialMediaForm(ModelForm):
         model = SocialMedias
         fields = '__all__'
 
+
 class AddressInfo(ModelForm):
     class Meta:
         model = AddressDetails
         fields = '__all__'
+
 
 class EducationInfo(ModelForm):
     class Meta:
