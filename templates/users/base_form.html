@@ -1,59 +1,59 @@
 <!DOCTYPE html>
 {% load static %}
+
+<!DOCTYPE html>
 <html lang="en">
 
 <head>
-    <meta charset="utf-8">
+    <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width,initial-scale=1">
-    <title>Pentest Portal</title>
-
-    <style>
-        label{
-            color: black;
-        }
-        p {
-            color: black;
-        }
-        div {
-            padding: 15px;
-        }
-    </style>
-
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Address Detail</title>
+    <link rel="stylesheet" href="https://pro.fontawesome.com/releases/v5.10.0/css/all.css"
+        integrity="sha384-AYmEC3Yw5cVb3ZcuHtOA93w35dYTsvhLPVnYs9eStHfGJvOvKxVfELGroGkvsg+p" crossorigin="anonymous" />
+    <link rel="stylesheet" href="{% static 'css/personalDetail.css' %}">
 </head>
 
-<body style="background-color: aliceblue;">
-
-        <div class="quixnav" style="background-color: rgb(138, 141, 143);">
-            <div class="quixnav-scroll">
-                <ul class="metismenu" id="menu">
-                    <!-- <li class="nav-label first">Personal Information</li> -->
-                    <li><a href="{% url 'users:personal_info' %}" aria-expanded="false"><span class="nav-text">Personal Information</span></a>
-                    </li>
-                    <li><a href="{% url 'users:address_info' %}" aria-expanded="false"><span class="nav-text">Address Details</span></a>
-                    </li>
-                    <li><a href="{% url 'users:education_info' %}" aria-expanded="false"><span class="nav-text">Education Details</span></a>
-                    </li>
-                    <li><a href="{% url 'users:training_info' %}" aria-expanded="false"><span class="nav-text">Training</span></a>
-                    </li>
-                    <li><a href="{% url 'users:work_info' %}" aria-expanded="false"><span class="nav-text">Work Experience</span></a>
-                    </li>
-                    <li><a href="{% url 'users:social_info' %}" aria-expanded="false"><span class="nav-text">Social Media Accounts</span></a>
-                    </li>
-
-                </ul>
-            </div>
-
-
+<body>
+    <section id="sideBar" class="sideBar">
+        <div class="logo">
+            <img src="{% static 'image/logo.png' %}" alt="logo" srcset="">
         </div>
+        <a href="{% url 'users:personal_info' %}">
+            <div class="sidebarBtn "> <i class="far fa-address-card"></i>
+                <p>Personal Details</p>
+            </div>
+        </a>
+        <a href="{% url 'users:address_info' %}">
+            <div class="sidebarBtn "> <i class="far fa-map-marker-alt"></i>
+                <p>Address Details</p>
+            </div>
+        </a>
+        <a href="{% url 'users:education_info' %}">
+            <div class="sidebarBtn "> <i class="far fa-graduation-cap"></i>
+                <p>Education Details</p>
+            </div>
+        </a>
+        <a href="{% url 'users:training_info' %}">
+            <div class="sidebarBtn"> <i class="far fa-certificate"></i>
+                <p>Training</p>
+            </div>
+        </a>
+        <a href="{% url 'users:work_info' %}">
+            <div class="sidebarBtn"> <i class="far fa-briefcase"></i>
+                <p>Work Experience</p>
+            </div>
+        </a>
+        <a href="{% url "users:social_info" %}">
+            <div class="sidebarBtn"> <i class="far fa-address-book"></i>
+                <p>Social Media Accounts</p>
+            </div>
+        </a>
 
+    </section>
 
-            {% block content %}
-            {% endblock %}
-
-    </div>
+    {% block content %}
+    {% endblock %}
 
 
 </body>
-
-</html>

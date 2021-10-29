@@ -1,7 +1,54 @@
-{% extends "users/base_form.html" %}
-{% load static %}
-{% block content %}
-   <section class="contentBar">
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Training</title>
+    <link rel="stylesheet" href="https://pro.fontawesome.com/releases/v5.10.0/css/all.css"
+        integrity="sha384-AYmEC3Yw5cVb3ZcuHtOA93w35dYTsvhLPVnYs9eStHfGJvOvKxVfELGroGkvsg+p" crossorigin="anonymous" />
+    <link rel="stylesheet" href="css/personalDetail.css">
+</head>
+
+<body>
+    <section id="sideBar" class="sideBar">
+        <div class="logo">
+            <img src="image/logo.png" alt="logo" srcset="">
+        </div>
+        <a href="personalDetail.html">
+            <div class="sidebarBtn "> <i class="far fa-address-card"></i>
+                <p>Personal Details</p>
+            </div>
+        </a>
+        <a href="addressDetail.html">
+            <div class="sidebarBtn "> <i class="far fa-map-marker-alt"></i>
+                <p>Address Details</p>
+            </div>
+        </a>
+        <a href="educationDetail.html">
+            <div class="sidebarBtn "> <i class="far fa-graduation-cap"></i>
+                <p>Education Details</p>
+            </div>
+        </a>
+        <a href="#">
+            <div class="sidebarBtn active"> <i class="far fa-certificate"></i>
+                <p>Training</p>
+            </div>
+        </a>
+        <a href="workExperience.html">
+            <div class="sidebarBtn"> <i class="far fa-briefcase"></i>
+                <p>Work Experience</p>
+            </div>
+        </a>
+        <a href="media.html">
+            <div class="sidebarBtn"> <i class="far fa-address-book"></i>
+                <p>Social Media Accounts</p>
+            </div>
+        </a>
+
+    </section>
+    <section class="contentBar">
         <div class="navbar"><i onclick="sideCollapse()" class="collapseBar fas fa-bars"></i><i onclick="sideShow()"
                 class="showBar fas fa-bars"></i>
             <p>Training Details</p>
@@ -91,8 +138,11 @@
             var original = document.getElementById('form' + i);
             var clone = original.cloneNode(true);
             clone.id = "form" + ++i;
+            clone.onclick = duplicate;
             original.appendChild(clone);
         }
 
     </script>
-{% endblock %}
+</body>
+
+</html>
