@@ -1,92 +1,97 @@
 {% extends "users/base_form.html" %}
 {% load static %}
 {% block content %}
-<div class="container p-6">
-    <p>Basic Information</p>
-    <hr>
-    <div class="row">
-        <div class="col">
-            <label for="fname">First Name</label>
-            <input type="text" id="fname" class="form-control" placeholder="Ram" aria-label="First name" required>
+ <section class="contentBar">
+        <div class="navbar"><i onclick="sideCollapse()" class="collapseBar fas fa-bars"></i><i onclick="sideShow()"
+                class="showBar fas fa-bars"></i>
+            <p>Basic Details</p>
         </div>
-        <div class="col">
-            <label for="mname">Middle Name</label>
-            <input type="text" id="mname" class="form-control" placeholder="bahadur" aria-label="Last name" required>
-        </div>
-        <div class="col">
-            <label for="lname">Last Name</label>
-            <input type="text" id="lname" class="form-control" placeholder="Thapa" aria-label="Last name" required>
-        </div>
-    </div>
+        <div class="mainContent">
+            <form action="">
+                <div class="personalDetail-name">
+                    <div class="personalDetail-fname">
+                        <h4>First Name</h4>
+                        <input type="text" id="FirstName" name="FirstName" placeholder="First Name" required>
+                    </div>
+                    <div class="personalDetail-fname">
+                        <h4>Middle Name</h4>
+                        <input type="text" id="MiddleName" name="MiddleName" placeholder="Middle Name">
+                    </div>
+                    <div class="personalDetail-fname">
+                        <h4>Last Name</h4>
+                        <input type="text" id="LastName" name="LastName" placeholder="Last Name" required>
+                    </div>
+                    <div class="personalDetail-fname">
+                        <h4>Date Of Birth</h4>
+                        <input type="date">
+                    </div>
+                    <div class="personalDetail-gender">
+                        <h4>Gender</h4>
+                        <div class="gender">
+                            <input type="radio" id="male" name="gender" value="Male">
+                            <label for="male">Male</label>
+                            <input type="radio" id="female" name="gender" value="Female">
+                            <label for="female">Female</label>
+                            <input type="radio" id="other" name="gender" value="Other">
+                            <label for="other">Other</label>
+                        </div>
+                    </div>
+                    <div class="maritalStatus">
+                        <h4>Marital Status</h4>
+                        <select name="marital" id="marital">
+                            <option value="married">Married</option>
+                            <option value="single">Single</option>
+                            <option value="divorced">Divorsed</option>
+                        </select>
+                    </div>
+                    <div class="personalDetail-fname">
+                        <h4>Nationality</h4>
+                        <input placeholder="Nationality">
+                    </div>
+                    <div class="personalDetail-fname">
+                        <h4>PAN Number</h4>
+                        <input type="number" placeholder="PAN Number">
+                    </div>
+                    <div class="personalDetail-fname">
+                        <h4>National Identity Number</h4>
+                        <input placeholder="National Identity No">
+                    </div>
+                </div>
 
-    <div class="row p-6">
-        <div class="col">
-            <div>
-                <label for="dob">Date of Birth</label>
-            </div>
-            <input type="date" name="dob" id="dob" placeholder="2052-10-31" aria-label="Date of Birth" required>
-        </div>
-        <div class="col">
-            <p>Gender</p>
-            <div class="form-check form-check-inline">
-                <input class="form-check-input" type="radio" name="inlineRadioOptions" id="male" value="option1">
-                <label class="form-check-label" for="male">Male</label>
-            </div>
-            <div class="form-check form-check-inline">
-                <input class="form-check-input" type="radio" name="inlineRadioOptions" id="female" value="option2">
-                <label class="form-check-label" for="female">Female</label>
-            </div>
-            <div class="form-check form-check-inline">
-                <input class="form-check-input" type="radio" name="inlineRadioOptions" id="others" value="option3">
-                <label class="form-check-label" for="other">Others</label>
-            </div>
-        </div>
-        <div class="col">
-            <p>Marital status</p>
-            <select class="form-select" id="marital-status" aria-label="Marital Status">
-                <option selected>Single</option>
-                <option value="1">Married</option>
-                <option value="2">Divorced</option>
-            </select>
-        </div>
-    </div>
 
-    <div class="row">
-        <div class="col">
-            <label for="nation">Nationality</label>
-            <input type="text" id="nation" class="form-control" placeholder="" aria-label="Nationality">
+                <div class="navbar1">Family Information</div>
+                <div class="personalDetail-name">
+                    <div class="personalDetail-fname">
+                        <h4>Father’s Full Name</h4>
+                        <input type="text" placeholder="Father's Name">
+                    </div>
+                    <div class="personalDetail-fname">
+                        <h4>Mother’s Full Name</h4>
+                        <input type="text" placeholder="Mother’s Name">
+                    </div>
+                    <div class="personalDetail-fname">
+                        <h4>Spouse Full Name(optional)</h4>
+                        <input type="text" placeholder="Spouse Name">
+                    </div>
+
+                </div>
+                <div class="formSubmitBtn">
+                    <input type="button" value="Skip" class="formButton">
+                    <input type="submit" value="Save" class="formButton">
+                </div>
+            </form>
         </div>
-        <div class="col">
-            <label for="panNum">Pan Number</label>
-            <input type="number" id="panNum" class="form-control" placeholder="" aria-label="Pan Number">
-        </div>
-        <div class="col">
-            <label for="idNum">National Identity Number</label>
-            <input type="number" id="idNum" class="form-control" placeholder="" aria-label="National Identity Number">
-            </div>
-    </div>
-    
-    <div class="pt-7">
-        <p>Family Information</p>
-        <hr>
-        <div class="row pt-4">
-            <div class="col">
-                <label for="fathername">Father's Full Name</label>
-                <input type="text" id="fathername" class="form-control" placeholder="" aria-label="Father's Full Name">
-            </div>
-            <div class="col">
-                <label for="mothername">Mother's Full Name</label>
-                <input type="text" id="mothername" class="form-control" placeholder="" aria-label="Mother's Full Name">
-            </div>
-            <div class="col">
-                <label for="spousename">Spouse's Full Name(optional)</label>
-                <input type="text" id="spousename" class="form-control" placeholder="" aria-label="Spouse Full Name">
-            </div>
-        </div>
-    </div>
-    <div class="buttons">
-        <input type="button" value="Skip" style="float: right; color: white; background-color: red;">
-        <input type="button" value="Save" style="float: right; color: white; background-color:green;">
-    </div>
-</div>
+    </section>
+    <script>
+        const sideCollapse = () => {
+            document.querySelector(".sideBar").style.width = "50px";
+            document.querySelector(".collapseBar").style.display = "none";
+            document.querySelector(".showBar").style.display = "block";
+        }
+        const sideShow = () => {
+            document.querySelector(".sideBar").style.width = "290px";
+            document.querySelector(".showBar").style.display = "none";
+            document.querySelector(".collapseBar").style.display = "block";
+        }
+    </script>
 {% endblock %}

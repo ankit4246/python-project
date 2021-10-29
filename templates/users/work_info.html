@@ -1,50 +1,112 @@
 {% extends "users/base_form.html" %}
 {% load static %}
 {% block content %}
-<div class="container p-6">
-    <p>Work Experience</p>
-    <hr>
-    <div class="row">
-        <div class="col">
-            <label for="organization-name">Organization Name</label>
-            <input type="text" id="organization-name" class="form-control" placeholder="Train" aria-label="Organization Name" required>
+    <section class="contentBar">
+        <div class="navbar"><i onclick="sideCollapse()" class="collapseBar fas fa-bars"></i><i onclick="sideShow()"
+                class="showBar fas fa-bars"></i>
+            <p>Work Experience</p>
         </div>
-        <div class="col">
-            <label for="mname">Job Location</label>
-            <input type="text" id="job-location" class="form-control" placeholder="Job Location" aria-label="Job Location" required>
+        <div class="mainContent">
+            <form action="">
+                <div id="form0">
+                    <div class="personalDetail-name">
+                        <div class="personalDetail-fname">
+                            <h4>Organization Name</h4>
+                            <input type="text" id="tole" placeholder="Organization Name" required>
+                        </div>
+                        <div class="personalDetail-fname">
+                            <h4>Job Location</h4>
+                            <input type="text" id="tole" placeholder="Job Location" required>
+                        </div>
+                        <div class="maritalStatus">
+                            <h4>Job Title</h4>
+                            <select name="marital" id="marital">
+                                <option value="province">Front End Developer</option>
+                                <option value="province">Django Developer</option>
+                                <option value="province">Software Engineer</option>
+                                <option value="province">Database Engineer</option>
+
+                            </select>
+                        </div>
+                        <div class="maritalStatus">
+                            <h4>Job Level</h4>
+                            <select name="marital" id="marital">
+                                <option value="District">Intern</option>
+                                <option value="District">Trainee</option>
+                                <option value="District">Associate Level</option>
+                                <option value="District">Mid Level</option>
+                                <option value="District">Senior Level</option>
+                                <option value="District">Team Lead</option>
+                                <option value="District">Project Manager</option>
+
+                            </select>
+                        </div>
+                        <div class="marksSecured">
+                            <h4>Start Date</h4>
+                            <div class="doubleInput">
+
+                                <input type="number" min="1900" max="2099" step="1" value="2017" id="yearGrg" />
+                                <select name="marksSecured" id="marksSecuredNum">
+                                    <option value="month">Jan</option>
+                                    <option value="month">Fab</option>
+                                    <option value="month">Mar</option>
+                                    <option value="month">Apr</option>
+                                    <option value="month">May</option>
+                                    <option value="month">Jun</option>
+                                    <option value="month">Jul</option>
+                                    <option value="month">Aug</option>
+                                    <option value="month">Sep</option>
+                                    <option value="month">Oct</option>
+                                    <option value="month">Nov</option>
+                                    <option value="month">Dec</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="personalDetail-gender">
+                            <!-- <h4>Gender</h4> -->
+                            <div class="working">
+                                <input type="checkbox" id="male" name="check">
+                                <label for="male">Is Currently Working Here?</label>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="personalDetail-name">
+                        <div class="personalDetail-fname">
+                            <h4>Roles and Responsibilities</h4>
+                            <textarea name="addressDetail" id="addressDetail" cols="50" rows="5"></textarea>
+                            <!-- <input type="tel" placeholder="Father's Name"> -->
+                        </div>
+                    </div>
+                </div>
+                <div class="addSection" onclick="duplicate()">
+                    + Add More Experience Detail
+                </div>
+                <div class="formSubmitBtn">
+                    <input type="button" value="Skip" class="formButton">
+                    <input type="submit" value="Save" class="formButton">
+                </div>
+            </form>
         </div>
-    </div>
+    </section>
+    <script>
+        const sideCollapse = () => {
+            document.querySelector(".sideBar").style.width = "50px";
+            document.querySelector(".collapseBar").style.display = "none";
+            document.querySelector(".showBar").style.display = "block";
+        }
+        const sideShow = () => {
+            document.querySelector(".sideBar").style.width = "290px";
+            document.querySelector(".showBar").style.display = "none";
+            document.querySelector(".collapseBar").style.display = "block";
+        }
+        var i = 0;
 
-    <div class="row">
-        <div class="col">
-            <p>Job Title</p>
-            <select class="form-control" id="job-title" aria-label="Job Title">
-                <option selected>Developer</option>
-                <option value="1">Software Engineer</option>
-                <option value="2">Intern</option>
-                <option value="3">Quality Assurance</option>
-            </select>
-        </div>
-        <div class="col">
-            <p>Job Level</p>
-            <select class="form-control" id="job-level" aria-label="Job Level">
-                <option selected>Internship</option>
-                <option value="1">Junior Level</option>
-                <option value="2">Mid Level</option>
-                <option value="3">Senior Level</option>
-            </select>
-        </div>
-
-    </div>
-
-
-
-
-
-
-    <div class="buttons">
-        <input type="button" value="Skip" style="float: right; color: white; background-color: red;">
-        <input type="button" value="Save" style="float: right; color: white; background-color:green;">
-    </div>
-</div>
+        function duplicate() {
+            var original = document.getElementById('form' + i);
+            var clone = original.cloneNode(true);
+            clone.id = "form" + ++i;
+            original.appendChild(clone);
+        }
+    </script>
 {% endblock %}

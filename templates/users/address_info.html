@@ -1,5 +1,92 @@
 {% extends "users/base_form.html" %}
 {% load static %}
 {% block content %}
-<p>Address Info</p>
+<section class="contentBar">
+
+        <div class="navbar"><i onclick="sideCollapse()" class="collapseBar fas fa-bars"></i><i onclick="sideShow()"
+                class="showBar fas fa-bars"></i>
+            <p>Address Details</p>
+        </div>
+        <div class="mainContent">
+            <form action="">
+                <div class="personalDetail-name">
+                    <div class="maritalStatus">
+                        <h4>Province</h4>
+                        <select name="marital" id="marital">
+                            <option value="province">Province 1</option>
+                            <option value="province">Province 2</option>
+                            <option value="province">Province 3</option>
+                            <option value="province">Province 4</option>
+                            <option value="province">Province 5</option>
+                            <option value="province">Province 6</option>
+                            <option value="divorced">Province 7</option>
+
+                        </select>
+                    </div>
+                    <div class="maritalStatus">
+                        <h4>District</h4>
+                        <select name="marital" id="marital">
+                            <option value="District">District 1</option>
+                            <option value="District">District 2</option>
+                            <option value="District">District 3</option>
+                        </select>
+                    </div>
+                    <div class="maritalStatus">
+                        <h4>Local Body</h4>
+                        <select name="marital" id="marital">
+                            <option value="localBody">Body 1</option>
+                            <option value="localBody">Body 2</option>
+                            <option value="localBody">Body 3</option>
+                        </select>
+                    </div>
+                    <div class="personalDetail-fname">
+                        <h4>Ward Number</h4>
+                        <input type="number" placeholder="Ward Number">
+                    </div>
+                    <div class="personalDetail-fname">
+                        <h4>Tole</h4>
+                        <input type="text" id="tole" placeholder="Tole" required>
+                    </div>
+                    <div class="personalDetail-fname">
+                        <h4>House Number</h4>
+                        <input type="number" placeholder="House Number">
+                    </div>
+                    <div class="personalDetail-fname">
+                        <h4>Email</h4>
+                        <input type="email" id="email" placeholder="anil@example.com">
+                    </div>
+                    <div class="personalDetail-fname">
+                        <h4>Mobile Number</h4>
+                        <input type="tel" placeholder="Mobile Number">
+                    </div>
+                </div>
+
+
+                <div class="navbar1">Full Mailing Address</div>
+                <div class="personalDetail-name">
+                    <div class="personalDetail-fname">
+                        <h4>Address</h4>
+                        <textarea name="addressDetail" id="addressDetail" cols="50" rows="5"></textarea>
+                        <!-- <input type="tel" placeholder="Father's Name"> -->
+                    </div>
+                </div>
+                <div class="formSubmitBtn">
+                    <input type="button" value="Skip" class="formButton">
+                    <input type="submit" value="Save" class="formButton">
+                </div>
+            </form>
+        </div>
+    </section>
+    <script>
+        const sideCollapse = () => {
+            document.querySelector(".sideBar").style.width = "50px";
+            document.querySelector(".collapseBar").style.display = "none";
+            document.querySelector(".showBar").style.display = "block";
+        }
+        const sideShow = () => {
+            document.querySelector(".sideBar").style.width = "290px";
+            document.querySelector(".showBar").style.display = "none";
+            document.querySelector(".collapseBar").style.display = "block";
+        }
+    </script>
 {% endblock %}

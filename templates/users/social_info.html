@@ -1,23 +1,54 @@
 {% extends "users/base_form.html" %}
 {% load static %}
 {% block content %}
-<div class="container p-6">
-    <p>Social Media Accounts</p>
-    <hr>
-    <div class="row">
-        <div class="col">
-            <label for="account-name">Account Name</label>
-            <input type="text" id="account-name" class="form-control" placeholder="Account Name" aria-label="Account Name" required>
+   <section class="contentBar">
+        <div class="navbar"><i onclick="sideCollapse()" class="collapseBar fas fa-bars"></i><i onclick="sideShow()"
+                class="showBar fas fa-bars"></i>
+            <p>Social Account</p>
         </div>
-        <div class="col">
-            <label for="url">URL</label>
-            <input type="text" id="url" class="form-control" placeholder="Name of Institute" aria-label="Institute Name" required>
+        <div class="mainContent">
+            <form action="">
+                <div id="form0">
+                    <div class="personalDetail-name">
+                        <div class="personalDetail-fname">
+                            <h4>Account Name</h4>
+                            <input type="text" id="tole" placeholder="Facebook" required>
+                        </div>
+                        <div class="media-url">
+                            <h4>URL</h4>
+                            <input type="url" id="media-url" placeholder="facebook.com/anilkpanta.5/" required>
+                        </div>
+
+                    </div>
+                </div>
+                <div class="addSection" onclick="duplicate()">
+                    + Add More Account
+                </div>
+                <div class="formSubmitBtn">
+                    <input type="button" value="Skip" class="formButton">
+                    <input type="submit" value="Save" class="formButton">
+                </div>
+            </form>
         </div>
-    </div>
-</div>
-    <div class="buttons">
-        <input type="button" value="Skip" style="float: right; color: white; background-color: red;">
-        <input type="button" value="Save" style="float: right; color: white; background-color:green;">
-    </div>
-</div>
+    </section>
+    <script>
+        const sideCollapse = () => {
+            document.querySelector(".sideBar").style.width = "50px";
+            document.querySelector(".collapseBar").style.display = "none";
+            document.querySelector(".showBar").style.display = "block";
+        }
+        const sideShow = () => {
+            document.querySelector(".sideBar").style.width = "290px";
+            document.querySelector(".showBar").style.display = "none";
+            document.querySelector(".collapseBar").style.display = "block";
+        }
+        var i = 0;
+
+        function duplicate() {
+            var original = document.getElementById('form' + i);
+            var clone = original.cloneNode(true);
+            clone.id = "form" + ++i;
+            original.appendChild(clone);
+        }
+    </script>
 {% endblock %}

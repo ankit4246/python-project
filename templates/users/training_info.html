@@ -1,70 +1,98 @@
 {% extends "users/base_form.html" %}
 {% load static %}
 {% block content %}
-<div class="container p-6">
-    <p>Training Details</p>
-    <hr>
-    <div class="row">
-        <div class="col">
-            <label for="name-of-training">Name of Training</label>
-            <input type="text" id="name-of-training" class="form-control" placeholder="Project Management Certification..." aria-label="Name of Training" required>
+   <section class="contentBar">
+        <div class="navbar"><i onclick="sideCollapse()" class="collapseBar fas fa-bars"></i><i onclick="sideShow()"
+                class="showBar fas fa-bars"></i>
+            <p>Training Details</p>
         </div>
-        <div class="col">
-            <label for="name-of-institute">Institute Name</label>
-            <input type="text" id="name-of-institute" class="form-control" placeholder="Name of Institute" aria-label="Institute Name" required>
+        <div class="mainContent">
+            <form action="">
+                <div id="form0">
+                    <div class="personalDetail-name" id="personalDetail-name">
+                        <div class="personalDetail-fname">
+                            <h4>Name of the Training</h4>
+                            <input type="text" id="eduProgram" placeholder="Training Name" required>
+                        </div>
+                        <div class="personalDetail-fname">
+                            <h4>Institute Name</h4>
+                            <input type="text" id="eduProgram" placeholder="Institute Name" required>
+                        </div>
+                        <div class="maritalStatus">
+                            <h4>Education Board</h4>
+                            <select name="marital" id="marital">
+                                <option value="education">Tribhuwan University</option>
+                                <option value="education">Tribhuwan University</option>
+                                <option value="education">Tribhuwan University</option>
+                            </select>
+                        </div>
+                        <div class="marksSecured">
+                            <h4>Training Duration</h4>
+                            <div class="doubleInput">
+
+                                <input type="number" min="0 year" max="20 year" step="1" value="0"
+                                    id="marksSecuredNum" />
+                                <select name="marksSecured" id="yearGrg">
+                                    <option value="month">Months</option>
+                                    <option value="month">Years</option>
+                                    <option value="month">Days</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="marksSecured">
+                            <h4>Complition year</h4>
+                            <div class="doubleInput">
+
+                                <input type="number" min="1900" max="2099" step="1" value="2017" id="yearGrg" />
+                                <select name="marksSecured" id="marksSecuredNum">
+                                    <option value="month">Jan</option>
+                                    <option value="month">Fab</option>
+                                    <option value="month">Mar</option>
+                                    <option value="month">Apr</option>
+                                    <option value="month">May</option>
+                                    <option value="month">Jun</option>
+                                    <option value="month">Jul</option>
+                                    <option value="month">Aug</option>
+                                    <option value="month">Sep</option>
+                                    <option value="month">Oct</option>
+                                    <option value="month">Nov</option>
+                                    <option value="month">Dec</option>
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="addSection" onclick="duplicate()">
+                    + Add More Training Detail
+                </div>
+
+                <div class="formSubmitBtn">
+                    <input type="button" value="Skip" class="formButton">
+                    <input type="submit" value="Save" class="formButton">
+                </div>
+            </form>
         </div>
-    </div>
+    </section>
+    <script>
+        const sideCollapse = () => {
+            document.querySelector(".sideBar").style.width = "50px";
+            document.querySelector(".collapseBar").style.display = "none";
+            document.querySelector(".showBar").style.display = "block";
+        }
+        const sideShow = () => {
+            document.querySelector(".sideBar").style.width = "290px";
+            document.querySelector(".showBar").style.display = "none";
+            document.querySelector(".collapseBar").style.display = "block";
+        }
 
-    <div class="row">
-        <div class="col">
-            <label for="duration">Duration</label>
-            <input type="text" id="duration" class="form-control" placeholder="Duration" aria-label="Duration" required>
-        </div>
-        <div class="col">
-            <br>
-            <select class="form-control" id="duration-type" aria-label="Duration Type">
-                <option selected>Months</option>
-                <option value="1">Years</option>
-                <option value="2">Weeks</option>
-                <option value="3">Days</option>
-            </select>
-        </div>
-        <div class="col">
-            <p>Completion Year</p>
-            <select class="form-control" id="completion-year" aria-label="Completion Year">
-                <option selected>2021</option>
-                <option value="1">2020</option>
-                <option value="2">2019</option>
-                <option value="3">2018</option>
-            </select>
-        </div>
-        <div class="col">
-            <p> </p>
-            <select class="form-control" id="months" aria-label="months">
-                <option selected>January</option>
-                <option value="1">February</option>
-                <option value="2">March</option>
-                <option value="4">April</option>
-                <option value="5">May</option>
-                <option value="6">June</option>
-                <option value="7">July</option>
-                <option value="8">August</option>
-                <option value="9">September</option>
-                <option value="10">October</option>
-                <option value="11">November</option>
-                <option value="12">December</option>
-            </select>
-        </div>
-    </div>
+        var i = 0;
 
+        function duplicate() {
+            var original = document.getElementById('form' + i);
+            var clone = original.cloneNode(true);
+            clone.id = "form" + ++i;
+            original.appendChild(clone);
+        }
 
-
-
-
-
-    <div class="buttons">
-        <input type="button" value="Skip" style="float: right; color: white; background-color: red;">
-        <input type="button" value="Save" style="float: right; color: white; background-color:green;">
-    </div>
-</div>
+    </script>
 {% endblock %}
