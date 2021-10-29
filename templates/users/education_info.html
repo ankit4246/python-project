@@ -1,5 +1,108 @@
 {% extends "users/base_form.html" %}
 {% load static %}
 {% block content %}
-<p>Education Info</p>
+    <section class="contentBar">
+        <div class="navbar"><i onclick="sideCollapse()" class="collapseBar fas fa-bars"></i><i onclick="sideShow()"
+                class="showBar fas fa-bars"></i>
+            <p>Education Details</p>
+        </div>
+        <div class="mainContent">
+            <form action="">
+                <div id="form0">
+                    <div class="personalDetail-name" id="personalDetail-name">
+                        <div class="maritalStatus">
+                            <h4>Degree</h4>
+                            <select name="marital" id="marital">
+                                <option value="province">Bachelors</option>
+                                <option value="province">Masters</option>
+                                <option value="province">Phd</option>
+                                <option value="province">+2</option>
+                                <option value="province">Diploma</option>
+                                <option value="province">SLC</option>
+
+                            </select>
+                        </div>
+                        <div class="personalDetail-fname">
+                            <h4>Education Program</h4>
+                            <input type="text" id="eduProgram" placeholder="Bachelors in Science" required>
+                        </div>
+                        <div class="maritalStatus">
+                            <h4>Education Board</h4>
+                            <select name="marital" id="marital">
+                                <option value="education">Tribhuwan University</option>
+                                <option value="education">Tribhuwan University</option>
+                                <option value="education">Tribhuwan University</option>
+                            </select>
+                        </div>
+                        <div class="personalDetail-fname">
+                            <h4>Institute Name</h4>
+                            <input type="text" id="eduProgram" placeholder="Islington Colledge" required>
+                        </div>
+                        <div class="marksSecured">
+                            <h4>Marks Secured</h4>
+                            <div class="doubleInput">
+                                <select name="marksSecured" id="marksSecured">
+                                    <option value="education">Percentage</option>
+                                    <option value="education">GPA</option>
+                                </select>
+                                <input type="number" id="marksSecuredNum">
+                            </div>
+                        </div>
+                        <div class="marksSecured">
+                            <h4>Graduation year</h4>
+                            <div class="doubleInput">
+
+                                <input type="number" min="1900" max="2099" step="1" value="2017" id="yearGrg" />
+                                <select name="marksSecured" id="marksSecuredNum">
+                                    <option value="month">Jan</option>
+                                    <option value="month">Fab</option>
+                                    <option value="month">Mar</option>
+                                    <option value="month">Apr</option>
+                                    <option value="month">May</option>
+                                    <option value="month">Jun</option>
+                                    <option value="month">Jul</option>
+                                    <option value="month">Aug</option>
+                                    <option value="month">Sep</option>
+                                    <option value="month">Oct</option>
+                                    <option value="month">Nov</option>
+                                    <option value="month">Dec</option>
+                                </select>
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+                <div class="addSection" onclick="duplicate()">
+                    + Add More Educational Detail
+                </div>
+
+                <div class="formSubmitBtn">
+                    <input type="button" value="Skip" class="formButton">
+                    <input type="submit" value="Save" class="formButton">
+                </div>
+            </form>
+        </div>
+    </section>
+    <script>
+        const sideCollapse = () => {
+            document.querySelector(".sideBar").style.width = "50px";
+            document.querySelector(".collapseBar").style.display = "none";
+            document.querySelector(".showBar").style.display = "block";
+        }
+        const sideShow = () => {
+            document.querySelector(".sideBar").style.width = "290px";
+            document.querySelector(".showBar").style.display = "none";
+            document.querySelector(".collapseBar").style.display = "block";
+        }
+
+        var i = 0;
+
+        function duplicate() {
+            var original = document.getElementById('form' + i);
+            var clone = original.cloneNode(true);
+            clone.id = "form" + ++i;
+            original.appendChild(clone);
+        }
+
+    </script>
 {% endblock %}
