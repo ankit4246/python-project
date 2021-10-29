@@ -1,0 +1,100 @@
+{% load static %}
+
+<html>
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Registration</title>
+    <link rel="stylesheet" href="https://pro.fontawesome.com/releases/v5.10.0/css/all.css"
+        integrity="sha384-AYmEC3Yw5cVb3ZcuHtOA93w35dYTsvhLPVnYs9eStHfGJvOvKxVfELGroGkvsg+p" crossorigin="anonymous" />
+    <link rel="stylesheet" href="{% static 'css/personalDetail.css' %}">
+</head>
+
+<body>
+
+<section class="contentBar">
+        <div class="navbar"><i onclick="sideCollapse()" class="collapseBar fas fa-bars"></i><i onclick="sideShow()"
+                class="showBar fas fa-bars"></i>
+            <p>Registration</p>
+        </div>
+        <div class="mainContent">
+            <form action="">
+                <div class="personalDetail-name">
+                    <div class="personalDetail-fname">
+                        <h4>First Name</h4>
+                        <input type="text" id="FirstName" name="FirstName" placeholder="First Name" required>
+                    </div>
+                    <div class="personalDetail-fname">
+                        <h4>Middle Name</h4>
+                        <input type="text" id="MiddleName" name="MiddleName" placeholder="Middle Name">
+                    </div>
+                    <div class="personalDetail-fname">
+                        <h4>Last Name</h4>
+                        <input type="text" id="LastName" name="LastName" placeholder="Last Name" required>
+                    </div>
+                    <div class="personalDetail-fname">
+                        <h4>Date Of Birth</h4>
+                        <input type="date">
+                    </div>
+                    <div class="personalDetail-gender">
+                        <h4>Gender</h4>
+                        <div class="gender">
+                            <input type="radio" id="male" name="gender" value="Male">
+                            <label for="male">Male</label>
+                            <input type="radio" id="female" name="gender" value="Female">
+                            <label for="female">Female</label>
+                            <input type="radio" id="other" name="gender" value="Other">
+                            <label for="other">Other</label>
+                        </div>
+                    </div>
+                    <div class="maritalStatus">
+                        <h4>Marital Status</h4>
+                        <select name="marital" id="marital">
+                            <option value="married">Married</option>
+                            <option value="single">Single</option>
+                            <option value="divorced">Divorsed</option>
+                        </select>
+                    </div>
+                    <div class="personalDetail-fname">
+                        <h4>Nationality</h4>
+                        <input placeholder="Nationality">
+                    </div>
+                    <div class="personalDetail-fname">
+                        <h4>PAN Number</h4>
+                        <input type="number" placeholder="PAN Number">
+                    </div>
+                    <div class="personalDetail-fname">
+                        <h4>National Identity Number</h4>
+                        <input placeholder="National Identity No">
+                    </div>
+                </div>
+
+
+                <div class="navbar1">Family Information</div>
+                <div class="personalDetail-name">
+                    <div class="personalDetail-fname">
+                        <h4>Father’s Full Name</h4>
+                        <input type="text" placeholder="Father's Name">
+                    </div>
+                    <div class="personalDetail-fname">
+                        <h4>Mother’s Full Name</h4>
+                        <input type="text" placeholder="Mother’s Name">
+                    </div>
+                    <div class="personalDetail-fname">
+                        <h4>Spouse Full Name(optional)</h4>
+                        <input type="text" placeholder="Spouse Name">
+                    </div>
+
+                </div>
+                <div class="formSubmitBtn">
+                    <input type="button" value="Skip" class="formButton">
+                    <input type="submit" value="Save" class="formButton">
+                </div>
+            </form>
+        </div>
+</section>
+
+</body>
+
+</html>
