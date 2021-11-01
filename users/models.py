@@ -213,3 +213,10 @@ class SocialMedias(models.Model):
 #     class Meta:
 #         managed = False
 #         db_table = 'users_skills'
+
+class LoginCred(models.Model):
+    email = models.EmailField(
+        verbose_name='email address',
+        max_length=255,
+    )
+    password = models.CharField(max_length=50)

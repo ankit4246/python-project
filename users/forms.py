@@ -1,8 +1,8 @@
 from django.forms import ModelForm
 
-from users.models import Profile, TrainingDetails, ExperienceDetails, SocialMedias
+from users.models import LoginCred, Profile, TrainingDetails, ExperienceDetails, SocialMedias, User
 from users.models import Profile, AddressDetails, EducationDetails
-
+from django import forms
 
 class BasicInformation(ModelForm):
     class Meta:
@@ -37,4 +37,23 @@ class AddressInfo(ModelForm):
 class EducationInfo(ModelForm):
     class Meta:
         model = EducationDetails
+        fields = '__all__'
+
+class RegistrationForm(ModelForm):
+    CHOICES = (
+        ("male", "male"),
+        ("female", "female"),
+        ("others", "others"),
+    )
+    password1 = forms.CharField(widget = forms.PasswordInput(attrs = {'size':20}))
+    password2 = forms.CharField(widget = forms.PasswordInput(attrs = {'size':20}))
+    dob = forms.DateTimeField()
+    gender = forms.ChoiceField(choices=CHOICES)
+    class Meta:
+        model = User
+        fields = ['first_name', "middle_name", 'last_name', 'email', 'password1', 'password2', 'dob', 'gender']
+
+class LoginCredForm(ModelForm):
+    class Meta:
+        model = LoginCred
         fields = '__all__'
