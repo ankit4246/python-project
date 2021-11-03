@@ -3,57 +3,61 @@
 {% block content %}
     <section class="contentBar">
         <div class="navbar"><i onclick="sideCollapse()" class="collapseBar fas fa-bars"></i><i onclick="sideShow()"
-                class="showBar fas fa-bars"></i>
+                                                                                               class="showBar fas fa-bars"></i>
             <p>Education Details</p>
         </div>
         <div class="mainContent">
-            <form action="">
+            <form action="{% url 'users:education_info' %}" method="POST">
+                {% csrf_token %}
+
                 <div id="form0">
                     <div class="personalDetail-name" id="personalDetail-name">
                         <div class="maritalStatus">
                             <h4>Degree</h4>
-                            <select name="marital" id="marital">
-                                <option value="province">Bachelors</option>
-                                <option value="province">Masters</option>
-                                <option value="province">Phd</option>
-                                <option value="province">+2</option>
-                                <option value="province">Diploma</option>
-                                <option value="province">SLC</option>
+                            <select name="edu_level" id="marital">
+                                <option value="Bachelors">Bachelors</option>
+                                <option value="Masters">Masters</option>
+                                <option value="Phd">Phd</option>
+                                <option value="2">+2</option>
+                                <option value="Diploma">Diploma</option>
+                                <option value="SLC">SLC</option>
 
                             </select>
                         </div>
                         <div class="personalDetail-fname">
                             <h4>Education Program</h4>
-                            <input type="text" id="eduProgram" placeholder="Bachelors in Science" required>
+                            <input name="faculty" type="text" id="eduProgram" placeholder="Bachelors in Science"
+                                   required>
                         </div>
                         <div class="maritalStatus">
                             <h4>Education Board</h4>
-                            <select name="marital" id="marital">
-                                <option value="education">Tribhuwan University</option>
-                                <option value="education">Tribhuwan University</option>
-                                <option value="education">Tribhuwan University</option>
+                            <select name="university" id="marital">
+                                <option value="Tribhuwan University">Tribhuwan University</option>
+                                <option value="Tribhuwan University">Tribhuwan University</option>
+                                <option value="Tribhuwan University">Tribhuwan University</option>
                             </select>
                         </div>
                         <div class="personalDetail-fname">
                             <h4>Institute Name</h4>
-                            <input type="text" id="eduProgram" placeholder="Islington Colledge" required>
+                            <input type="text" id="eduProgram" placeholder="Islington Colledge" required
+                                   name="university">
                         </div>
                         <div class="marksSecured">
                             <h4>Marks Secured</h4>
                             <div class="doubleInput">
-                                <select name="marksSecured" id="marksSecured">
-                                    <option value="education">Percentage</option>
-                                    <option value="education">GPA</option>
+                                <select name="per_gpa_type" id="marksSecured">
+                                    <option value="Percentage">Percentage</option>
+                                    <option value="GPA">GPA</option>
                                 </select>
-                                <input type="number" id="marksSecuredNum">
+                                <input name="per_gpa_value" type="number" id="marksSecuredNum">
                             </div>
                         </div>
                         <div class="marksSecured">
                             <h4>Graduation year</h4>
                             <div class="doubleInput">
 
-                                <input type="number" min="1900" max="2099" step="1" value="2017" id="yearGrg" />
-                                <select name="marksSecured" id="marksSecuredNum">
+                                <input type="number" min="1900" max="2099" step="1" value="2017" id="yearGrg"/>
+                                <select name="passed_date" id="marksSecuredNum">
                                     <option value="month">Jan</option>
                                     <option value="month">Fab</option>
                                     <option value="month">Mar</option>

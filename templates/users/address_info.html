@@ -1,18 +1,19 @@
 {% extends "users/base_form.html" %}
 {% load static %}
 {% block content %}
-<section class="contentBar">
-
+    <section class="contentBar">
         <div class="navbar"><i onclick="sideCollapse()" class="collapseBar fas fa-bars"></i><i onclick="sideShow()"
-                class="showBar fas fa-bars"></i>
+                                                                                               class="showBar fas fa-bars"></i>
             <p>Address Details</p>
         </div>
         <div class="mainContent">
-            <form action="">
+            <form action="{% url 'users:address_info' %}" method="POST">
+                {% csrf_token %}
+
                 <div class="personalDetail-name">
                     <div class="maritalStatus">
                         <h4>Province</h4>
-                        <select name="marital" id="marital">
+                        <select name="province" id="marital">
                             <option value="province">Province 1</option>
                             <option value="province">Province 2</option>
                             <option value="province">Province 3</option>
@@ -25,7 +26,7 @@
                     </div>
                     <div class="maritalStatus">
                         <h4>District</h4>
-                        <select name="marital" id="marital">
+                        <select name="district" id="marital" name="district">
                             <option value="District">District 1</option>
                             <option value="District">District 2</option>
                             <option value="District">District 3</option>
