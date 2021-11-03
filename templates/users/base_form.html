@@ -8,12 +8,25 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Address Detail</title>
+
     <link rel="stylesheet" href="https://pro.fontawesome.com/releases/v5.10.0/css/all.css"
         integrity="sha384-AYmEC3Yw5cVb3ZcuHtOA93w35dYTsvhLPVnYs9eStHfGJvOvKxVfELGroGkvsg+p" crossorigin="anonymous" />
     <link rel="stylesheet" href="{% static 'css/personalDetail.css' %}">
 </head>
 
 <body>
+
+    {% if user.is_authenticated %}
+        Hi {{ user.email }}!
+        <a href="{% url 'users:logout' %}">Log out</a>
+    {% else %}
+        <p>You are not logged in</p>
+        <a href="{% url 'users:login' %}">Log In</a>
+    {% endif %}
+
+
     <section id="sideBar" class="sideBar">
         <div class="logo">
             <img src="{% static 'image/logo.png' %}" alt="logo" srcset="">
@@ -43,7 +56,11 @@
                 <p>Work Experience</p>
             </div>
         </a>
-        <a href="{% url "users:social_info" %}">
+
+{#        <a href="{% url "users:social_info" %}">#}
+
+        <a href="{% url 'users:social_info' %}">
+
             <div class="sidebarBtn"> <i class="far fa-address-book"></i>
                 <p>Social Media Accounts</p>
             </div>

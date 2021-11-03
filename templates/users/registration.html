@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+{% load static %}
+
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Registration</title>
+    <link rel="stylesheet" href="https://pro.fontawesome.com/releases/v5.10.0/css/all.css"
+        integrity="sha384-AYmEC3Yw5cVb3ZcuHtOA93w35dYTsvhLPVnYs9eStHfGJvOvKxVfELGroGkvsg+p" crossorigin="anonymous"/>
+    <link rel="stylesheet" href="{% static 'css/personalDetail.css' %}">
+</head>
+
+<body>
+
+<section class="contentBar">
+    <div class="navbar">
+        <p>Registration</p>
+    </div>
+    <div class="mainContent">
+        <form action="{% url 'users:register' %}" method="POST">
+            <div class="personalDetail-name">
+                {% csrf_token %}
+                <div class="personalDetail-fname">
+                    <h4>First Name</h4>
+                    <!-- <input type="text" id="FirstName" name="FirstName" placeholder="First Name" required> -->
+                    {{form.first_name}}
+                </div>
+                <div class="personalDetail-fname">
+                    <h4>Middle Name</h4>
+                    <!-- <input type="text" id="MiddleName" name="MiddleName" placeholder="Middle Name"> -->
+                    {{form.middle_name}}
+                </div>
+                <div class="personalDetail-fname">
+                    <h4>Last Name</h4>
+                    <!-- <input type="text" id="LastName" name="LastName" placeholder="Last Name" required> -->
+                    {{form.last_name}}
+                </div>
+                <div class="personalDetail-fname">
+                    <h4>Email</h4>
+                    <!-- <input type="email" placeholder="anil@example.com"> -->
+                    {{form.email}}
+                </div>
+
+                <div class="personalDetail-fname">
+                    <h4>Password</h4>
+                    <!-- <input placeholder="Type in your password"> -->
+                    {{form.password1}}
+                </div>
+                <div class="personalDetail-fname">
+                    <h4>Retype Password</h4>
+                    <!-- <input placeholder="Retype in your password"> -->
+                    {{form.password2}}
+                </div>
+
+                                   <div class="personalDetail-fname">
+                        <h4>Date Of Birth</h4>
+                        <!-- <input type="date"> -->
+                        {{form.dob}}
+                    </div>
+                    <div class="personalDetail-gender">
+                        <h4>Gender</h4>
+                        <div class="gender">
+                            <!-- <input type="radio" id="male" name="gender" value="Male">
+                            <label for="male">Male</label>
+                            <input type="radio" id="female" name="gender" value="Female">
+                            <label for="female">Female</label>
+                            <input type="radio" id="other" name="gender" value="Other">
+                            <label for="other">Other</label> -->
+                            {{form.gender}}
+                        </div>
+                    </div>
+            </div>
+
+            <div class="formSubmitBtn">
+                <input type="button" value="Skip" class="formButton">
+                <input type="submit" value="Save" class="formButton">
+            </div>
+        </form>
+    </div>
+</section>
+
+</body>
+
+</html>
