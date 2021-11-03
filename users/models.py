@@ -68,6 +68,7 @@ class User(AbstractBaseUser, PermissionsMixin):
     middle_name = models.CharField(max_length=100, null=True, blank=True)
     last_name = models.CharField(max_length=100, null=True, blank=True)
     date_joined = models.DateTimeField(auto_now_add=True)
+    # password = models.CharField(max_length=255)
     # skills = models.ManyToManyField(Skills, blank=True)
 
     USERNAME_FIELD = 'email'
@@ -214,9 +215,9 @@ class SocialMedias(models.Model):
 #         managed = False
 #         db_table = 'users_skills'
 
-class LoginCred(models.Model):
-    email = models.EmailField(
-        verbose_name='email address',
-        max_length=255,
-    )
-    password = models.CharField(max_length=50)
+# class LoginCred(models.Model):
+#     email = models.EmailField(
+#         verbose_name='email address',
+#         max_length=255,
+#     )
+#     password = models.CharField(max_length=50)
