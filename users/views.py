@@ -12,7 +12,8 @@ import uuid
 from django.views.generic.edit import FormView, CreateView
 from users.forms import BasicInformationForm, AddressInfo, EducationInfoForm, ExperienceForm
 from django.urls import reverse_lazy
-
+from users.tasks import send_mail_func
+import json
 # class PersonalInfoView(View):
 #     template_name = 'users/personal_info.html'
 #     form_class = BasicInformationForm
@@ -158,12 +159,16 @@ def user_register(request):
             first_name = form.cleaned_data['first_name']
             last_name = form.cleaned_data['last_name']
             password1 = form.cleaned_data['password1']
+            email = form.cleaned_data['email']
             # unique username with the help of uuid 
             user.password = password1
             preName = str(uuid.uuid4())
             preName = preName[:3]
             user.username = preName + first_name
             user.save()
+            send_mail_func.delay(
+                user_id=user.pk
+            )
             return redirect("users:login")
 
     context = {
