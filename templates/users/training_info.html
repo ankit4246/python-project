@@ -1,22 +1,25 @@
 {% extends "users/base_form.html" %}
 {% load static %}
 {% block content %}
-   <section class="contentBar">
+    <section class="contentBar">
         <div class="navbar"><i onclick="sideCollapse()" class="collapseBar fas fa-bars"></i><i onclick="sideShow()"
-                class="showBar fas fa-bars"></i>
+                                                                                               class="showBar fas fa-bars"></i>
             <p>Training Details</p>
         </div>
         <div class="mainContent">
-            <form action="">
+            <form action="{% url 'users:training_info' %}" method="POST">
+                {% csrf_token %}
                 <div id="form0">
                     <div class="personalDetail-name" id="personalDetail-name">
                         <div class="personalDetail-fname">
                             <h4>Name of the Training</h4>
-                            <input type="text" id="eduProgram" placeholder="Training Name" required>
+                            <input name="name_of_training" type="text" id="eduProgram" placeholder="Training Name"
+                                   required>
                         </div>
                         <div class="personalDetail-fname">
                             <h4>Institute Name</h4>
-                            <input type="text" id="eduProgram" placeholder="Institute Name" required>
+                            <input name="institute_name" type="text" id="eduProgram" placeholder="Institute Name"
+                                   required>
                         </div>
 
                         <div class="maritalStatus">
@@ -32,9 +35,9 @@
                             <h4>Training Duration</h4>
                             <div class="doubleInput">
 
-                                <input type="number" min="0 year" max="20 year" step="1" value="0"
-                                    id="marksSecuredNum" />
-                                <select name="marksSecured" id="yearGrg">
+                                <input name="duration" type="number" min="0 year" max="20 year" step="1" value="0"
+                                       id="marksSecuredNum"/>
+                                <select name="duration_type" id="yearGrg">
                                     <option value="month">Months</option>
                                     <option value="month">Years</option>
                                     <option value="month">Days</option>
@@ -45,8 +48,9 @@
                             <h4>Complition year</h4>
                             <div class="doubleInput">
 
-                                <input type="number" min="1900" max="2099" step="1" value="2017" id="yearGrg" />
-                                <select name="marksSecured" id="marksSecuredNum">
+                                <input name="completion_year" type="number" min="1900" max="2099" step="1" value="2017"
+                                       id="yearGrg"/>
+                                <select name="completion_month" id="marksSecuredNum">
                                     <option value="month">Jan</option>
                                     <option value="month">Fab</option>
                                     <option value="month">Mar</option>

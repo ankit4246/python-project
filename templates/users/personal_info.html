@@ -7,25 +7,26 @@
             <p>Basic Details</p>
         </div>
         <div class="mainContent">
-            <form action="">
+            <form action="{% url 'users:personal_info' %}" method="POST">
+                {% csrf_token %}
                 <div class="personalDetail-name">
                     <div class="personalDetail-fname">
                         <h4>First Name</h4>
-                        <input type="text" id="FirstName" name="FirstName" placeholder="First Name" required>
+                        <input type="text" id="first_name_id" name="first_name" placeholder="First Name" required>
                     </div>
                     <div class="personalDetail-fname">
                         <h4>Middle Name</h4>
-                        <input type="text" id="MiddleName" name="MiddleName" placeholder="Middle Name">
+                        <input type="text" id="MiddleName" name="middle_name" placeholder="Middle Name">
                     </div>
                     <div class="personalDetail-fname">
                         <h4>Last Name</h4>
-                        <input type="text" id="LastName" name="LastName" placeholder="Last Name" required>
+                        <input type="text" id="LastName" name="last_name" placeholder="Last Name" required>
                     </div>
                     <div class="personalDetail-fname">
                         <h4>Date Of Birth</h4>
-                        <input type="date">
+                        <input type="date" name="date_of_birth">
                     </div>
-                    <div class="personalDetail-gender">
+                    <div class="personalDetail-gender" >
                         <h4>Gender</h4>
                         <div class="gender">
                             <input type="radio" id="male" name="gender" value="Male">
@@ -38,7 +39,7 @@
                     </div>
                     <div class="maritalStatus">
                         <h4>Marital Status</h4>
-                        <select name="marital" id="marital">
+                        <select name="marital_status" id="marital">
                             <option value="married">Married</option>
                             <option value="single">Single</option>
                             <option value="divorced">Divorsed</option>
@@ -46,15 +47,15 @@
                     </div>
                     <div class="personalDetail-fname">
                         <h4>Nationality</h4>
-                        <input placeholder="Nationality">
+                        <input placeholder="Nationality" name="nationality">
                     </div>
                     <div class="personalDetail-fname">
                         <h4>PAN Number</h4>
-                        <input type="number" placeholder="PAN Number">
+                        <input type="number" placeholder="PAN Number" name="pan_number">
                     </div>
                     <div class="personalDetail-fname">
                         <h4>National Identity Number</h4>
-                        <input placeholder="National Identity No">
+                        <input placeholder="National Identity No" name="national_identity_num">
                     </div>
                 </div>
 
@@ -63,15 +64,15 @@
                 <div class="personalDetail-name">
                     <div class="personalDetail-fname">
                         <h4>Father’s Full Name</h4>
-                        <input type="text" placeholder="Father's Name">
+                        <input type="text" placeholder="Father's Name" name="father_full_name">
                     </div>
                     <div class="personalDetail-fname">
                         <h4>Mother’s Full Name</h4>
-                        <input type="text" placeholder="Mother’s Name">
+                        <input type="text" placeholder="Mother’s Name" name="mother_full_name">
                     </div>
                     <div class="personalDetail-fname">
                         <h4>Spouse Full Name(optional)</h4>
-                        <input type="text" placeholder="Spouse Name">
+                        <input type="text" placeholder="Spouse Name" name="spouse_full_name">
                     </div>
 
                 </div>

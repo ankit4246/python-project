@@ -1,13 +1,15 @@
 {% extends "users/base_form.html" %}
 {% load static %}
 {% block content %}
-   <section class="contentBar">
+    <section class="contentBar">
         <div class="navbar"><i onclick="sideCollapse()" class="collapseBar fas fa-bars"></i><i onclick="sideShow()"
-                class="showBar fas fa-bars"></i>
+                                                                                               class="showBar fas fa-bars"></i>
             <p>Social Account</p>
         </div>
         <div class="mainContent">
-            <form action="">
+            <form action="{% url 'users:social_info' %}" method="POST">
+                {% csrf_token %}
+
                 <div id="form0">
                     <div class="personalDetail-name">
                         <div class="personalDetail-fname">

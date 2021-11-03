@@ -1,50 +1,121 @@
 from django.core.exceptions import ValidationError
 from django.shortcuts import render, redirect
-
-# Create your views here.
+from django.views import View
 from django.views.generic import TemplateView
 from django.views.generic.edit import FormView
-from users.forms import BasicInformation, AddressInfo, EducationInfo, ExperienceForm, RegisterForm, LoginForm
+from users.forms import BasicInformationForm, AddressInfo, EducationInfoForm, ExperienceForm, RegisterForm, LoginForm
 from django.urls import reverse_lazy, reverse
 from django.contrib.auth import login, logout, authenticate
 from users.models import User
 from django.contrib.auth.decorators import login_required
 import uuid
+from django.views.generic.edit import FormView, CreateView
+from users.forms import BasicInformationForm, AddressInfo, EducationInfoForm, ExperienceForm
+from django.urls import reverse_lazy
 
-class PersonalInfoView(FormView):
+# class PersonalInfoView(View):
+#     template_name = 'users/personal_info.html'
+#     form_class = BasicInformationForm
+#     success_url = reverse_lazy('users:address_info')
+from users.models import User, Profile, EducationDetails, TrainingDetails, ExperienceDetails, SocialMedias
+
+
+class PersonalInfoView(View):
     template_name = 'users/personal_info.html'
-    form_class = BasicInformation
-    success_url = reverse_lazy('address_info')
+    form_class = BasicInformationForm
+
+    def get(self, request, *args, **kwargs):
+        # get first, middle, last name from user model and return it
+        # profile = Profile.objects.get(user=request.user)
+        context = {"form": self.form_class(), 'user': request.user, 'profile': 'profile'}
+        return render(request, self.template_name, context)
+
+    def post(self, request, *args, **kwargs):
+        form = self.form_class(request.POST)
+        if form.is_valid():
+            # extract first middle and last name from the form
+            first_name = form.cleaned_data.pop('first_name')
+            middle_name = form.cleaned_data.pop('middle_name')
+            last_name = form.cleaned_data.pop('last_name')
+
+            # add authenticated user to the 'user' field of cleaned data
+            # form.cleaned_data['user'] = request.user
+            # update authenticated user with first, middle and last name
+            User.objects.filter(pk=request.user.pk).update(first_name=first_name, middle_name=middle_name,
+                                                           last_name=last_name)
+            # save the form
+            form.save(commit=True)
+        return redirect(reverse_lazy('users:address_info'))
 
 
 class AddressInfoView(FormView):
     template_name = 'users/address_info.html'
     form_class = AddressInfo
-    success_url = reverse_lazy('education_info')
 
 
-class EducationInfoView(FormView):
+class EducationInfoView(View):
     template_name = 'users/education_info.html'
-    form_class = EducationInfo
-    success_url = reverse_lazy('training_info')
+    form_class = EducationInfoForm
+    success_url = reverse_lazy('users:training_info')
+
+    def get(self, request, *args, **kwargs):
+        # education = EducationDetails.objects.get(user=request.user)
+        context = {"form": self.form_class(), 'user': request.user, 'education': 'education'}
+        return render(request, self.template_name, context)
+
+    def post(self, request, *args, **kwargs):
+        form = self.form_class(request.POST)
+        if form.is_valid():
+            form.save(commit=True)
+        return redirect(reverse_lazy('users:training_info'))
 
 
-class TrainingInfoView(FormView):
+class TrainingInfoView(View):
     template_name = 'users/training_info.html'
-    form_class = EducationInfo
-    success_url = reverse_lazy('work_info')
+    form_class = EducationInfoForm
+
+    def get(self, request, *args, **kwargs):
+        # training = TrainingDetails.objects.get(user=request.user)
+        context = {"form": self.form_class(), 'user': request.user, 'training': 'training'}
+        return render(request, self.template_name, context)
+
+    def post(self, request, *args, **kwargs):
+        form = self.form_class(request.POST)
+        if form.is_valid():
+            form.save(commit=True)
+        return redirect(reverse_lazy('users:work_info'))
 
 
-class WorkInfoView(FormView):
+class WorkInfoView(View):
     template_name = 'users/work_info.html'
     form_class = ExperienceForm
-    success_url = reverse_lazy('social_info')
+
+    def get(self, request, *args, **kwargs):
+        # experience = ExperienceDetails.objects.get(user=request.user)
+        context = {"form": self.form_class(), 'user': request.user, 'experience': 'experience'}
+        return render(request, self.template_name, context)
+
+    def post(self, request, *args, **kwargs):
+        form = self.form_class(request.POST)
+        if form.is_valid():
+            form.save(commit=True)
+        return redirect(reverse_lazy('users:social_info'))
 
 
-class SocialInfoView(FormView):
+class SocialInfoView(View):
     template_name = 'users/social_info.html'
     form_class = ExperienceForm
-    success_url = reverse_lazy('social_info')
+
+    def get(self, request, *args, **kwargs):
+        # social_media = SocialMedias.objects.get(user=request.user)
+        context = {"form": self.form_class(), 'user': request.user, 'social_media': 'social_media'}
+        return render(request, self.template_name, context)
+
+    def post(self, request, *args, **kwargs):
+        form = self.form_class(request.POST)
+        if form.is_valid():
+            form.save(commit=True)
+        return redirect(reverse_lazy('users:social_info'))
 
 
 # class RegistrationView(TemplateView):
@@ -55,10 +126,10 @@ class SocialInfoView(FormView):
 #         fm = RegistrationForm(request.POST)
 #         password1 = request.POST.get('password1')
 #         password2 = request.POST.get('password2')
-        
+
 #         if password1 != password2:
 #             raise ValidationError("password must match")
-        
+
 #         if fm.is_valid():
 #             user = fm.save(commit=False)
 #             first_name = fm.cleaned_data['first_name']
@@ -102,7 +173,6 @@ def user_register(request):
     return render(request, 'users/registration.html', context)
 
 
-
 def login_user(request):
     """
     Login a user
@@ -138,3 +208,7 @@ def logout_user(request):
     """
     logout(request)
     return redirect("users:login")
+
+
+class RegistrationView(TemplateView):
+    template_name = 'users/registration.html'

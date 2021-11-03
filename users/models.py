@@ -50,9 +50,6 @@ class UserManager(BaseUserManager):
 class Skills(models.Model):
     skill = models.CharField(max_length=100, blank=True, null=True)
 
-    class Meta:
-        managed = False
-
 
 class User(AbstractBaseUser, PermissionsMixin):
     email = models.EmailField(
@@ -63,13 +60,12 @@ class User(AbstractBaseUser, PermissionsMixin):
     is_active = models.BooleanField(default=True)
     is_staff = models.BooleanField(default=False)  # a admin user; non super-user
     username = models.CharField(max_length=100)
-    # email_address_verified = models.BooleanField(default=False)
+    is_verified = models.BooleanField(default=False)
     first_name = models.CharField(max_length=100)
     middle_name = models.CharField(max_length=100, null=True, blank=True)
     last_name = models.CharField(max_length=100, null=True, blank=True)
     date_joined = models.DateTimeField(auto_now_add=True)
-    # password = models.CharField(max_length=255)
-    # skills = models.ManyToManyField(Skills, blank=True)
+    skills = models.ManyToManyField(Skills, blank=True)
 
     USERNAME_FIELD = 'email'
     REQUIRED_FIELDS = []  # Email & Password are required by default.
@@ -108,25 +104,16 @@ class AddressDetails(models.Model):
     house_no = models.CharField(max_length=100, blank=True, null=True)
     user = models.ForeignKey('User', models.DO_NOTHING, blank=True, null=True)
 
-    class Meta:
-        managed = False
-
 
 class Country(models.Model):
     name = models.CharField(max_length=100, blank=True, null=True)
     short_name = models.CharField(max_length=10, blank=True, null=True)
     is_active = models.BooleanField(blank=True, null=True)
 
-    class Meta:
-        managed = False
-
 
 class District(models.Model):
     name = models.CharField(max_length=100, blank=True, null=True)
     short_name = models.CharField(max_length=100, blank=True, null=True)
-
-    class Meta:
-        managed = False
 
 
 class EducationDetails(models.Model):
@@ -134,12 +121,9 @@ class EducationDetails(models.Model):
     edu_level = models.CharField(max_length=150, blank=True, null=True)
     faculty = models.CharField(max_length=100, blank=True, null=True)
     per_gpa_type = models.CharField(max_length=100, blank=True, null=True)
-    per_gpa_value = models.DecimalField(max_digits=65535, decimal_places=65535, blank=True, null=True)
+    per_gpa_value = models.DecimalField(max_digits=1000, decimal_places=1000, blank=True, null=True)
     passed_date = models.DateField(blank=True, null=True)
     user = models.ForeignKey(User, models.DO_NOTHING, blank=True, null=True)
-
-    class Meta:
-        managed = False
 
 
 class ExperienceDetails(models.Model):
@@ -150,17 +134,11 @@ class ExperienceDetails(models.Model):
     jd = models.CharField(max_length=255, blank=True, null=True)
     user = models.ForeignKey(User, models.DO_NOTHING, blank=True, null=True)
 
-    class Meta:
-        managed = False
-
 
 class Province(models.Model):
     name = models.CharField(max_length=100, blank=True, null=True)
     short_name = models.CharField(max_length=10, blank=True, null=True)
     is_active = models.BooleanField(blank=True, null=True)
-
-    class Meta:
-        managed = False
 
 
 class TrainingDetails(models.Model):
@@ -172,19 +150,23 @@ class TrainingDetails(models.Model):
     completion_year = models.CharField(max_length=10, blank=True, null=True)
     user = models.ForeignKey(User, models.DO_NOTHING, blank=True, null=True)
 
-    class Meta:
-        managed = False
-
 
 class University(models.Model):
     name = models.CharField(max_length=150, blank=True, null=True)
     short_name = models.CharField(max_length=30, blank=True, null=True)
 
-    class Meta:
-        managed = False
-
 
 class Profile(models.Model):
+    MALE = 'M'
+    FEMALE = 'F'
+    OTHER = 'O'
+
+    GENDER_CHOICES = [
+        (MALE, 'Male'),
+        (FEMALE, 'Female'),
+        (OTHER, 'Other'),
+    ]
+
     father_full_name = models.CharField(max_length=100, blank=True, null=True)
     mother_full_name = models.CharField(max_length=100, blank=True, null=True)
     spouse_full_name = models.CharField(max_length=100, blank=True, null=True)
@@ -193,31 +175,12 @@ class Profile(models.Model):
     date_of_birth = models.DateField(blank=True, null=True)
     pan_number = models.CharField(max_length=10, blank=True, null=True)
     national_identity_num = models.IntegerField(blank=True, null=True)
+    gender = models.CharField(max_length=1, choices=GENDER_CHOICES, blank=True, null=True)
     user = models.ForeignKey(User, models.DO_NOTHING, blank=True, null=True)
-
-    class Meta:
-        managed = False
 
 
 class SocialMedias(models.Model):
     social_media = models.CharField(max_length=100, blank=True, null=True)
     link = models.CharField(max_length=200, blank=True, null=True)
-    profile = models.ForeignKey(Profile, models.DO_NOTHING, blank=True, null=True)
+    user = models.ForeignKey(User, models.DO_NOTHING, blank=True, null=True)
 
-    class Meta:
-        managed = False
-
-# class UsersSkills(models.Model):
-#     user = models.ForeignKey(User, models.DO_NOTHING, blank=True, null=True)
-#     skill = models.ForeignKey(Skills, models.DO_NOTHING, blank=True, null=True)
-#
-#     class Meta:
-#         managed = False
-#         db_table = 'users_skills'
-
-# class LoginCred(models.Model):
-#     email = models.EmailField(
-#         verbose_name='email address',
-#         max_length=255,
-#     )
-#     password = models.CharField(max_length=50)

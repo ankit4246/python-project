@@ -3,16 +3,18 @@
 {% block content %}
     <section class="contentBar">
         <div class="navbar"><i onclick="sideCollapse()" class="collapseBar fas fa-bars"></i><i onclick="sideShow()"
-                class="showBar fas fa-bars"></i>
+                                                                                               class="showBar fas fa-bars"></i>
             <p>Work Experience</p>
         </div>
         <div class="mainContent">
-            <form action="">
+            <form action="{% url 'users:work_info' %}" method="POST">
+                {% csrf_token %}
                 <div id="form0">
                     <div class="personalDetail-name">
                         <div class="personalDetail-fname">
                             <h4>Organization Name</h4>
-                            <input type="text" id="tole" placeholder="Organization Name" required>
+                            <input name="institution_name" type="text" id="tole" placeholder="Organization Name"
+                                   required>
                         </div>
                         <div class="personalDetail-fname">
                             <h4>Job Location</h4>
@@ -20,7 +22,7 @@
                         </div>
                         <div class="maritalStatus">
                             <h4>Job Title</h4>
-                            <select name="marital" id="marital">
+                            <select name="designation" id="marital">
                                 <option value="province">Front End Developer</option>
                                 <option value="province">Django Developer</option>
                                 <option value="province">Software Engineer</option>
@@ -30,7 +32,7 @@
                         </div>
                         <div class="maritalStatus">
                             <h4>Job Level</h4>
-                            <select name="marital" id="marital">
+                            <select name="job_level" id="marital">
                                 <option value="District">Intern</option>
                                 <option value="District">Trainee</option>
                                 <option value="District">Associate Level</option>
@@ -45,8 +47,9 @@
                             <h4>Start Date</h4>
                             <div class="doubleInput">
 
-                                <input type="number" min="1900" max="2099" step="1" value="2017" id="yearGrg" />
-                                <select name="marksSecured" id="marksSecuredNum">
+                                <input name="start_date" type="number" min="1900" max="2099" step="1" value="2017"
+                                       id="yearGrg"/>
+                                <select name="start_date" id="marksSecuredNum">
                                     <option value="month">Jan</option>
                                     <option value="month">Fab</option>
                                     <option value="month">Mar</option>
@@ -88,6 +91,16 @@
                     <input type="button" value="Skip" class="formButton">
                     <input type="submit" value="Save" class="formButton">
                 </div>
+            </form>
+                    </div>
+                    <div class="addSection" onclick="duplicate()">
+                        + Add More Experience Detail
+                    </div>
+                    <div class="formSubmitBtn">
+                        <input type="button" value="Skip" class="formButton">
+                        <input type="submit" value="Save" class="formButton">
+                    </div>
+
             </form>
         </div>
     </section>
