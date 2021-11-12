@@ -1,9 +1,9 @@
 from django.core.mail import send_mail
-from celery.decorators import task
+from celery import shared_task
 from pentest_portal import settings
 from django.template.loader import render_to_string
 
-@task()
+@shared_task
 def send_mail_func(email, current_site, uid, token):
 
     context = {
