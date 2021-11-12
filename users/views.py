@@ -1,41 +1,31 @@
-import datetime
-from django.core.exceptions import ValidationError
-from django.forms import formset_factory, inlineformset_factory
-from django import forms
+from django.forms import inlineformset_factory
+import uuid
+from django.contrib import messages
+from django.contrib.auth import login, logout
+from django.contrib.auth.decorators import login_required
+from django.contrib.sites.shortcuts import get_current_site
+from django.forms import inlineformset_factory
 from django.shortcuts import render, redirect
+from django.urls import reverse
+from django.urls import reverse_lazy
+from django.utils.encoding import force_bytes, force_text
+from django.utils.http import urlsafe_base64_encode, urlsafe_base64_decode
 from django.views import View
 from django.views.generic import TemplateView
 from django.views.generic.edit import FormView
-
-from users.forms import BasicInformationForm, EducationInfoForm, ExperienceForm, RegisterForm, LoginForm, \
-    BasicInfoUserForm, ProfileForm, AddressDetailsUserForm, TrainingForm, SocialMediaForm, EducationFormSet
-from django.urls import reverse_lazy, reverse
-from django.contrib.auth import login, logout
-from users.models import User
-from django.contrib.auth.decorators import login_required
-import uuid
-from django.views.generic.edit import FormView, CreateView
-from users.forms import BasicInformationForm, EducationInfoForm, ExperienceForm
-from users.tasks import send_mail_func
-from django.contrib import messages
-from django.contrib.auth import login, logout, authenticate
-from users.models import User, University, AddressDetails
-from django.contrib.auth.decorators import login_required
-import uuid
-from django.views.generic.edit import FormView, CreateView
-from users.forms import BasicInformationForm, AddressForm, EducationInfoForm, ExperienceForm
-from django.urls import reverse_lazy
-
+from users.forms import AddressForm, EducationInfoForm, ExperienceForm
+from users.forms import RegisterForm, LoginForm, \
+    BasicInfoUserForm, ProfileForm, AddressDetailsUserForm, TrainingForm, SocialMediaForm, EducationFormSet, \
+    SocialFormSet
+from users.models import AddressDetails
 # class PersonalInfoView(View):
 #     template_name = 'users/personal_info.html'
 #     form_class = BasicInformationForm
 #     success_url = reverse_lazy('users:address_info')
-from users.models import User, Profile, EducationDetails, TrainingDetails, ExperienceDetails, SocialMedias
-
-from django.contrib.sites.shortcuts import get_current_site
-from django.utils.encoding import force_bytes, force_text
-from django.utils.http import urlsafe_base64_encode, urlsafe_base64_decode
+from users.models import User, Profile, TrainingDetails, ExperienceDetails
+from users.tasks import send_mail_func
 from .tokens import account_activation_token
+
 
 class PersonalInfoView(View):
     template_name = 'users/personal_info.html'
@@ -111,6 +101,7 @@ class AddressInfoView(FormView):
 class EducationInfoView(View):
     template_name = 'users/education_info.html'
     form_class = EducationInfoForm
+
     # EducationFormSet = inlineformset_factory(User, EducationDetails,
     #                                          fields='__all__',
     #                                          form=form_class,
@@ -192,20 +183,16 @@ class WorkInfoView(View):
 class SocialInfoView(View):
     template_name = 'users/social_info.html'
     form_class = SocialMediaForm
-    SocialFormSet = inlineformset_factory(User, SocialMedias,
-                                          form=form_class,
-                                          extra=1,
-                                          )
 
     def get(self, request, *args, **kwargs):
-        formset = self.SocialFormSet(instance=request.user)
+        formset = SocialFormSet(instance=request.user)
         context = {
             'formset': formset
         }
         return render(request, self.template_name, context)
 
     def post(self, request, *args, **kwargs):
-        formset = self.SocialFormSet(request.POST, instance=request.user)
+        formset = SocialFormSet(request.POST, instance=request.user)
         context = {
             'formset': formset
         }
@@ -262,7 +249,7 @@ def user_register(request):
             preName = preName[:3]
             user.username = preName + first_name
             user.save()
-            
+
             current_site = get_current_site(request)
             uid = urlsafe_base64_encode(force_bytes(user.pk))
             token = account_activation_token.make_token(user)
@@ -270,11 +257,10 @@ def user_register(request):
             print('current_uid', uid)
             print('current_token', token)
 
-
             if not user.is_verified:
                 send_mail_func.delay(
                     # email, uid=uid, token=token
-                    email=email,current_site=current_site,uid=uid,token=token
+                    email=email, current_site=current_site, uid=uid, token=token
                     # user_id=user.pk
                     # current_site=current_site,
                     # uid=uid,
@@ -332,7 +318,6 @@ class RegistrationView(TemplateView):
 
 
 def activate_user(request, uidb64, token):
-
     try:
         uid = force_text(urlsafe_base64_decode(uidb64))
         user = User.objects.get(pk=uid)
@@ -345,7 +330,7 @@ def activate_user(request, uidb64, token):
         user.save()
 
         messages.add_message(request, messages.SUCCESS,
-                            'Email verified, you can now login')
+                             'Email verified, you can now login')
         return redirect(reverse('users:login'))
 
     return render(request, 'users/activate-failed.html')

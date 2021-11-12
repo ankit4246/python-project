@@ -9,6 +9,10 @@
         <div class="mainContent">
             <form id="form-container" action="{% url 'users:education_info' %}" method="POST">
                 {% csrf_token %}
+                <div id='empty-form' class='hidden-form'>
+                    {{ formset.empty_form }}
+                </div>
+
                 {{ formset.management_form }}
                 {% for form in formset %}
                     {% for hidden in form.hidden_fields %}
@@ -63,16 +67,7 @@
         </div>
     </section>
     <script>
-        const sideCollapse = () => {
-            document.querySelector(".sideBar").style.width = "50px";
-            document.querySelector(".collapseBar").style.display = "none";
-            document.querySelector(".showBar").style.display = "block";
-        }
-        const sideShow = () => {
-            document.querySelector(".sideBar").style.width = "290px";
-            document.querySelector(".showBar").style.display = "none";
-            document.querySelector(".collapseBar").style.display = "block";
-        }
+
 
         {#var i = 0;#}
         {##}
@@ -81,28 +76,40 @@
         {#    var clone = original.cloneNode(true);#}
         {#    clone.id = "form" + ++i;#}
         {#    original.appendChild(clone);#}
-        let eduForm = document.querySelectorAll(".personalDetail-name")
+        let emptyForm = document.querySelectorAll("#empty-form")
         let container = document.querySelector("#form-container")
-        let addButton = document.querySelector("#add-form")
+        const addButton = document.querySelector("#add-form")
         let totalForms = document.querySelector("#id_form-TOTAL_FORMS")
         {#let input = document.getElementById("#sad").children[1].nodeName;#}
         {#        console.log(eduForm)#}
         {#        console.log(eduForm[0].children[3].nodeName)#}
-        let formNum = eduForm.length - 1
+        let formNum = emptyForm.length - 1
         addButton.addEventListener('click', addForm)
 
         function addForm(e) {
-            e.preventDefault()
+            if (e) {
+                e.preventDefault();
+            }
+            emptyForm = emptyForm[0].cloneNode(true)
+            emptyForm.setAttribute('class', '')
+            container.insertBefore(emptyForm, addButton)
 
-            let newForm = eduForm[0].cloneNode(true)
-            let formRegex = RegExp(`form-(\\d){1}-`, 'g')
 
-            formNum++
-            newForm.innerHTML = newForm.innerHTML.replace(formRegex, `form-${formNum}-`)
-            container.insertBefore(newForm, addButton)
-
-            totalForms.setAttribute('value', `${formNum + 1}`)
         }
+
+        {#function addForm(e) {#}
+        {#    if(e) {#}
+        {#        e.preventDefault()#}
+        {#    }#}
+        {##}
+        {#    let newForm = eduForm[0].cloneNode(true)#}
+        {#    let formRegex = RegExp(`form-(\\d){1}-`, 'g')#}
+        {##}
+        {#    formNum++#}
+        {#    newForm.innerHTML = newForm.innerHTML.replace(formRegex, `form-${formNum}-`)#}
+        {#    container.insertBefore(newForm, addButton)#}
+        {##}
+        {#    totalForms.setAttribute('value', `${formNum + 1}`)}#}
 
     </script>
 {% endblock %}

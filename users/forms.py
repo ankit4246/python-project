@@ -139,6 +139,11 @@ class SocialMediaForm(forms.ModelForm):
         )
 
 
+SocialFormSet = inlineformset_factory(User, SocialMedias,
+                                      form=SocialMediaForm,
+                                      extra=1,
+                                      )
+
 LOCAL_BODY_CHOICES = [('Local Body 1', 'Local Body 1'), ('Local Body 2', 'Local Body 2')]
 
 
