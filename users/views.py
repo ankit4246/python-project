@@ -8,7 +8,8 @@ from django.views.generic import TemplateView
 from django.views.generic.edit import FormView
 
 from users.forms import BasicInformationForm, AddressForm, EducationInfoForm, ExperienceForm, RegisterForm, LoginForm, \
-    BasicInfoUserForm, ProfileForm, AddressDetailsUserForm, TrainingForm, SocialMediaForm, EducationFormSet
+    BasicInfoUserForm, ProfileForm, AddressDetailsUserForm, TrainingForm, SocialMediaForm, EducationFormSet, \
+    SocialFormSet
 from django.urls import reverse_lazy, reverse
 from django.contrib.auth import login, logout, authenticate
 from users.models import User, University, AddressDetails
@@ -99,6 +100,7 @@ class AddressInfoView(FormView):
 class EducationInfoView(View):
     template_name = 'users/education_info.html'
     form_class = EducationInfoForm
+
     # EducationFormSet = inlineformset_factory(User, EducationDetails,
     #                                          fields='__all__',
     #                                          form=form_class,
@@ -180,20 +182,16 @@ class WorkInfoView(View):
 class SocialInfoView(View):
     template_name = 'users/social_info.html'
     form_class = SocialMediaForm
-    SocialFormSet = inlineformset_factory(User, SocialMedias,
-                                          form=form_class,
-                                          extra=1,
-                                          )
 
     def get(self, request, *args, **kwargs):
-        formset = self.SocialFormSet(instance=request.user)
+        formset = SocialFormSet(instance=request.user)
         context = {
             'formset': formset
         }
         return render(request, self.template_name, context)
 
     def post(self, request, *args, **kwargs):
-        formset = self.SocialFormSet(request.POST, instance=request.user)
+        formset = SocialFormSet(request.POST, instance=request.user)
         context = {
             'formset': formset
         }
