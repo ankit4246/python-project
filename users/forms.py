@@ -1,12 +1,12 @@
 from django import forms
 from django.forms import inlineformset_factory
-
 from users.models import Profile, TrainingDetails, ExperienceDetails, SocialMedias, User
 from users.models import Profile, AddressDetails, EducationDetails
 from django import forms
 from django.contrib.auth import password_validation
 import re
 from django.contrib.admin import widgets
+from users.tasks import send_mail_func
 
 
 class BasicInfoUserForm(forms.ModelForm):
@@ -274,10 +274,8 @@ class LoginForm(forms.Form):
 
     def clean_username(self):
         username = self.cleaned_data.get('username')
-        print("clean")
         try:
             user = User.objects.get(email=username)
-            print("email", User.objects.get(email=username))
         except User.DoesNotExist:
             user = None
 
@@ -348,3 +346,13 @@ class RegisterForm(forms.ModelForm):
         if not re.match(r"^[\w\.\+\-]+\@[\w]+\.[a-z]{2,3}$", email):
             raise forms.ValidationError('Invalid Email format')
         return email
+
+    # def save(self, commit=True):
+    #     user = super(RegisterForm, self).save(commit=False)
+    #     # user.set_password(self.cleaned_data["password"])
+    #     if commit:
+    #         user.save()
+    #     print("user",user)
+    #     # email_celery = json.dumps(user)
+    #     # send_mail_func.delay(instance=User.objects.filter(pk=user.pk).values('email'))
+    #     return user

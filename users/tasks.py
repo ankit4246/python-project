@@ -1,0 +1,24 @@
+from django.core.mail import send_mail
+from celery.decorators import task
+from pentest_portal import settings
+from django.template.loader import render_to_string
+
+@task()
+def send_mail_func(email, current_site, uid, token):
+
+    context = {
+        "current_site":current_site,
+        "uid": uid,
+        "token": token
+    }
+
+    email_body = render_to_string('users/confirm_email.html', context)
+    mail_subject = "Activation mail"
+    send_mail(
+        subject=mail_subject,
+        message=email_body,
+        from_email=settings.EMAIL_HOST_USER,
+        recipient_list=[email,],
+        fail_silently=False,
+    )
+    return{"status":True}
