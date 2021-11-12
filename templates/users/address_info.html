@@ -9,56 +9,42 @@
         <div class="mainContent">
             <form action="{% url 'users:address_info' %}" method="POST">
                 {% csrf_token %}
-
                 <div class="personalDetail-name">
                     <div class="maritalStatus">
+                        <h4>Country</h4>
+                        {{ address_form.country }}
+                    </div>
+                    <div class="maritalStatus">
                         <h4>Province</h4>
-                        <select name="province" id="marital">
-                            <option value="province">Province 1</option>
-                            <option value="province">Province 2</option>
-                            <option value="province">Province 3</option>
-                            <option value="province">Province 4</option>
-                            <option value="province">Province 5</option>
-                            <option value="province">Province 6</option>
-                            <option value="divorced">Province 7</option>
-
-                        </select>
+                        {{ address_form.province }}
                     </div>
                     <div class="maritalStatus">
                         <h4>District</h4>
-                        <select name="district" id="marital" name="district">
-                            <option value="District">District 1</option>
-                            <option value="District">District 2</option>
-                            <option value="District">District 3</option>
-                        </select>
+                        {{ address_form.district }}
                     </div>
                     <div class="maritalStatus">
                         <h4>Local Body</h4>
-                        <select name="marital" id="marital">
-                            <option value="localBody">Body 1</option>
-                            <option value="localBody">Body 2</option>
-                            <option value="localBody">Body 3</option>
-                        </select>
+                        {{ address_form.local_body }}
                     </div>
                     <div class="personalDetail-fname">
                         <h4>Ward Number</h4>
-                        <input type="number" placeholder="Ward Number">
+                        {{ address_form.ward_no }}
                     </div>
                     <div class="personalDetail-fname">
                         <h4>Tole</h4>
-                        <input type="text" id="tole" placeholder="Tole" required>
+                        {{ address_form.tole }}
                     </div>
                     <div class="personalDetail-fname">
                         <h4>House Number</h4>
-                        <input type="number" placeholder="House Number">
+                        {{ address_form.house_no }}
                     </div>
                     <div class="personalDetail-fname">
                         <h4>Email</h4>
-                        <input type="email" id="email" placeholder="anil@example.com">
+                        {{ user_form.email }}
                     </div>
                     <div class="personalDetail-fname">
                         <h4>Mobile Number</h4>
-                        <input type="tel" placeholder="Mobile Number">
+                        {{ address_form.mobile_no }}
                     </div>
                 </div>
 
@@ -67,8 +53,7 @@
                 <div class="personalDetail-name">
                     <div class="personalDetail-fname">
                         <h4>Address</h4>
-                        <textarea name="addressDetail" id="addressDetail" cols="50" rows="5"></textarea>
-                        <!-- <input type="tel" placeholder="Father's Name"> -->
+                        {{ address_form.address }}
                     </div>
                 </div>
                 <div class="formSubmitBtn">

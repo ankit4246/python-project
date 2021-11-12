@@ -1,9 +1,14 @@
+import datetime
 from django.core.exceptions import ValidationError
+from django.forms import formset_factory, inlineformset_factory
+from django import forms
 from django.shortcuts import render, redirect
 from django.views import View
 from django.views.generic import TemplateView
 from django.views.generic.edit import FormView
-from users.forms import BasicInformationForm, AddressInfo, EducationInfoForm, ExperienceForm, RegisterForm, LoginForm
+
+from users.forms import BasicInformationForm, AddressForm, EducationInfoForm, ExperienceForm, RegisterForm, LoginForm, \
+    BasicInfoUserForm, ProfileForm, AddressDetailsUserForm, TrainingForm, SocialMediaForm, EducationFormSet
 from django.urls import reverse_lazy, reverse
 from django.contrib.auth import login, logout
 from users.models import User
@@ -13,6 +18,14 @@ from django.views.generic.edit import FormView, CreateView
 from users.forms import BasicInformationForm, AddressInfo, EducationInfoForm, ExperienceForm
 from users.tasks import send_mail_func
 from django.contrib import messages
+from django.contrib.auth import login, logout, authenticate
+from users.models import User, University, AddressDetails
+from django.contrib.auth.decorators import login_required
+import uuid
+from django.views.generic.edit import FormView, CreateView
+from users.forms import BasicInformationForm, AddressForm, EducationInfoForm, ExperienceForm
+from django.urls import reverse_lazy
+
 # class PersonalInfoView(View):
 #     template_name = 'users/personal_info.html'
 #     form_class = BasicInformationForm
@@ -26,100 +39,180 @@ from .tokens import account_activation_token
 
 class PersonalInfoView(View):
     template_name = 'users/personal_info.html'
-    form_class = BasicInformationForm
 
     def get(self, request, *args, **kwargs):
-        # get first, middle, last name from user model and return it
-        # profile = Profile.objects.get(user=request.user)
-        context = {"form": self.form_class(), 'user': request.user, 'profile': 'profile'}
+        try:
+            profile = Profile.objects.get(user=request.user)
+        except Profile.DoesNotExist:
+            profile = None
+            print("error")
+        user_form = BasicInfoUserForm(instance=request.user)
+        profile_form = ProfileForm(instance=profile)
+        context = {"user_form": user_form, 'profile_form': profile_form}
         return render(request, self.template_name, context)
 
     def post(self, request, *args, **kwargs):
-        form = self.form_class(request.POST)
-        if form.is_valid():
-            # extract first middle and last name from the form
-            first_name = form.cleaned_data.pop('first_name')
-            middle_name = form.cleaned_data.pop('middle_name')
-            last_name = form.cleaned_data.pop('last_name')
+        user_form = BasicInfoUserForm(request.POST, instance=request.user)
 
-            # add authenticated user to the 'user' field of cleaned data
-            # form.cleaned_data['user'] = request.user
-            # update authenticated user with first, middle and last name
-            User.objects.filter(pk=request.user.pk).update(first_name=first_name, middle_name=middle_name,
-                                                           last_name=last_name)
-            # save the form
-            form.save(commit=True)
-        return redirect(reverse_lazy('users:address_info'))
+        try:
+            profile = Profile.objects.get(user=request.user)
+        except Profile.DoesNotExist:
+            profile = None
+        if profile is not None:
+            profile_form = ProfileForm(request.POST, instance=profile)
+        else:
+            profile_form = ProfileForm(request.POST)
+
+        if user_form.is_valid() and profile_form.is_valid():
+            user_form.save()
+            created_profile_form = profile_form.save(commit=False)
+            created_profile_form.user = request.user
+            created_profile_form.save()
+            return redirect(reverse_lazy('users:address_info'))
+        context = {"user_form": user_form, 'profile_form': profile_form}
+        return render(request, self.template_name, context)
 
 
 class AddressInfoView(FormView):
     template_name = 'users/address_info.html'
-    form_class = AddressInfo
+
+    def get(self, request, *args, **kwargs):
+        try:
+            address = AddressDetails.objects.get(user=request.user)
+        except AddressDetails.DoesNotExist:
+            address = None
+        user_form = AddressDetailsUserForm(instance=request.user)
+        address_form = AddressForm(instance=address)
+        context = {"user_form": user_form, 'address_form': address_form}
+        return render(request, self.template_name, context)
+
+    def post(self, request, *args, **kwargs):
+        user_form = AddressDetailsUserForm(request.POST, instance=request.user)
+
+        try:
+            address = AddressDetails.objects.get(user=request.user)
+        except AddressDetails.DoesNotExist:
+            address = None
+        if address is not None:
+            address_form = AddressForm(request.POST, instance=address)
+        else:
+            address_form = AddressForm(request.POST)
+
+        if address_form.is_valid():
+            user_form.save()
+            created_address_form = address_form.save(commit=False)
+            created_address_form.user = request.user
+            created_address_form.save()
+            return redirect(reverse_lazy('users:education_info'))
+        context = {"user_form": user_form, 'address_form': address_form}
+        return render(request, self.template_name, context)
 
 
 class EducationInfoView(View):
     template_name = 'users/education_info.html'
     form_class = EducationInfoForm
-    success_url = reverse_lazy('users:training_info')
+    # EducationFormSet = inlineformset_factory(User, EducationDetails,
+    #                                          fields='__all__',
+    #                                          form=form_class,
+    #                                          extra=0,
+    #                                          )
 
     def get(self, request, *args, **kwargs):
-        # education = EducationDetails.objects.get(user=request.user)
-        context = {"form": self.form_class(), 'user': request.user, 'education': 'education'}
+        formset = EducationFormSet(instance=request.user)
+        context = {
+            'formset': formset
+        }
         return render(request, self.template_name, context)
 
     def post(self, request, *args, **kwargs):
-        form = self.form_class(request.POST)
-        if form.is_valid():
-            form.save(commit=True)
-        return redirect(reverse_lazy('users:training_info'))
+        formset = EducationFormSet(request.POST, instance=request.user)
+        for form in formset:
+            print(form.errors)
+        if formset.is_valid():
+            formset.save()
+            return redirect(reverse_lazy('users:training_info'))
+        context = {
+            'formset': formset
+        }
+        return render(request, self.template_name, context)
 
 
 class TrainingInfoView(View):
     template_name = 'users/training_info.html'
-    form_class = EducationInfoForm
+    form_class = TrainingForm
+    TrainingFormSet = inlineformset_factory(User, TrainingDetails,
+                                            form=form_class,
+                                            extra=1,
+                                            )
 
     def get(self, request, *args, **kwargs):
-        # training = TrainingDetails.objects.get(user=request.user)
-        context = {"form": self.form_class(), 'user': request.user, 'training': 'training'}
+        formset = self.TrainingFormSet(instance=request.user)
+        context = {
+            'formset': formset
+        }
         return render(request, self.template_name, context)
 
     def post(self, request, *args, **kwargs):
-        form = self.form_class(request.POST)
-        if form.is_valid():
-            form.save(commit=True)
-        return redirect(reverse_lazy('users:work_info'))
+        formset = self.TrainingFormSet(request.POST, instance=request.user)
+        context = {
+            'formset': formset
+        }
+        if formset.is_valid():
+            formset.save()
+            return redirect(reverse_lazy('users:work_info'))
+        return render(request, self.template_name, context)
 
 
 class WorkInfoView(View):
     template_name = 'users/work_info.html'
     form_class = ExperienceForm
+    ExperienceFormSet = inlineformset_factory(User, ExperienceDetails,
+                                              form=form_class,
+                                              extra=1,
+                                              )
 
     def get(self, request, *args, **kwargs):
-        # experience = ExperienceDetails.objects.get(user=request.user)
-        context = {"form": self.form_class(), 'user': request.user, 'experience': 'experience'}
+        formset = self.ExperienceFormSet(instance=request.user)
+        context = {
+            'formset': formset
+        }
         return render(request, self.template_name, context)
 
     def post(self, request, *args, **kwargs):
-        form = self.form_class(request.POST)
-        if form.is_valid():
-            form.save(commit=True)
-        return redirect(reverse_lazy('users:social_info'))
+        formset = self.ExperienceFormSet(request.POST, instance=request.user)
+        context = {
+            'formset': formset
+        }
+        if formset.is_valid():
+            formset.save()
+            return redirect(reverse_lazy('users:social_info'))
+        return render(request, self.template_name, context)
 
 
 class SocialInfoView(View):
     template_name = 'users/social_info.html'
-    form_class = ExperienceForm
+    form_class = SocialMediaForm
+    SocialFormSet = inlineformset_factory(User, SocialMedias,
+                                          form=form_class,
+                                          extra=1,
+                                          )
 
     def get(self, request, *args, **kwargs):
-        # social_media = SocialMedias.objects.get(user=request.user)
-        context = {"form": self.form_class(), 'user': request.user, 'social_media': 'social_media'}
+        formset = self.SocialFormSet(instance=request.user)
+        context = {
+            'formset': formset
+        }
         return render(request, self.template_name, context)
 
     def post(self, request, *args, **kwargs):
-        form = self.form_class(request.POST)
-        if form.is_valid():
-            form.save(commit=True)
-        return redirect(reverse_lazy('users:social_info'))
+        formset = self.SocialFormSet(request.POST, instance=request.user)
+        context = {
+            'formset': formset
+        }
+        if formset.is_valid():
+            formset.save()
+            return redirect(reverse_lazy('users:social_info'))
+        return render(request, self.template_name, context)
 
 
 # class RegistrationView(TemplateView):

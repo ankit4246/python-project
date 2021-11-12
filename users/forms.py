@@ -1,5 +1,5 @@
 from django import forms
-import json
+from django.forms import inlineformset_factory
 from users.models import Profile, TrainingDetails, ExperienceDetails, SocialMedias, User
 from users.models import Profile, AddressDetails, EducationDetails
 from django import forms
@@ -7,6 +7,50 @@ from django.contrib.auth import password_validation
 import re
 from django.contrib.admin import widgets
 from users.tasks import send_mail_func
+
+
+class BasicInfoUserForm(forms.ModelForm):
+    class Meta:
+        model = User
+        fields = {
+            'first_name',
+            'middle_name',
+            'last_name',
+        }
+
+
+class AddressDetailsUserForm(forms.ModelForm):
+    class Meta:
+        model = User
+        fields = {
+            'email',
+        }
+
+
+MARITAL_STATUS_CHOICES = [('Single', 'Single'), ('Married', 'Married')]
+
+
+class ProfileForm(forms.ModelForm):
+    class Meta:
+        model = Profile
+        fields = {
+            'father_full_name',
+            'mother_full_name',
+            'spouse_full_name',
+            'marital_status',
+            'nationality',
+            'date_of_birth',
+            'pan_number',
+            'national_identity_num',
+            'gender',
+            'user',
+        }
+        widgets = {
+            'date_of_birth': forms.widgets.DateInput(attrs={'type': 'date'}),
+            'marital_status': forms.widgets.Select(choices=MARITAL_STATUS_CHOICES,
+                                                   attrs={'id': 'marital'}),
+            'gender': forms.widgets.Select(attrs={'id': 'marital'}),
+        }
 
 
 class BasicInformationForm(forms.ModelForm):
@@ -33,6 +77,9 @@ class BasicInformationForm(forms.ModelForm):
         )
 
 
+DURATION_TYPE_CHOICES = [('Month', 'Month'), ('Year', 'Year')]
+
+
 class TrainingForm(forms.ModelForm):
     class Meta:
         model = TrainingDetails
@@ -45,6 +92,22 @@ class TrainingForm(forms.ModelForm):
             'completion_year',
             'user',
         )
+        widgets = {
+            'duration': forms.widgets.TextInput(attrs={'id': 'marksSecuredNum'}),
+            'duration_type': forms.widgets.Select(choices=DURATION_TYPE_CHOICES,
+                                                  attrs={'id': 'marksSecured'}),
+            'completion_month': forms.widgets.SelectDateWidget(
+                attrs={'id': 'marksSecured', 'type': 'month'}),
+            'completion_year': forms.widgets.SelectDateWidget(
+                attrs={'id': 'marksSecured', 'type': 'year'}),
+        }
+
+
+JOB_LEVEL_CHOICES = [('Intern', 'Intern'),
+                     ('Junior', 'Junior'),
+                     ('Mid', 'Mid'),
+                     ('Senior', 'Senior'),
+                     ]
 
 
 class ExperienceForm(forms.ModelForm):
@@ -52,12 +115,19 @@ class ExperienceForm(forms.ModelForm):
         model = ExperienceDetails
         fields = (
             'institute_name',
+            'location',
             'designation',
             'job_level',
             'start_date',
+            'is_current',
             'jd',
             'user',
         )
+        widgets = {
+            'jd': forms.widgets.Textarea(),
+            'job_level': forms.widgets.Select(choices=JOB_LEVEL_CHOICES,
+                                              attrs={'class': 'marital'}),
+        }
 
 
 class SocialMediaForm(forms.ModelForm):
@@ -66,19 +136,20 @@ class SocialMediaForm(forms.ModelForm):
         fields = (
             'social_media',
             'link',
-            'user',
         )
 
 
-class AddressInfo(forms.ModelForm):
-    mobile_no = forms.CharField(max_length=10)
+LOCAL_BODY_CHOICES = [('Local Body 1', 'Local Body 1'), ('Local Body 2', 'Local Body 2')]
 
+
+class AddressForm(forms.ModelForm):
     class Meta:
         model = AddressDetails
         fields = (
             'address',
             'province',
             'country',
+            'local_body',
             'district',
             'ward_no',
             'tole',
@@ -86,6 +157,52 @@ class AddressInfo(forms.ModelForm):
             'user',
             'mobile_no',
         )
+        widgets = {
+            'local_body': forms.widgets.Select(choices=LOCAL_BODY_CHOICES,
+                                               attrs={'id': 'marital'}),
+            'address': forms.Textarea(),
+            'country': forms.widgets.Select(attrs={'id': 'marital'}),
+            'province': forms.widgets.Select(attrs={'id': 'marital'}),
+            'district': forms.widgets.Select(attrs={'id': 'marital'}),
+
+        }
+
+
+GPA_TYPE_CHOICES = [('Percentage', 'Percentage'),
+                    ('GPA', 'GPA')]
+EDU_LEVEL_CHOICES = [('Bachelors', 'Bachelors'),
+                     ('Masters', 'Masters')]
+
+
+# class EducationInfoForm(forms.ModelForm):
+#     graduation_year = forms.IntegerField()
+#     graduation_month = forms.IntegerField()
+#
+#     class Meta:
+#         model = EducationDetails
+#         fields = (
+#             'university',
+#             'edu_level',
+#             'faculty',
+#             'per_gpa_type',
+#             'per_gpa_value',
+#             'passed_date',
+#             'user',
+#             'graduation_year',
+#             'graduation_month',
+#         )
+#         widgets = {
+#             'edu_level': forms.widgets.Select(choices=EDU_LEVEL_CHOICES,
+#                                               attrs={'class': 'maritalStatus'}),
+#             'faculty': forms.widgets.TextInput(attrs={'class': 'personalDetail-fname'}),
+#             'university': forms.widgets.Select(attrs={'class': 'maritalStatus'}),
+#             'graduation_year':forms.widgets.SelectDateWidget(attrs={'class': 'maritalStatus'}),
+#             'graduation_month':forms.widgets.SelectDateWidget(attrs={'class': 'maritalStatus'}),
+#             # 'passed_date': forms.widgets.DateInput(attrs={'type': 'date', 'class': 'maritalStatus'}),
+#             'per_gpa_type': forms.widgets.Select(choices=GPA_TYPE_CHOICES,
+#                                                  attrs={'id': 'marksSecured'}),
+#             'per_gpa_value': forms.widgets.TextInput(attrs={'id': 'marksSecuredNum'})
+#         }
 
 
 class EducationInfoForm(forms.ModelForm):
@@ -95,11 +212,29 @@ class EducationInfoForm(forms.ModelForm):
             'university',
             'edu_level',
             'faculty',
+            'institution_name',
             'per_gpa_type',
             'per_gpa_value',
             'passed_date',
             'user',
         )
+        widgets = {
+            'edu_level': forms.widgets.Select(choices=EDU_LEVEL_CHOICES,
+                                              attrs={'id': 'marital'}),
+            'faculty': forms.widgets.TextInput(attrs={'class': 'personalDetail-fname'}),
+            'university': forms.widgets.Select(attrs={'id': 'marital'}),
+            'passed_date': forms.widgets.DateInput(attrs={'type': 'date', 'class': 'maritalStatus'}),
+            'per_gpa_type': forms.widgets.Select(choices=GPA_TYPE_CHOICES,
+                                                 attrs={'id': 'marksSecured'}),
+            'per_gpa_value': forms.widgets.TextInput(attrs={'id': 'marksSecuredNum'})
+        }
+
+
+EducationFormSet = inlineformset_factory(User, EducationDetails,
+                                         fields='__all__',
+                                         form=EducationInfoForm,
+                                         extra=0,
+                                         )
 
 
 # class RegistrationForm(ModelForm):
@@ -166,7 +301,7 @@ class RegisterForm(forms.ModelForm):
         ("others", "others"),
     )
 
-    dob = forms.DateField(widget=widgets.AdminDateWidget)
+    dob = forms.DateField(widget=forms.widgets.DateInput(attrs={'type': 'date'}))
     gender = forms.ChoiceField(choices=CHOICES)
 
     class Meta:
