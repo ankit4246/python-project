@@ -7,9 +7,17 @@ from django.views import View
 from django.views.generic import TemplateView
 from django.views.generic.edit import FormView
 
-from users.forms import BasicInformationForm, AddressForm, EducationInfoForm, ExperienceForm, RegisterForm, LoginForm, \
+from users.forms import BasicInformationForm, EducationInfoForm, ExperienceForm, RegisterForm, LoginForm, \
     BasicInfoUserForm, ProfileForm, AddressDetailsUserForm, TrainingForm, SocialMediaForm, EducationFormSet
 from django.urls import reverse_lazy, reverse
+from django.contrib.auth import login, logout
+from users.models import User
+from django.contrib.auth.decorators import login_required
+import uuid
+from django.views.generic.edit import FormView, CreateView
+from users.forms import BasicInformationForm, EducationInfoForm, ExperienceForm
+from users.tasks import send_mail_func
+from django.contrib import messages
 from django.contrib.auth import login, logout, authenticate
 from users.models import User, University, AddressDetails
 from django.contrib.auth.decorators import login_required
@@ -24,6 +32,10 @@ from django.urls import reverse_lazy
 #     success_url = reverse_lazy('users:address_info')
 from users.models import User, Profile, EducationDetails, TrainingDetails, ExperienceDetails, SocialMedias
 
+from django.contrib.sites.shortcuts import get_current_site
+from django.utils.encoding import force_bytes, force_text
+from django.utils.http import urlsafe_base64_encode, urlsafe_base64_decode
+from .tokens import account_activation_token
 
 class PersonalInfoView(View):
     template_name = 'users/personal_info.html'
@@ -243,12 +255,32 @@ def user_register(request):
             first_name = form.cleaned_data['first_name']
             last_name = form.cleaned_data['last_name']
             password1 = form.cleaned_data['password1']
+            email = form.cleaned_data['email']
             # unique username with the help of uuid 
             user.password = password1
             preName = str(uuid.uuid4())
             preName = preName[:3]
             user.username = preName + first_name
             user.save()
+            
+            current_site = get_current_site(request)
+            uid = urlsafe_base64_encode(force_bytes(user.pk))
+            token = account_activation_token.make_token(user)
+            print("current-domain", current_site)
+            print('current_uid', uid)
+            print('current_token', token)
+
+
+            if not user.is_verified:
+                send_mail_func.delay(
+                    # email, uid=uid, token=token
+                    email=email,current_site=current_site,uid=uid,token=token
+                    # user_id=user.pk
+                    # current_site=current_site,
+                    # uid=uid,
+                    # token=token
+                )
+                messages.success(request, "Check your email!")
             return redirect("users:login")
 
     context = {
@@ -297,3 +329,23 @@ def logout_user(request):
 
 class RegistrationView(TemplateView):
     template_name = 'users/registration.html'
+
+
+def activate_user(request, uidb64, token):
+
+    try:
+        uid = force_text(urlsafe_base64_decode(uidb64))
+        user = User.objects.get(pk=uid)
+
+    except Exception as e:
+        user = None
+
+    if user and account_activation_token.check_token(user, token):
+        user.is_verified = True
+        user.save()
+
+        messages.add_message(request, messages.SUCCESS,
+                            'Email verified, you can now login')
+        return redirect(reverse('users:login'))
+
+    return render(request, 'users/activate-failed.html')

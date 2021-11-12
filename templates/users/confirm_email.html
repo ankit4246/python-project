@@ -1,0 +1,13 @@
+{% autoescape off %}
+
+
+    Hi!!
+    
+    Please use the link below to verify your account.
+    
+    http://{{current_site}}/{% url 'users:activate' uidb64=uid token=token %}
+    <!-- http://127.0.0.1:8000/users/activate-user/{{uid}}/{{token}} -->
+
+    
+    
+{% endautoescape %}
