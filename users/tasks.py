@@ -1,24 +1,24 @@
-# from django.contrib.auth import get_user_model
-from users.models import User
 from django.core.mail import send_mail
 from celery.decorators import task
 from pentest_portal import settings
-# import json
+from django.template.loader import render_to_string
 
 @task()
-def send_mail_func(user_id):
-    user = User.objects.filter(pk=user_id)
+def send_mail_func(email, current_site, uid, token):
 
-    # to_email = user.email
-    # print("to_email", to_email)
-    mail_subject = "Hi! Celery Testing"
-    message = 'If you are there...please be there always.'
-    # to_email = 'darshanthapa872@gmail.com'
+    context = {
+        "current_site":current_site,
+        "uid": uid,
+        "token": token
+    }
+
+    email_body = render_to_string('users/confirm_email.html', context)
+    mail_subject = "Activation mail"
     send_mail(
         subject=mail_subject,
-        message=message, 
+        message=email_body,
         from_email=settings.EMAIL_HOST_USER,
-        recipient_list=user,
+        recipient_list=[email,],
         fail_silently=False,
     )
     return{"status":True}
