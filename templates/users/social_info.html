@@ -9,17 +9,23 @@
         <div class="mainContent">
             <form action="{% url 'users:social_info' %}" method="POST">
                 {% csrf_token %}
+                {{ formset.management_form }}
+                {% for hidden in form.hidden_fields %}
+                    {{ hidden }}
+                {% endfor %}
 
                 <div id="form0">
                     <div class="personalDetail-name">
-                        <div class="personalDetail-fname">
-                            <h4>Account Name</h4>
-                            <input type="text" id="tole" placeholder="Facebook" required>
-                        </div>
-                        <div class="media-url">
-                            <h4>URL</h4>
-                            <input type="url" id="media-url" placeholder="facebook.com/anilkpanta.5/" required>
-                        </div>
+                        {% for form in formset %}
+                            <div class="personalDetail-fname">
+                                <h4>Account Name</h4>
+                                {{ form.social_media }}
+                            </div>
+                            <div class="media-url">
+                                <h4>URL</h4>
+                                {{ form.link }}
+                            </div>
+                        {% endfor %}
 
                     </div>
                 </div>

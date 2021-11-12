@@ -1,81 +1,73 @@
 {% extends "users/base_form.html" %}
 {% load static %}
 {% block content %}
- <section class="contentBar">
+    <section class="contentBar">
         <div class="navbar"><i onclick="sideCollapse()" class="collapseBar fas fa-bars"></i><i onclick="sideShow()"
-                class="showBar fas fa-bars"></i>
+                                                                                               class="showBar fas fa-bars"></i>
             <p>Basic Details</p>
         </div>
         <div class="mainContent">
             <form action="{% url 'users:personal_info' %}" method="POST">
                 {% csrf_token %}
-                <div class="personalDetail-name">
+                <div class='personalDetail-name'>
                     <div class="personalDetail-fname">
                         <h4>First Name</h4>
-                        <input type="text" id="first_name_id" name="first_name" placeholder="First Name" required>
+                        {{ user_form.first_name }}
                     </div>
                     <div class="personalDetail-fname">
                         <h4>Middle Name</h4>
-                        <input type="text" id="MiddleName" name="middle_name" placeholder="Middle Name">
+                        {{ user_form.middle_name }}
                     </div>
                     <div class="personalDetail-fname">
                         <h4>Last Name</h4>
-                        <input type="text" id="LastName" name="last_name" placeholder="Last Name" required>
+                        {{ user_form.last_name }}
+                    </div>
+
+                    <div class="personalDetail-fname">
+                        <h4>Date of Birth</h4>
+                        {{ profile_form.date_of_birth }}
                     </div>
                     <div class="personalDetail-fname">
-                        <h4>Date Of Birth</h4>
-                        <input type="date" name="date_of_birth">
-                    </div>
-                    <div class="personalDetail-gender" >
                         <h4>Gender</h4>
                         <div class="gender">
-                            <input type="radio" id="male" name="gender" value="Male">
-                            <label for="male">Male</label>
-                            <input type="radio" id="female" name="gender" value="Female">
-                            <label for="female">Female</label>
-                            <input type="radio" id="other" name="gender" value="Other">
-                            <label for="other">Other</label>
+                            {{ profile_form.gender }}
                         </div>
                     </div>
                     <div class="maritalStatus">
                         <h4>Marital Status</h4>
-                        <select name="marital_status" id="marital">
-                            <option value="married">Married</option>
-                            <option value="single">Single</option>
-                            <option value="divorced">Divorsed</option>
-                        </select>
+                        {{ profile_form.marital_status }}
                     </div>
                     <div class="personalDetail-fname">
                         <h4>Nationality</h4>
-                        <input placeholder="Nationality" name="nationality">
+                        {{ profile_form.nationality }}
                     </div>
                     <div class="personalDetail-fname">
                         <h4>PAN Number</h4>
-                        <input type="number" placeholder="PAN Number" name="pan_number">
+                        {{ profile_form.pan_number }}
                     </div>
                     <div class="personalDetail-fname">
                         <h4>National Identity Number</h4>
-                        <input placeholder="National Identity No" name="national_identity_num">
+                        {{ profile_form.national_identity_num }}
                     </div>
                 </div>
-
-
                 <div class="navbar1">Family Information</div>
                 <div class="personalDetail-name">
                     <div class="personalDetail-fname">
                         <h4>Father’s Full Name</h4>
-                        <input type="text" placeholder="Father's Name" name="father_full_name">
+                        {{ profile_form.father_full_name }}
                     </div>
                     <div class="personalDetail-fname">
                         <h4>Mother’s Full Name</h4>
-                        <input type="text" placeholder="Mother’s Name" name="mother_full_name">
+                        {{ profile_form.mother_full_name }}
                     </div>
                     <div class="personalDetail-fname">
                         <h4>Spouse Full Name(optional)</h4>
-                        <input type="text" placeholder="Spouse Name" name="spouse_full_name">
+                        {{ profile_form.spouse_full_name }}
                     </div>
 
                 </div>
+
+
                 <div class="formSubmitBtn">
                     <input type="button" value="Skip" class="formButton">
                     <input type="submit" value="Save" class="formButton">
