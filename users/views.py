@@ -7,7 +7,7 @@ from django.views import View
 from django.views.generic import TemplateView
 from django.views.generic.edit import FormView
 
-from users.forms import BasicInformationForm, AddressForm, EducationInfoForm, ExperienceForm, RegisterForm, LoginForm, \
+from users.forms import BasicInformationForm, EducationInfoForm, ExperienceForm, RegisterForm, LoginForm, \
     BasicInfoUserForm, ProfileForm, AddressDetailsUserForm, TrainingForm, SocialMediaForm, EducationFormSet
 from django.urls import reverse_lazy, reverse
 from django.contrib.auth import login, logout
@@ -15,7 +15,7 @@ from users.models import User
 from django.contrib.auth.decorators import login_required
 import uuid
 from django.views.generic.edit import FormView, CreateView
-from users.forms import BasicInformationForm, AddressInfo, EducationInfoForm, ExperienceForm
+from users.forms import BasicInformationForm, EducationInfoForm, ExperienceForm
 from users.tasks import send_mail_func
 from django.contrib import messages
 from django.contrib.auth import login, logout, authenticate
