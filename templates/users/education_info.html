@@ -10,8 +10,42 @@
             <form id="form-container" action="{% url 'users:education_info' %}" method="POST">
                 {% csrf_token %}
                 <div id='empty-form' class='hidden-form'>
-                    {{ formset.empty_form }}
+                    <div class="personalDetail-name">
+                        <div class="maritalStatus">
+                            <h4>Degree</h4>
+                            {{ formset.empty_form.edu_level }}
+                        </div>
+
+                        <div class="personalDetail-fname">
+                            <h4>Education Program</h4>
+                            {{ formset.empty_form.faculty }}
+                        </div>
+                        <div class="maritalStatus">
+                            <h4>Education Board</h4>
+                            {{ formset.empty_form.university }}
+                        </div>
+                        <div class="personalDetail-fname">
+                            <h4>Institute Name</h4>
+                            {{ formset.empty_form.institution_name }}
+                        </div>
+                        <div class="marksSecured">
+                            <h4>Marks Secured</h4>
+                            <div class="doubleInput">
+                                {{ formset.empty_form.per_gpa_type }}
+                                {{ formset.empty_form.per_gpa_value }}
+                            </div>
+                        </div>
+                        <div class="marksSecured">
+                            <h4>Graduation year</h4>
+                            <div class="doubleInput">
+                                {{ formset.empty_form.passed_date }}
+                            </div>
+                        </div>
+                    </div>
+                    <br>
+                    <hr>
                 </div>
+
 
                 {{ formset.management_form }}
                 {% for form in formset %}
@@ -66,50 +100,9 @@
             </form>
         </div>
     </section>
+
     <script>
-
-
-        {#var i = 0;#}
-        {##}
-        {#function duplicate() {#}
-        {#    var original = document.getElementById('form' + i);#}
-        {#    var clone = original.cloneNode(true);#}
-        {#    clone.id = "form" + ++i;#}
-        {#    original.appendChild(clone);#}
-        let emptyForm = document.querySelectorAll("#empty-form")
-        let container = document.querySelector("#form-container")
-        const addButton = document.querySelector("#add-form")
-        let totalForms = document.querySelector("#id_form-TOTAL_FORMS")
-        {#let input = document.getElementById("#sad").children[1].nodeName;#}
-        {#        console.log(eduForm)#}
-        {#        console.log(eduForm[0].children[3].nodeName)#}
-        let formNum = emptyForm.length - 1
-        addButton.addEventListener('click', addForm)
-
-        function addForm(e) {
-            if (e) {
-                e.preventDefault();
-            }
-            emptyForm = emptyForm[0].cloneNode(true)
-            emptyForm.setAttribute('class', '')
-            container.insertBefore(emptyForm, addButton)
-
-
-        }
-
-        {#function addForm(e) {#}
-        {#    if(e) {#}
-        {#        e.preventDefault()#}
-        {#    }#}
-        {##}
-        {#    let newForm = eduForm[0].cloneNode(true)#}
-        {#    let formRegex = RegExp(`form-(\\d){1}-`, 'g')#}
-        {##}
-        {#    formNum++#}
-        {#    newForm.innerHTML = newForm.innerHTML.replace(formRegex, `form-${formNum}-`)#}
-        {#    container.insertBefore(newForm, addButton)#}
-        {##}
-        {#    totalForms.setAttribute('value', `${formNum + 1}`)}#}
-
+        const totalNewForms = document.getElementById("id_educationdetails_set-TOTAL_FORMS")
     </script>
+
 {% endblock %}
