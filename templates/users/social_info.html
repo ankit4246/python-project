@@ -7,31 +7,46 @@
             <p>Social Account</p>
         </div>
         <div class="mainContent">
-            <form action="{% url 'users:social_info' %}" method="POST">
+            <form id="form-container" action="{% url 'users:social_info' %}" method="POST">
                 {% csrf_token %}
-                {{ formset.management_form }}
-                {% for hidden in form.hidden_fields %}
-                    {{ hidden }}
-                {% endfor %}
-
-                <div id="form0">
+                <div id='empty-form' class='hidden-form'>
                     <div class="personalDetail-name">
-                        {% for form in formset %}
-                            <div class="personalDetail-fname">
-                                <h4>Account Name</h4>
-                                {{ form.social_media }}
-                            </div>
-                            <div class="media-url">
-                                <h4>URL</h4>
-                                {{ form.link }}
-                            </div>
-                        {% endfor %}
-
+                        <div class="personalDetail-fname">
+                            <h4>Account Name</h4>
+                            {{ formset.empty_form.social_media }}
+                        </div>
+                        <div class="media-url">
+                            <h4>URL</h4>
+                            {{ formset.empty_form.link }}
+                        </div>
                     </div>
                 </div>
-                <div class="addSection" onclick="duplicate()">
+
+                {{ formset.management_form }}
+                {% for form in formset %}
+                    {% for hidden in form.hidden_fields %}
+                        {{ hidden }}
+                    {% endfor %}
+
+                    <div class="personalDetail-name">
+
+                        <div class="personalDetail-fname">
+                            <h4>Account Name</h4>
+                            {{ form.social_media }}
+                        </div>
+                        <div class="media-url">
+                            <h4>URL</h4>
+                            {{ form.link }}
+                        </div>
+                    </div>
+
+                {% endfor %}
+
+
+                <div id="add-form" class="addSection">
                     + Add More Account
                 </div>
+
                 <div class="formSubmitBtn">
                     <input type="button" value="Skip" class="formButton">
                     <input type="submit" value="Save" class="formButton">
@@ -40,23 +55,6 @@
         </div>
     </section>
     <script>
-        const sideCollapse = () => {
-            document.querySelector(".sideBar").style.width = "50px";
-            document.querySelector(".collapseBar").style.display = "none";
-            document.querySelector(".showBar").style.display = "block";
-        }
-        const sideShow = () => {
-            document.querySelector(".sideBar").style.width = "290px";
-            document.querySelector(".showBar").style.display = "none";
-            document.querySelector(".collapseBar").style.display = "block";
-        }
-        var i = 0;
-
-        function duplicate() {
-            var original = document.getElementById('form' + i);
-            var clone = original.cloneNode(true);
-            clone.id = "form" + ++i;
-            original.appendChild(clone);
-        }
+        const totalNewForms = document.getElementById("id_socialmedias_set-TOTAL_FORMS")
     </script>
 {% endblock %}

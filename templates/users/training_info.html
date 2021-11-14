@@ -7,42 +7,71 @@
             <p>Training Details</p>
         </div>
         <div class="mainContent">
-            <form action="{% url 'users:training_info' %}" method="POST">
+            <form id="form-container" action="{% url 'users:training_info' %}" method="POST">
                 {% csrf_token %}
-                {{ formset.management_form }}
-                <div id="form0">
-                    {% for form in formset %}
-                        {% for hidden in form.hidden_fields %}
-                            {{ hidden }}
-                        {% endfor %}
-                        <div class="personalDetail-name" id="personalDetail-name">
-                            <div class="personalDetail-fname">
-                                <h4>Name of the Training</h4>
-                                {{ form.name_of_training }}
-                            </div>
-                            <div class="personalDetail-fname">
-                                <h4>Institute Name</h4>
-                                {{ form.institute_name }}
-                            </div>
+                <div id='empty-form' class='hidden-form'>
+                    <div class="personalDetail-name" id="personalDetail-name">
+                        <div class="personalDetail-fname">
+                            <h4>Name of the Training</h4>
+                            {{ formset.empty_form.name_of_training }}
+                        </div>
+                        <div class="personalDetail-fname">
+                            <h4>Institute Name</h4>
+                            {{ formset.empty_form.institute_name }}
+                        </div>
 
-                            <div class="marksSecured">
-                                <h4>Training Duration</h4>
-                                <div class="doubleInput">
-                                    {{ form.duration }}
-                                    {{ form.duration_type }}
-                                </div>
-                            </div>
-                            <div class="marksSecured">
-                                <h4>Completion year</h4>
-                                <div class="doubleInput">
-                                    {{ form.completion_month }}
-                                    {{ form.completion_year }}
-                                </div>
+                        <div class="marksSecured">
+                            <h4>Training Duration</h4>
+                            <div class="doubleInput">
+                                {{ formset.empty_form.duration }}
+                                {{ formset.empty_form.duration_type }}
                             </div>
                         </div>
-                    {% endfor %}
+                        <div class="marksSecured">
+                            <h4>Completion year</h4>
+                            <div class="doubleInput">
+                                {{ formset.empty_form.completion_month }}
+                                {{ formset.empty_form.completion_year }}
+                            </div>
+                        </div>
+                    </div>
                 </div>
-                <div class="addSection" onclick="duplicate()">
+
+
+                {{ formset.management_form }}
+                {% for form in formset %}
+                    {% for hidden in form.hidden_fields %}
+                        {{ hidden }}
+                    {% endfor %}
+                    <div class="personalDetail-name" id="personalDetail-name">
+                        <div class="personalDetail-fname">
+                            <h4>Name of the Training</h4>
+                            {{ form.name_of_training }}
+                        </div>
+                        <div class="personalDetail-fname">
+                            <h4>Institute Name</h4>
+                            {{ form.institute_name }}
+                        </div>
+
+                        <div class="marksSecured">
+                            <h4>Training Duration</h4>
+                            <div class="doubleInput">
+                                {{ form.duration }}
+                                {{ form.duration_type }}
+                            </div>
+                        </div>
+                        <div class="marksSecured">
+                            <h4>Completion year</h4>
+                            <div class="doubleInput">
+                                {{ form.completion_date }}
+                            </div>
+                        </div>
+                    </div>
+                {% endfor %}
+
+
+
+                <div id="add-form" class="addSection">
                     + Add More Training Detail
                 </div>
 
@@ -54,25 +83,7 @@
         </div>
     </section>
     <script>
-        const sideCollapse = () => {
-            document.querySelector(".sideBar").style.width = "50px";
-            document.querySelector(".collapseBar").style.display = "none";
-            document.querySelector(".showBar").style.display = "block";
-        }
-        const sideShow = () => {
-            document.querySelector(".sideBar").style.width = "290px";
-            document.querySelector(".showBar").style.display = "none";
-            document.querySelector(".collapseBar").style.display = "block";
-        }
-
-        var i = 0;
-
-        function duplicate() {
-            var original = document.getElementById('form' + i);
-            var clone = original.cloneNode(true);
-            clone.id = "form" + ++i;
-            original.appendChild(clone);
-        }
-
+        const totalNewForms = document.getElementById("id_trainingdetails_set-TOTAL_FORMS")
     </script>
+
 {% endblock %}

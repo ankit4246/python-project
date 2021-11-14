@@ -13,7 +13,7 @@ from django.utils.http import urlsafe_base64_encode, urlsafe_base64_decode
 from django.views import View
 from django.views.generic import TemplateView
 from django.views.generic.edit import FormView
-from users.forms import AddressForm, EducationInfoForm, ExperienceForm
+from users.forms import AddressForm, EducationInfoForm, ExperienceForm, TrainingFormSet, ExperienceFormSet
 from users.forms import RegisterForm, LoginForm, \
     BasicInfoUserForm, ProfileForm, AddressDetailsUserForm, TrainingForm, SocialMediaForm, EducationFormSet, \
     SocialFormSet
@@ -102,14 +102,10 @@ class EducationInfoView(View):
     template_name = 'users/education_info.html'
     form_class = EducationInfoForm
 
-    # EducationFormSet = inlineformset_factory(User, EducationDetails,
-    #                                          fields='__all__',
-    #                                          form=form_class,
-    #                                          extra=0,
-    #                                          )
-
     def get(self, request, *args, **kwargs):
         formset = EducationFormSet(instance=request.user)
+        if formset.total_form_count() == 0:
+            formset.extra = 1
         context = {
             'formset': formset
         }
@@ -131,20 +127,18 @@ class EducationInfoView(View):
 class TrainingInfoView(View):
     template_name = 'users/training_info.html'
     form_class = TrainingForm
-    TrainingFormSet = inlineformset_factory(User, TrainingDetails,
-                                            form=form_class,
-                                            extra=1,
-                                            )
 
     def get(self, request, *args, **kwargs):
-        formset = self.TrainingFormSet(instance=request.user)
+        formset = TrainingFormSet(instance=request.user)
+        if formset.total_form_count() == 0:
+            formset.extra = 1
         context = {
             'formset': formset
         }
         return render(request, self.template_name, context)
 
     def post(self, request, *args, **kwargs):
-        formset = self.TrainingFormSet(request.POST, instance=request.user)
+        formset = TrainingFormSet(request.POST, instance=request.user)
         context = {
             'formset': formset
         }
@@ -154,23 +148,45 @@ class TrainingInfoView(View):
         return render(request, self.template_name, context)
 
 
+# class TrainingInfoView(View):
+#     template_name = 'users/training_info.html'
+#     form_class = TrainingForm
+#
+#     def get(self, request, *args, **kwargs):
+#         formset = self.TrainingFormSet(instance=request.user)
+#         context = {
+#             'formset': formset
+#         }
+#         return render(request, self.template_name, context)
+#
+#     def post(self, request, *args, **kwargs):
+#         form = self.form_class(request.POST or None)
+#         context = {
+#             'form': form
+#         }
+#         if form.is_valid():
+#             created_training = form.save(commit=False)
+#             created_training.user = request.user
+#             created_training.save()
+#             return redirect(reverse_lazy('users:work_info'))
+#         return render(request, self.template_name, context)
+#
+
 class WorkInfoView(View):
     template_name = 'users/work_info.html'
     form_class = ExperienceForm
-    ExperienceFormSet = inlineformset_factory(User, ExperienceDetails,
-                                              form=form_class,
-                                              extra=1,
-                                              )
 
     def get(self, request, *args, **kwargs):
-        formset = self.ExperienceFormSet(instance=request.user)
+        formset = ExperienceFormSet(instance=request.user)
+        if formset.total_form_count() == 0:
+            formset.extra = 1
         context = {
             'formset': formset
         }
         return render(request, self.template_name, context)
 
     def post(self, request, *args, **kwargs):
-        formset = self.ExperienceFormSet(request.POST, instance=request.user)
+        formset = ExperienceFormSet(request.POST, instance=request.user)
         context = {
             'formset': formset
         }
@@ -186,6 +202,8 @@ class SocialInfoView(View):
 
     def get(self, request, *args, **kwargs):
         formset = SocialFormSet(instance=request.user)
+        if formset.total_form_count() == 0:
+            formset.extra = 1
         context = {
             'formset': formset
         }

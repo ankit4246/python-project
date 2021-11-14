@@ -10,10 +10,11 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
     <title>Address Detail</title>
-
     <link rel="stylesheet" href="https://pro.fontawesome.com/releases/v5.10.0/css/all.css"
           integrity="sha384-AYmEC3Yw5cVb3ZcuHtOA93w35dYTsvhLPVnYs9eStHfGJvOvKxVfELGroGkvsg+p" crossorigin="anonymous"/>
     <link rel="stylesheet" href="{% static 'css/personalDetail.css' %}">
+    <script src="https://unpkg.com/htmx.org@1.6.0"></script>
+
 </head>
 
 <body>
@@ -30,11 +31,11 @@
 <section id="sideBar" class="sideBar">
     <div class="logo">
         <img src="{% static 'image/logo.png' %}" alt="logo" srcset="">
-      </div>
-        {% if user.is_authenticated %}
-            Hi {{ user.email }}!
-            <a href="{% url 'users:logout' %}">Log out</a>
-        {% endif %}
+    </div>
+    {% if user.is_authenticated %}
+        Hi {{ user.email }}!
+        <a href="{% url 'users:logout' %}">Log out</a>
+    {% endif %}
 
     <a href="{% url 'users:personal_info' %}">
         <div class="sidebarBtn "><i class="far fa-address-card"></i>
@@ -75,18 +76,24 @@
 {% block content %}
 {% endblock %}
 
- <script>
-        const sideCollapse = () => {
-            document.querySelector(".sideBar").style.width = "50px";
-            document.querySelector(".collapseBar").style.display = "none";
-            document.querySelector(".showBar").style.display = "block";
-        }
-        const sideShow = () => {
-            document.querySelector(".sideBar").style.width = "290px";
-            document.querySelector(".showBar").style.display = "none";
-            document.querySelector(".collapseBar").style.display = "block";
-        }
+<script>
+    document.body.addEventListener('htmx:configRequest', (event) => {
+        event.detail.headers['X-CSRFToken'] = '{{ csrf_token }}';
+    })
 </script>
- <script src="{% static 'js/script.js' %}"></script>
+
+<script>
+    const sideCollapse = () => {
+        document.querySelector(".sideBar").style.width = "50px";
+        document.querySelector(".collapseBar").style.display = "none";
+        document.querySelector(".showBar").style.display = "block";
+    }
+    const sideShow = () => {
+        document.querySelector(".sideBar").style.width = "290px";
+        document.querySelector(".showBar").style.display = "none";
+        document.querySelector(".collapseBar").style.display = "block";
+    }
+</script>
+<script src="{% static 'js/script.js' %}"></script>
 
 </body>

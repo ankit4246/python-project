@@ -7,58 +7,98 @@
             <p>Work Experience</p>
         </div>
         <div class="mainContent">
-            <form action="{% url 'users:work_info' %}" method="POST">
+            <form id="form-container" action="{% url 'users:work_info' %}" method="POST">
                 {% csrf_token %}
-                {{ formset.management_form }}
-                {% for hidden in form.hidden_fields %}
-                    {{ hidden }}
-                {% endfor %}
-                <div id="form0">
-                    {% for form in formset %}
-                        <div class="personalDetail-name">
-                            <div class="personalDetail-fname">
-                                <h4>Organization Name</h4>
-                                {{ form.institute_name }}
-                            </div>
-                            <div class="personalDetail-fname">
-                                <h4>Job Location</h4>
-                                {{ form.location }}
-                            </div>
-                            <div class="maritalStatus">
-                                <h4>Job Title</h4>
-                                {{ form.designation }}
-                            </div>
-                            <div class="maritalStatus">
-                                <h4>Job Level</h4>
-                                {{ form.job_level }}
-                            </div>
-                            <div class="marksSecured">
-                                <h4>Start Date</h4>
-                                <div class="doubleInput">
-                                    {{ form.start_date }}
-                                </div>
-                            </div>
 
-                            <div class="personalDetail-gender">
-                                <!-- <h4>Gender</h4> -->
-                                <div class="working">
-                                    {{ form.is_current }}
-                                    <label for="male">Is Currently Working Here?</label>
-                                </div>
+                <div id='empty-form' class='hidden-form'>
+                    <div class="personalDetail-name">
+                        <div class="personalDetail-fname">
+                            <h4>Organization Name</h4>
+                            {{ formset.empty_form.institute_name }}
+                        </div>
+                        <div class="personalDetail-fname">
+                            <h4>Job Location</h4>
+                            {{ formset.empty_form.location }}
+                        </div>
+                        <div class="maritalStatus">
+                            <h4>Job Title</h4>
+                            {{ formset.empty_form.designation }}
+                        </div>
+                        <div class="maritalStatus">
+                            <h4>Job Level</h4>
+                            {{ formset.empty_form.job_level }}
+                        </div>
+                        <div class="marksSecured">
+                            <h4>Start Date</h4>
+                            <div class="doubleInput">
+                                {{ formset.empty_form.start_date }}
                             </div>
-
                         </div>
 
-                        <div class="personalDetail-name">
-                            <div class="personalDetail-fname">
-                                <h4>Roles and Responsibilities</h4>
-                                {{ form.jd }}
+                        <div class="personalDetail-gender">
+                            <!-- <h4>Gender</h4> -->
+                            <div class="working">
+                                {{ formset.empty_form.is_current }}
+                                <label for="male">Is Currently Working Here?</label>
                             </div>
                         </div>
-                    {% endfor %}
 
+                    </div>
+
+                    <div class="personalDetail-name">
+                        <div class="personalDetail-fname">
+                            <h4>Roles and Responsibilities</h4>
+                            {{ formset.empty_form.jd }}
+                        </div>
+                    </div>
                 </div>
-                <div class="addSection" onclick="duplicate()">
+
+                {{ formset.management_form }}
+                {% for form in formset %}
+                    {% for hidden in form.hidden_fields %}
+                        {{ hidden }}
+                    {% endfor %}
+                    <div class="personalDetail-name">
+                        <div class="personalDetail-fname">
+                            <h4>Organization Name</h4>
+                            {{ form.institute_name }}
+                        </div>
+                        <div class="personalDetail-fname">
+                            <h4>Job Location</h4>
+                            {{ form.location }}
+                        </div>
+                        <div class="maritalStatus">
+                            <h4>Job Title</h4>
+                            {{ form.designation }}
+                        </div>
+                        <div class="maritalStatus">
+                            <h4>Job Level</h4>
+                            {{ form.job_level }}
+                        </div>
+                        <div class="marksSecured">
+                            <h4>Start Date</h4>
+                            <div class="doubleInput">
+                                {{ form.start_date }}
+                            </div>
+                        </div>
+
+                        <div class="personalDetail-gender">
+                            <!-- <h4>Gender</h4> -->
+                            <div class="working">
+                                {{ form.is_current }}
+                                <label for="male">Is Currently Working Here?</label>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="personalDetail-name">
+                        <div class="personalDetail-fname">
+                            <h4>Roles and Responsibilities</h4>
+                            {{ form.jd }}
+                        </div>
+                    </div>
+                {% endfor %}
+
+                <div id="add-form" class="addSection">
                     + Add More Experience Detail
                 </div>
                 <div class="formSubmitBtn">
@@ -67,27 +107,8 @@
                 </div>
             </form>
         </div>
-
-
     </section>
     <script>
-        const sideCollapse = () => {
-            document.querySelector(".sideBar").style.width = "50px";
-            document.querySelector(".collapseBar").style.display = "none";
-            document.querySelector(".showBar").style.display = "block";
-        }
-        const sideShow = () => {
-            document.querySelector(".sideBar").style.width = "290px";
-            document.querySelector(".showBar").style.display = "none";
-            document.querySelector(".collapseBar").style.display = "block";
-        }
-        var i = 0;
-
-        function duplicate() {
-            var original = document.getElementById('form' + i);
-            var clone = original.cloneNode(true);
-            clone.id = "form" + ++i;
-            original.appendChild(clone);
-        }
+        const totalNewForms = document.getElementById("id_experiencedetails_set-TOTAL_FORMS")
     </script>
 {% endblock %}

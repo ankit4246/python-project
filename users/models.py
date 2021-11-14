@@ -160,8 +160,7 @@ class TrainingDetails(models.Model):
     institute_name = models.CharField(max_length=100, blank=True, null=True)
     duration = models.IntegerField(blank=True, null=True)
     duration_type = models.CharField(max_length=100, blank=True, null=True)
-    completion_month = models.CharField(max_length=30, blank=True, null=True)
-    completion_year = models.CharField(max_length=10, blank=True, null=True)
+    completion_date = models.DateField(blank=True, null=True)
     user = models.ForeignKey(User, models.DO_NOTHING, blank=True, null=True)
 
 
