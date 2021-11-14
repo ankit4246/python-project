@@ -309,9 +309,9 @@ class RegisterForm(forms.ModelForm):
     )
 
     CHOICES = (
-        ("male", "male"),
-        ("female", "female"),
-        ("others", "others"),
+        ("M", "male"),
+        ("F", "female"),
+        ("O", "others"),
     )
 
     dob = forms.DateField(widget=forms.widgets.DateInput(attrs={'type': 'date'}))

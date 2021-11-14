@@ -1,15 +1,13 @@
-from django.forms import inlineformset_factory
 import uuid
+
 from django.contrib import messages
-from django.contrib.auth import login, logout
+from django.contrib.auth import login, logout, authenticate
 from django.contrib.auth.decorators import login_required
 from django.contrib.sites.shortcuts import get_current_site
-from django.forms import inlineformset_factory
-from django.shortcuts import render, redirect
-from django.urls import reverse
-from django.urls import reverse_lazy
+from django.shortcuts import redirect, render
+from django.urls import reverse, reverse_lazy
 from django.utils.encoding import force_bytes, force_text
-from django.utils.http import urlsafe_base64_encode, urlsafe_base64_decode
+from django.utils.http import urlsafe_base64_decode, urlsafe_base64_encode
 from django.views import View
 from django.views.generic import TemplateView
 from django.views.generic.edit import FormView
@@ -17,12 +15,8 @@ from users.forms import AddressForm, EducationInfoForm, ExperienceForm, Training
 from users.forms import RegisterForm, LoginForm, \
     BasicInfoUserForm, ProfileForm, AddressDetailsUserForm, TrainingForm, SocialMediaForm, EducationFormSet, \
     SocialFormSet
-from users.models import AddressDetails
-# class PersonalInfoView(View):
-#     template_name = 'users/personal_info.html'
-#     form_class = BasicInformationForm
-#     success_url = reverse_lazy('users:address_info')
-from users.models import User, Profile, TrainingDetails, ExperienceDetails
+from users.models import (AddressDetails, ExperienceDetails, Profile,
+                          TrainingDetails, User)
 from users.tasks import send_mail_func
 from .tokens import account_activation_token
 
@@ -262,11 +256,19 @@ def user_register(request):
             password1 = form.cleaned_data['password1']
             email = form.cleaned_data['email']
             # unique username with the help of uuid 
-            user.password = password1
+            user.set_password(password1)
+
             preName = str(uuid.uuid4())
             preName = preName[:3]
             user.username = preName + first_name
             user.save()
+
+            # for profile object
+            dob = form.cleaned_data['dob']
+            gender = form.cleaned_data['gender']
+            if user:
+                profile = Profile.objects.create(user=user, date_of_birth=dob, gender=gender)
+                profile.save()
 
             current_site = get_current_site(request)
             uid = urlsafe_base64_encode(force_bytes(user.pk))
@@ -310,10 +312,12 @@ def login_user(request):
         if form.is_valid():
             username = form.cleaned_data.get('username')
             password = form.cleaned_data.get('password')
-            user = User.objects.get(email=username, password=password)
+
+            user = authenticate(email=username, password=password)
+
             print("user", user)
             if user is None:
-                # messages.error(request, "Invalid login credentials")
+                messages.error(request, "Invalid login credentials")
                 return render(request, 'users/login.html', context)
             else:
                 login(request, user)
