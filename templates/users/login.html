@@ -18,6 +18,20 @@
     <div class="navbar">
         <p>Login</p>
     </div>
+
+    {% if messages %}
+    <div class="row">
+        <div class="offset-md-4 col-md-4">
+
+            {% for message in messages %}
+            <div class="alert alert-dismissible alert-{{ message.tags }}" role="alert">
+                {{ message }}
+            </div>
+            {% endfor %}
+        </div>
+    </div>
+    {% endif %}
+    
     <div class="mainContent">
         <form action="{% url 'users:login' %}" method="POST">
             <div class="personalDetail-name">
