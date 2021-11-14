@@ -88,20 +88,21 @@ class TrainingForm(forms.ModelForm):
             'institute_name',
             'duration',
             'duration_type',
-            'completion_month',
-            'completion_year',
+            'completion_date',
             'user',
         )
         widgets = {
             'duration': forms.widgets.TextInput(attrs={'id': 'marksSecuredNum'}),
             'duration_type': forms.widgets.Select(choices=DURATION_TYPE_CHOICES,
                                                   attrs={'id': 'marksSecured'}),
-            'completion_month': forms.widgets.SelectDateWidget(
-                attrs={'id': 'marksSecured', 'type': 'month'}),
-            'completion_year': forms.widgets.SelectDateWidget(
-                attrs={'id': 'marksSecured', 'type': 'year'}),
+            'completion_date': forms.widgets.DateInput(attrs={'type': 'month'}),
         }
 
+
+TrainingFormSet = inlineformset_factory(User, TrainingDetails,
+                                        form=TrainingForm,
+                                        extra=0,
+                                        )
 
 JOB_LEVEL_CHOICES = [('Intern', 'Intern'),
                      ('Junior', 'Junior'),
@@ -126,8 +127,15 @@ class ExperienceForm(forms.ModelForm):
         widgets = {
             'jd': forms.widgets.Textarea(),
             'job_level': forms.widgets.Select(choices=JOB_LEVEL_CHOICES,
-                                              attrs={'class': 'marital'}),
+                                                 attrs={'id': 'marksSecured'}),
+            'start_date': forms.widgets.DateInput(attrs={'type': 'month'})
         }
+
+
+ExperienceFormSet = inlineformset_factory(User, ExperienceDetails,
+                                          form=ExperienceForm,
+                                          extra=0,
+                                          )
 
 
 class SocialMediaForm(forms.ModelForm):
@@ -141,7 +149,7 @@ class SocialMediaForm(forms.ModelForm):
 
 SocialFormSet = inlineformset_factory(User, SocialMedias,
                                       form=SocialMediaForm,
-                                      extra=1,
+                                      extra=0,
                                       )
 
 LOCAL_BODY_CHOICES = [('Local Body 1', 'Local Body 1'), ('Local Body 2', 'Local Body 2')]
@@ -228,7 +236,7 @@ class EducationInfoForm(forms.ModelForm):
                                               attrs={'id': 'marital'}),
             'faculty': forms.widgets.TextInput(attrs={'class': 'personalDetail-fname'}),
             'university': forms.widgets.Select(attrs={'id': 'marital'}),
-            'passed_date': forms.widgets.DateInput(attrs={'type': 'date', 'class': 'maritalStatus'}),
+            'passed_date': forms.widgets.DateInput(attrs={'type': 'month', 'class': 'maritalStatus'}),
             'per_gpa_type': forms.widgets.Select(choices=GPA_TYPE_CHOICES,
                                                  attrs={'id': 'marksSecured'}),
             'per_gpa_value': forms.widgets.TextInput(attrs={'id': 'marksSecuredNum'})
