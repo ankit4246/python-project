@@ -3,11 +3,11 @@ from celery import shared_task
 from pentest_portal import settings
 from django.template.loader import render_to_string
 
+
 @shared_task
 def send_mail_func(email, current_site, uid, token):
-
     context = {
-        "current_site":current_site,
+        "current_site": current_site,
         "uid": uid,
         "token": token
     }
@@ -18,7 +18,7 @@ def send_mail_func(email, current_site, uid, token):
         subject=mail_subject,
         message=email_body,
         from_email=settings.EMAIL_HOST_USER,
-        recipient_list=[email,],
+        recipient_list=[email, ],
         fail_silently=False,
     )
-    return{"status":True}
+    return {"status": True}

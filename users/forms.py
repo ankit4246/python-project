@@ -95,7 +95,7 @@ class TrainingForm(forms.ModelForm):
             'duration': forms.widgets.TextInput(attrs={'id': 'marksSecuredNum'}),
             'duration_type': forms.widgets.Select(choices=DURATION_TYPE_CHOICES,
                                                   attrs={'id': 'marksSecured'}),
-            'completion_date': forms.widgets.DateInput(attrs={'type': 'month'}),
+            'completion_date': forms.widgets.DateInput(attrs={'type': 'date', 'class': 'month'}),
         }
 
 
@@ -127,8 +127,8 @@ class ExperienceForm(forms.ModelForm):
         widgets = {
             'jd': forms.widgets.Textarea(),
             'job_level': forms.widgets.Select(choices=JOB_LEVEL_CHOICES,
-                                                 attrs={'id': 'marksSecured'}),
-            'start_date': forms.widgets.DateInput(attrs={'type': 'month'})
+                                              attrs={'id': 'marksSecured'}),
+            'start_date': forms.widgets.DateInput(attrs={'type': 'date'})
         }
 
 
@@ -236,11 +236,23 @@ class EducationInfoForm(forms.ModelForm):
                                               attrs={'id': 'marital'}),
             'faculty': forms.widgets.TextInput(attrs={'class': 'personalDetail-fname'}),
             'university': forms.widgets.Select(attrs={'id': 'marital'}),
-            'passed_date': forms.widgets.DateInput(attrs={'type': 'month', 'class': 'maritalStatus'}),
+            'passed_date': forms.widgets.DateInput(attrs={'type': 'date', 'class': 'maritalStatus'}),
             'per_gpa_type': forms.widgets.Select(choices=GPA_TYPE_CHOICES,
                                                  attrs={'id': 'marksSecured'}),
-            'per_gpa_value': forms.widgets.TextInput(attrs={'id': 'marksSecuredNum'})
+            'per_gpa_value': forms.widgets.TextInput(attrs={'id': 'marksSecuredNum'}),
+            # 'delete': forms.widgets.Select(attrs={'class': 'delete'})
         }
+
+    # def clean_passed_date(self):
+    #     passed_date = self.data.get('passed_date')
+    #     print(passed_date)
+    #     return passed_date
+    #
+    # def clean(self):
+    #     cleaned_data = super(EducationInfoForm, self).clean()
+    #     passed_date = self.cleaned_data.get('passed_date')
+    #     print(passed_date)
+    #     return cleaned_data
 
 
 EducationFormSet = inlineformset_factory(User, EducationDetails,
