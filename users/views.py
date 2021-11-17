@@ -1,3 +1,5 @@
+import re
+import urllib
 import uuid
 
 from django.contrib import messages
@@ -16,7 +18,7 @@ from users.forms import RegisterForm, LoginForm, \
     BasicInfoUserForm, ProfileForm, AddressDetailsUserForm, TrainingForm, SocialMediaForm, EducationFormSet, \
     SocialFormSet
 from users.models import (AddressDetails, ExperienceDetails, Profile,
-                          TrainingDetails, User)
+                          TrainingDetails, User, EducationDetails)
 from users.tasks import send_mail_func
 from .tokens import account_activation_token
 
@@ -107,8 +109,6 @@ class EducationInfoView(View):
 
     def post(self, request, *args, **kwargs):
         formset = EducationFormSet(request.POST, instance=request.user)
-        for form in formset:
-            print(form.errors)
         if formset.is_valid():
             formset.save()
             return redirect(reverse_lazy('users:training_info'))
