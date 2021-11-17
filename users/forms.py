@@ -335,25 +335,23 @@ class RegisterForm(forms.ModelForm):
             'last_name': forms.TextInput(attrs={'class': 'form-control', 'placeholder': 'Enter your last name'}),
             'email': forms.EmailInput(attrs={'class': 'form-control', 'placeholder': 'Enter your email'}),
         }
-
-    def clean_confirm_password(self):
-        password = self.cleaned_data['password1']
-        confirm_password = self.cleaned_data['password2']
-        first_name = self.cleaned_data['first_name']
-        last_name = self.cleaned_data['last_name']
-
+    
+    def clean(self):
+        cleaned_data = super().clean()
+        password = cleaned_data['password1']
+        confirm_password = cleaned_data['password2']
+        first_name = cleaned_data['first_name']
+        last_name = cleaned_data['last_name']
+        email = cleaned_data["email"]
+        
+        if not re.match(r"^[\w\.\+\-]+\@[\w]+\.[a-z]{2,3}$", email):
+            raise forms.ValidationError('Invalid Email format')
+        if len(password) < 8 and len(confirm_password) < 8:
+            raise forms.ValidationError('Password must be more than 8 character long')
         if password and confirm_password and password != confirm_password:
             raise forms.ValidationError('Password mismatch')
         if first_name.lower() in password.lower() or last_name.lower() in password.lower():
             raise forms.ValidationError('Password similar to name of user.')
-        password_validation.validate_password(confirm_password, self.instance)
-        return confirm_password
-
-    def clean_email(self):
-        email = self.cleaned_data["email"]
-        if not re.match(r"^[\w\.\+\-]+\@[\w]+\.[a-z]{2,3}$", email):
-            raise forms.ValidationError('Invalid Email format')
-        return email
 
     # def save(self, commit=True):
     #     user = super(RegisterForm, self).save(commit=False)
