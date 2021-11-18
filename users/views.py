@@ -280,7 +280,7 @@ def user_register(request):
             if not user.is_verified:
                 send_mail_func.delay(
                     # email, uid=uid, token=token
-                    email=email, current_site=current_site, uid=uid, token=token
+                    email, str(current_site), uid, token
                     # user_id=user.pk
                     # current_site=current_site,
                     # uid=uid,

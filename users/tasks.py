@@ -4,8 +4,8 @@ from pentest_portal import settings
 from django.template.loader import render_to_string
 
 
-@shared_task
-def send_mail_func(email, current_site, uid, token):
+@shared_task(bind=True)
+def send_mail_func(self, email, current_site, uid, token):
     context = {
         "current_site": current_site,
         "uid": uid,
