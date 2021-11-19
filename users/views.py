@@ -141,7 +141,6 @@ class TrainingInfoView(View):
             return redirect(reverse_lazy('users:work_info'))
         return render(request, self.template_name, context)
 
-
 # class TrainingInfoView(View):
 #     template_name = 'users/training_info.html'
 #     form_class = TrainingForm
@@ -273,21 +272,21 @@ def user_register(request):
             current_site = get_current_site(request)
             uid = urlsafe_base64_encode(force_bytes(user.pk))
             token = account_activation_token.make_token(user)
-            print("current-domain", current_site)
-            print('current_uid', uid)
-            print('current_token', token)
+            print("current-domain", str(current_site))
+            print('current_uid', type(uid))
+            print('current_token', type(token))
 
             if not user.is_verified:
-                send_mail_func.delay(
-                    # email, uid=uid, token=token
-                    email=email, current_site=current_site, uid=uid, token=token
-                    # user_id=user.pk
-                    # current_site=current_site,
-                    # uid=uid,
-                    # token=token
+                status = send_mail_func.delay(
+                    email=email, current_site=str(current_site), uid=uid, token=token
                 )
                 messages.success(request, "Check your email!")
-            return redirect("users:login")
+                messages.add_message(request, messages.INFO, 'Hello world.')
+            request.session['current_site'] = str(current_site)
+            request.session['uid'] = uid
+            request.session['token'] = token
+
+            return redirect("users:verify-email")
 
     context = {
         'form': form
@@ -356,3 +355,7 @@ def activate_user(request, uidb64, token):
         return redirect(reverse('users:login'))
 
     return render(request, 'users/activate-failed.html')
+
+
+class VerifyEmail(TemplateView):
+    template_name = 'users/verify_email.html'

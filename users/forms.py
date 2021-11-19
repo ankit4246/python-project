@@ -1,12 +1,11 @@
 from django import forms
 from django.forms import inlineformset_factory
-from users.models import Profile, TrainingDetails, ExperienceDetails, SocialMedias, User
+from users.models import Profile, TrainingDetails, ExperienceDetails, SocialMedias, User, MONTH_CHOICES, YEAR_CHOICES
 from users.models import Profile, AddressDetails, EducationDetails
 from django import forms
 from django.contrib.auth import password_validation
 import re
 from django.contrib.admin import widgets
-from users.tasks import send_mail_func
 
 
 class BasicInfoUserForm(forms.ModelForm):
@@ -53,30 +52,6 @@ class ProfileForm(forms.ModelForm):
         }
 
 
-class BasicInformationForm(forms.ModelForm):
-    first_name = forms.CharField(max_length='100')
-    middle_name = forms.CharField(max_length='100')
-    last_name = forms.CharField(max_length='100')
-
-    class Meta:
-        model = Profile
-        fields = (
-            'first_name',
-            'middle_name',
-            'last_name',
-            'father_full_name',
-            'mother_full_name',
-            'spouse_full_name',
-            'marital_status',
-            'nationality',
-            'date_of_birth',
-            'pan_number',
-            'national_identity_num',
-            'gender',
-            'user',
-        )
-
-
 DURATION_TYPE_CHOICES = [('Month', 'Month'), ('Year', 'Year')]
 
 
@@ -88,14 +63,18 @@ class TrainingForm(forms.ModelForm):
             'institute_name',
             'duration',
             'duration_type',
-            'completion_date',
+            'completion_month',
+            'completion_year',
             'user',
         )
         widgets = {
             'duration': forms.widgets.TextInput(attrs={'id': 'marksSecuredNum'}),
             'duration_type': forms.widgets.Select(choices=DURATION_TYPE_CHOICES,
                                                   attrs={'id': 'marksSecured'}),
-            'completion_date': forms.widgets.DateInput(attrs={'type': 'date', 'class': 'month'}),
+            'completion_month': forms.widgets.Select(choices=MONTH_CHOICES,
+                                                     attrs={'id': 'marksSecured'}),
+            'completion_year': forms.widgets.Select(choices=YEAR_CHOICES,
+                                                    attrs={'id': 'marksSecured'}),
         }
 
 
@@ -119,7 +98,8 @@ class ExperienceForm(forms.ModelForm):
             'location',
             'designation',
             'job_level',
-            'start_date',
+            'start_month',
+            'start_year',
             'is_current',
             'jd',
             'user',
@@ -128,7 +108,11 @@ class ExperienceForm(forms.ModelForm):
             'jd': forms.widgets.Textarea(),
             'job_level': forms.widgets.Select(choices=JOB_LEVEL_CHOICES,
                                               attrs={'id': 'marksSecured'}),
-            'start_date': forms.widgets.DateInput(attrs={'type': 'date'})
+            'start_date': forms.widgets.DateInput(attrs={'type': 'date'}),
+            'start_month': forms.widgets.Select(choices=MONTH_CHOICES,
+                                                attrs={'id': 'marksSecured'}),
+            'start_year': forms.widgets.Select(choices=YEAR_CHOICES,
+                                               attrs={'id': 'marksSecured'}),
         }
 
 
@@ -177,7 +161,6 @@ class AddressForm(forms.ModelForm):
             'country': forms.widgets.Select(attrs={'id': 'marital'}),
             'province': forms.widgets.Select(attrs={'id': 'marital'}),
             'district': forms.widgets.Select(attrs={'id': 'marital'}),
-
         }
 
 
@@ -228,7 +211,8 @@ class EducationInfoForm(forms.ModelForm):
             'institution_name',
             'per_gpa_type',
             'per_gpa_value',
-            'passed_date',
+            'passed_month',
+            'passed_year',
             'user',
         )
         widgets = {
@@ -240,19 +224,11 @@ class EducationInfoForm(forms.ModelForm):
             'per_gpa_type': forms.widgets.Select(choices=GPA_TYPE_CHOICES,
                                                  attrs={'id': 'marksSecured'}),
             'per_gpa_value': forms.widgets.TextInput(attrs={'id': 'marksSecuredNum'}),
-            # 'delete': forms.widgets.Select(attrs={'class': 'delete'})
+            'passed_month': forms.widgets.Select(choices=MONTH_CHOICES,
+                                                 attrs={'id': 'marksSecured'}),
+            'passed_year': forms.widgets.Select(choices=YEAR_CHOICES,
+                                                attrs={'id': 'marksSecured'}),
         }
-
-    # def clean_passed_date(self):
-    #     passed_date = self.data.get('passed_date')
-    #     print(passed_date)
-    #     return passed_date
-    #
-    # def clean(self):
-    #     cleaned_data = super(EducationInfoForm, self).clean()
-    #     passed_date = self.cleaned_data.get('passed_date')
-    #     print(passed_date)
-    #     return cleaned_data
 
 
 EducationFormSet = inlineformset_factory(User, EducationDetails,
@@ -347,7 +323,7 @@ class RegisterForm(forms.ModelForm):
             'last_name': forms.TextInput(attrs={'class': 'form-control', 'placeholder': 'Enter your last name'}),
             'email': forms.EmailInput(attrs={'class': 'form-control', 'placeholder': 'Enter your email'}),
         }
-    
+
     def clean(self):
         cleaned_data = super().clean()
         password = cleaned_data['password1']
@@ -355,7 +331,7 @@ class RegisterForm(forms.ModelForm):
         first_name = cleaned_data['first_name']
         last_name = cleaned_data['last_name']
         email = cleaned_data["email"]
-        
+
         if not re.match(r"^[\w\.\+\-]+\@[\w]+\.[a-z]{2,3}$", email):
             raise forms.ValidationError('Invalid Email format')
         if len(password) < 8 and len(confirm_password) < 8:

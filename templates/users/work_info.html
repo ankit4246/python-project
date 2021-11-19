@@ -31,7 +31,9 @@
                         <div class="marksSecured">
                             <h4>Start Date</h4>
                             <div class="doubleInput">
-                                {{ formset.empty_form.start_date }}
+                                {{ formset.empty_form.start_month }}
+                                {{ formset.empty_form.start_year }}
+
                             </div>
                         </div>
 
@@ -50,7 +52,7 @@
                             <h4>Roles and Responsibilities</h4>
                             {{ formset.empty_form.jd }}
                         </div>
-                          <div class="personalDetail-fname">
+                        <div class="personalDetail-fname">
                             <h4>Delete</h4>
                             {{ formset.empty_form.DELETE }}
                         </div>
@@ -82,7 +84,8 @@
                         <div class="marksSecured">
                             <h4>Start Date</h4>
                             <div class="doubleInput">
-                                {{ form.start_date }}
+                                {{ form.start_month }}
+                                {{ form.start_year }}
                             </div>
                         </div>
 
