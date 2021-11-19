@@ -45,7 +45,7 @@ function deleteForm(event)
         updateForms();
         totalNewForms.setAttribute('value', `${currentFormCount + 1}`);
         console.log(event)
-        console.log(event.target.parentElement.remove())
+        console.log(event.target.parentElement.parentElement.remove())
     }
 }
 
@@ -61,6 +61,8 @@ function updateForms() {
     let count = 0;
     for (let form of container) {
         const formRegex = RegExp(`form-(\\d){1}-`, 'g');
+        console.log(formRegex)
         form.innerHTML = form.innerHTML.replace(formRegex, `form-${count++}-`)
+        console.log(form.innerHTML)
     }
 }

@@ -133,7 +133,9 @@ class EducationDetails(models.Model):
     per_gpa_value = models.DecimalField(max_digits=3, decimal_places=2, blank=True, null=True)
     passed_date = models.DateField(blank=True, null=True)
     user = models.ForeignKey(User, models.DO_NOTHING, blank=True, null=True)
-
+    
+    def __str__(self):
+        return self.institution_name
 
 class ExperienceDetails(models.Model):
     institute_name = models.CharField(max_length=100, blank=True, null=True)
@@ -144,7 +146,6 @@ class ExperienceDetails(models.Model):
     is_current = models.BooleanField(blank=True, null=True)
     jd = models.CharField(max_length=255, blank=True, null=True)
     user = models.ForeignKey(User, models.DO_NOTHING, blank=True, null=True)
-
 
 class Province(models.Model):
     name = models.CharField(max_length=100, blank=True, null=True)

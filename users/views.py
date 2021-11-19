@@ -6,7 +6,7 @@ from django.contrib import messages
 from django.contrib.auth import login, logout, authenticate
 from django.contrib.auth.decorators import login_required
 from django.contrib.sites.shortcuts import get_current_site
-from django.shortcuts import redirect, render
+from django.shortcuts import redirect, render, get_object_or_404
 from django.urls import reverse, reverse_lazy
 from django.utils.encoding import force_bytes, force_text
 from django.utils.http import urlsafe_base64_decode, urlsafe_base64_encode
@@ -21,7 +21,7 @@ from users.models import (AddressDetails, ExperienceDetails, Profile,
                           TrainingDetails, User, EducationDetails)
 from users.tasks import send_mail_func
 from .tokens import account_activation_token
-
+from django.http import HttpResponse, HttpResponseNotAllowed
 
 class PersonalInfoView(View):
     template_name = 'users/personal_info.html'
@@ -111,7 +111,8 @@ class EducationInfoView(View):
         formset = EducationFormSet(request.POST, instance=request.user)
         if formset.is_valid():
             formset.save()
-            return redirect(reverse_lazy('users:training_info'))
+            print("save now")
+            return redirect(reverse('users:training_info'))
         context = {
             'formset': formset
         }
@@ -356,3 +357,16 @@ def activate_user(request, uidb64, token):
         return redirect(reverse('users:login'))
 
     return render(request, 'users/activate-failed.html')
+
+def delete_single_form(request,pk):
+    single_form = get_object_or_404(EducationDetails, id=pk)
+
+    if request.method == 'POST':
+        single_form.delete()
+        return HttpResponse("")
+
+    return HttpResponseNotAllowed(
+        [
+            "POST",
+        ]
+    )

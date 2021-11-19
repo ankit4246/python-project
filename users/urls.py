@@ -14,4 +14,5 @@ urlpatterns = [
     path('login/', views.login_user, name="login"),
     path('logout/', views.logout_user, name='logout'),
     path('activate-user/<uidb64>/<token>/', views.activate_user, name="activate"),
+    path('education_info/<pk>/delete', views.delete_single_form, name="delete-single-form"),
 ]
