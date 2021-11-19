@@ -11,7 +11,6 @@ def send_mail_func(self, email, current_site, uid, token):
         "uid": uid,
         "token": token
     }
-
     email_body = render_to_string('users/confirm_email.html', context)
     mail_subject = "Activation mail"
     send_mail(
@@ -19,6 +18,6 @@ def send_mail_func(self, email, current_site, uid, token):
         message=email_body,
         from_email=settings.EMAIL_HOST_USER,
         recipient_list=[email, ],
-        fail_silently=False,
+        fail_silently=True,
     )
     return {"status": True}
