@@ -21,10 +21,11 @@ from users.forms import RegisterForm, LoginForm, \
     BasicInfoUserForm, ProfileForm, AddressDetailsUserForm, TrainingForm, SocialMediaForm, EducationFormSet, \
     SocialFormSet
 from users.models import (AddressDetails, ExperienceDetails, Profile,
-                        TrainingDetails, User, EducationDetails)
+                          TrainingDetails, User, EducationDetails)
 from users.tasks import send_mail_func
 from .tokens import account_activation_token
 from django.http import HttpResponse, HttpResponseNotAllowed, Http404
+
 
 class PersonalInfoView(View):
     template_name = 'users/personal_info.html'
@@ -145,6 +146,7 @@ class TrainingInfoView(View):
             return redirect(reverse_lazy('users:work_info'))
         return render(request, self.template_name, context)
 
+
 # class TrainingInfoView(View):
 #     template_name = 'users/training_info.html'
 #     form_class = TrainingForm
@@ -252,6 +254,7 @@ def generate_confirmation_token(pk):
     token = jwt.encode(payload, settings.SECRET_KEY, algorithm='HS256').decode('utf-8')
     return token
 
+
 def user_register(request):
     """
     Register a user
@@ -287,7 +290,7 @@ def user_register(request):
 
             # token = account_activation_token.make_token(user)
             token_needed = generate_confirmation_token(user.pk)
-            
+
             print("current-domain", str(current_site))
             print('current_uid', type(uid))
             print('current_token', type(token_needed))
@@ -374,7 +377,7 @@ class RegistrationView(TemplateView):
 
 #     return render(request, 'users/activate-failed.html')
 
-def delete_single_form(request,pk):
+def delete_single_form(request, pk):
     single_form = get_object_or_404(EducationDetails, id=pk)
 
     if request.method == 'POST':
@@ -389,7 +392,6 @@ def delete_single_form(request,pk):
 
 
 def user_confirm_email(request, token):
-    
     if request.user.is_authenticated:
         return redirect('/')
 

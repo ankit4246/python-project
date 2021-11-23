@@ -7,8 +7,9 @@ function addForm(e) {
     if (e) {
         e.preventDefault();
     }
+    console.log('add button clicked')
     const currentForms = document.getElementsByClassName('personalDetail-name')
-    const currentFormCount = currentForms.length //+ 1
+    const currentFormCount = currentForms.length
     const copyEmptyForm = document.getElementById("empty-form").cloneNode(true)
     copyEmptyForm.setAttribute('class', 'personalDetail-name')
     copyEmptyForm.setAttribute('id', `form-${currentFormCount}`)
@@ -31,41 +32,62 @@ function addForm(e) {
 //     }
 // });
 
-function updateForms() {
-    let count = 0;
-    // console.log('before')
-    for (let form of container) {
-        // console.log(form)
-        const formRegex = RegExp(`form-(\\d){1}-`, 'g');
-        console.log(formRegex)
-        form.innerHTML = form.innerHTML.replace(formRegex, `form-${count++}-`)
-        // console.log(form.innerHTML)
-    }
+
+container.addEventListener("click", deleteForm)
+
+function updateElementIndex(el, prefix, ndx) {
+    var id_regex = new RegExp('(' + prefix + '-\\d+)');
+    var replacement = prefix + '-' + ndx;
+    if ($(el).attr("for")) $(el).attr("for", $(el).attr("for").replace(id_regex, replacement));
+    if (el.id) el.id = el.id.replace(id_regex, replacement);
+    if (el.name) el.name = el.name.replace(id_regex, replacement);
 }
 
-container.addEventListener("click", deleteForm) 
-
-function deleteForm(event) 
-{
+function deleteForm(event) {
     if (event.target.classList.contains("delete-image-form")) {
+        if (event) {
+            event.preventDefault();
+        }
+        console.log('delete button clicked')
+        prefix = 'educationdetails_set'
         const currentForms = document.getElementsByClassName('personalDetail-name')
-        let currentFormCount = currentForms.length //+ 1
-        event.preventDefault();
+        let total = currentForms.length //+ 1
         event.target.parentElement.parentElement.remove();
-        // console.log(currentFormCount)
-        currentFormCount--;
-        updateForms();
-        totalNewForms.setAttribute('value', `${currentFormCount + 1}`);
-        // console.log(event)
-        // console.log(event.target.parentElement.parentElement.remove())
+        // var total = parseInt($('#id_' + prefix + '-TOTAL_FORMS').val());
+        if (total > 1) {
+            // btn.closest('.formset-row').remove();
+            var forms = $('.personalDetail-name');
+            $('#id_' + prefix + '-TOTAL_FORMS').val(forms.length);
+            for (var i = 0, formCount = forms.length; i < formCount; i++) {
+                $(forms.get(i)).find(':input').each(function () {
+                    updateElementIndex(this, prefix, i);
+                });
+            }
+        }
     }
 }
 
-// const delete_form = document.getElementByClassName('delete-image-form')
-// delete_form.addEventListener("click", someFunction)
-// function someFunction(event) {
-//     event.preventDefault();
-//     console.log('clicked')
+// function updateForms() {
+//     let count = 0;
+//     for (let form of container) {
+//         console.log(form.classList)
+//         const formRegex = RegExp(`form-(\\d){1}-`, 'g');
+//         form.innerHTML = form.innerHTML.replace(formRegex, `form-${count++}-`)
+//     }
+// }
+//
+// function deleteForm(event)
+// {
+//     if (event.target.classList.contains("delete-image-form")) {
+//         const currentForms = document.getElementsByClassName('personalDetail-name')
+//         let currentFormCount = currentForms.length //+ 1
+//         console.log(currentFormCount)
+//         event.preventDefault();
+//         event.target.parentElement.parentElement.remove();
+//         currentFormCount--;
+//         updateForms();
+//         totalNewForms.setAttribute('value', `${currentFormCount}`);
+//     }
 // }
 
 
