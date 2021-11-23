@@ -1,0 +1,12 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Email Verification</title>
+</head>
+<body>
+<h1>Welcome to Pentest</h1>
+<h3>Dear {{ request.session.name }}, you have registered successfully on Pentest. To complete the registration process, please verify your email by clicking on the link below.</h3>
+<a href="http://{{request.session.current_site}}{% url 'users:activate' uidb64=request.session.uid token=request.session.token %}">http://{{request.session.current_site}}{% url 'users:activate' uidb64=request.session.uid token=request.session.token %} </a>
+</body>
+</html>

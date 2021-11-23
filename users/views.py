@@ -6,7 +6,7 @@ from django.contrib import messages
 from django.contrib.auth import login, logout, authenticate
 from django.contrib.auth.decorators import login_required
 from django.contrib.sites.shortcuts import get_current_site
-from django.shortcuts import redirect, render
+from django.shortcuts import redirect, render, get_object_or_404
 from django.urls import reverse, reverse_lazy
 from django.utils.encoding import force_bytes, force_text
 from django.utils.http import urlsafe_base64_decode, urlsafe_base64_encode
@@ -21,7 +21,7 @@ from users.models import (AddressDetails, ExperienceDetails, Profile,
                           TrainingDetails, User, EducationDetails)
 from users.tasks import send_mail_func
 from .tokens import account_activation_token
-
+from django.http import HttpResponse, HttpResponseNotAllowed
 
 class PersonalInfoView(View):
     template_name = 'users/personal_info.html'
@@ -111,7 +111,8 @@ class EducationInfoView(View):
         formset = EducationFormSet(request.POST, instance=request.user)
         if formset.is_valid():
             formset.save()
-            return redirect(reverse_lazy('users:training_info'))
+            print("save now")
+            return redirect(reverse('users:training_info'))
         context = {
             'formset': formset
         }
@@ -140,7 +141,6 @@ class TrainingInfoView(View):
             formset.save()
             return redirect(reverse_lazy('users:work_info'))
         return render(request, self.template_name, context)
-
 
 # class TrainingInfoView(View):
 #     template_name = 'users/training_info.html'
@@ -273,21 +273,21 @@ def user_register(request):
             current_site = get_current_site(request)
             uid = urlsafe_base64_encode(force_bytes(user.pk))
             token = account_activation_token.make_token(user)
-            print("current-domain", current_site)
-            print('current_uid', uid)
-            print('current_token', token)
+            print("current-domain", str(current_site))
+            print('current_uid', type(uid))
+            print('current_token', type(token))
 
             if not user.is_verified:
-                send_mail_func.delay(
-                    # email, uid=uid, token=token
-                    email=email, current_site=current_site, uid=uid, token=token
-                    # user_id=user.pk
-                    # current_site=current_site,
-                    # uid=uid,
-                    # token=token
+                status = send_mail_func.delay(
+                    email=email, current_site=str(current_site), uid=uid, token=token
                 )
                 messages.success(request, "Check your email!")
-            return redirect("users:login")
+                messages.add_message(request, messages.INFO, 'Hello world.')
+            request.session['current_site'] = str(current_site)
+            request.session['uid'] = uid
+            request.session['token'] = token
+
+            return redirect("users:verify-email")
 
     context = {
         'form': form
@@ -356,3 +356,16 @@ def activate_user(request, uidb64, token):
         return redirect(reverse('users:login'))
 
     return render(request, 'users/activate-failed.html')
+
+def delete_single_form(request,pk):
+    single_form = get_object_or_404(EducationDetails, id=pk)
+
+    if request.method == 'POST':
+        single_form.delete()
+        return HttpResponse("")
+
+    return HttpResponseNotAllowed(
+        [
+            "POST",
+        ]
+    )

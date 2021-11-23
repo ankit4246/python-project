@@ -20,18 +20,18 @@
     </div>
 
     {% if messages %}
-    <div class="row">
-        <div class="offset-md-4 col-md-4">
+        <div class="row">
+            <div class="offset-md-4 col-md-4">
 
-            {% for message in messages %}
-            <div class="alert alert-dismissible alert-{{ message.tags }}" role="alert">
-                {{ message }}
+                {% for message in messages %}
+                    <div class="alert alert-dismissible alert-{{ message.tags }}" role="alert">
+                        {{ message }}
+                    </div>
+                {% endfor %}
             </div>
-            {% endfor %}
         </div>
-    </div>
     {% endif %}
-    
+
     <div class="mainContent">
         <form action="{% url 'users:login' %}" method="POST">
             <div class="personalDetail-name">
@@ -39,7 +39,7 @@
                 <div class="personalDetail-fname">
                     <h4>{{ form.username.label_tag }}</h4>
                     <!-- <input type="text" id="FirstName" name="FirstName" placeholder="First Name" required> -->
-                    {{form.username}}
+                    {{ form.username }}
                 </div>
                 <div class="personalDetail-fname">
                     <h4>{{ form.password.label_tag }}</h4>
@@ -50,7 +50,12 @@
                     <input type="button" value="Skip" class="formButton">
                     <input type="submit" value="Save" class="formButton">
                 </div>
+                <div class="personalDetail-fname">
+                    <a href="{% url 'users:register' %}">Register</a>
+
+                </div>
             </div>
+
         </form>
     </div>
 </section>

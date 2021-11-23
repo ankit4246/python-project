@@ -2,8 +2,26 @@ from django.contrib.auth.base_user import AbstractBaseUser, BaseUserManager
 from django.contrib.auth.models import PermissionsMixin
 from django.db import models
 
-
 # Create your models here.
+MONTH_CHOICES = [('1', 'January'),
+                 ('2', 'February'),
+                 ('3', 'March'),
+                 ('4', 'April'),
+                 ('5', 'May'),
+                 ('6', 'June'),
+                 ('7', 'July'),
+                 ('8', 'August'),
+                 ('9', 'September'),
+                 ('10', 'October'),
+                 ('11', 'November'),
+                 ('12', 'December'),
+                 ]
+YEAR_CHOICES = [('1999', '1999'),
+                ('2001', '2001'),
+                ('2002', '2002'),
+                ]
+
+
 class UserManager(BaseUserManager):
 
     def create_user(self, email, password=None):
@@ -99,8 +117,8 @@ class AddressDetails(models.Model):
     province = models.ForeignKey('Province', models.DO_NOTHING, blank=True, null=True)
     country = models.ForeignKey('Country', models.DO_NOTHING, blank=True, null=True)
     district = models.ForeignKey('District', models.DO_NOTHING, blank=True, null=True)
-    local_body = models.CharField(max_length=100, blank=True, null=True) ############################
-    mobile_no = models.CharField(max_length=20, blank=True, null=True) ##########################
+    local_body = models.CharField(max_length=100, blank=True, null=True)  ############################
+    mobile_no = models.CharField(max_length=20, blank=True, null=True)  ##########################
     ward_no = models.IntegerField(blank=True, null=True)
     tole = models.CharField(max_length=100, blank=True, null=True)
     house_no = models.CharField(max_length=100, blank=True, null=True)
@@ -131,20 +149,23 @@ class EducationDetails(models.Model):
     institution_name = models.CharField(max_length=150, blank=True, null=True)
     per_gpa_type = models.CharField(max_length=100, blank=True, null=True)
     per_gpa_value = models.DecimalField(max_digits=3, decimal_places=2, blank=True, null=True)
-    passed_date = models.DateField(blank=True, null=True)
+    passed_month = models.CharField(max_length=2, blank=True, null=True)
+    passed_year = models.CharField(max_length=4,blank=True, null=True)
     user = models.ForeignKey(User, models.DO_NOTHING, blank=True, null=True)
-
+    
+    def __str__(self):
+        return self.institution_name
 
 class ExperienceDetails(models.Model):
     institute_name = models.CharField(max_length=100, blank=True, null=True)
-    location = models.CharField(max_length=150,blank=True, null=True)
+    location = models.CharField(max_length=150, blank=True, null=True)
     designation = models.CharField(max_length=100, blank=True, null=True)
     job_level = models.CharField(max_length=100, blank=True, null=True)
-    start_date = models.DateField(blank=True, null=True)
+    start_month = models.CharField(max_length=2, blank=True, null=True)
+    start_year = models.CharField(max_length=4, blank=True, null=True)
     is_current = models.BooleanField(blank=True, null=True)
     jd = models.CharField(max_length=255, blank=True, null=True)
     user = models.ForeignKey(User, models.DO_NOTHING, blank=True, null=True)
-
 
 class Province(models.Model):
     name = models.CharField(max_length=100, blank=True, null=True)
@@ -160,7 +181,8 @@ class TrainingDetails(models.Model):
     institute_name = models.CharField(max_length=100, blank=True, null=True)
     duration = models.IntegerField(blank=True, null=True)
     duration_type = models.CharField(max_length=100, blank=True, null=True)
-    completion_date = models.DateField(blank=True, null=True)
+    completion_month = models.CharField(max_length=2, blank=True, null=True)
+    completion_year = models.CharField(max_length=4, blank=True, null=True)
     user = models.ForeignKey(User, models.DO_NOTHING, blank=True, null=True)
 
 

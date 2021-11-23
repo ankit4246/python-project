@@ -20,20 +20,49 @@ function addForm(e) {
 
 // container.addEventListener("click", function (event) {
 //     if (event.target.classList.contains("delete-image-form")) {
-//         const currentForms = document.getElementsByClassName('personalDetail-name')
-//         let currentFormCount = currentForms.length //+ 1
+//         // const currentForms = document.getElementsByClassName('personalDetail-name')
+//         // let currentFormCount = currentForms.length //+ 1
 //         event.preventDefault();
-//         event.target.parentElement.remove();
-//         currentFormCount--;
-//         updateForms();
-//         totalNewForms.setAttribute('value', `${currentFormCount + 1}`);
+//         // event.target.parentElement.remove();
+//         // currentFormCount--;
+//         // updateForms();
+//         // totalNewForms.setAttribute('value', `${currentFormCount + 1}`);
+//         console.log(event)
 //     }
 // });
-//
-// function updateForms() {
-//     let count = 0;
-//     for (let form of container) {
-//         const formRegex = RegExp(`form-(\\d){1}-`, 'g');
-//         form.innerHTML = form.innerHTML.replace(formRegex, `form-${count++}-`)
-//     }
+
+container.addEventListener("click", deleteForm) 
+
+function deleteForm(event) 
+{
+    if (event.target.classList.contains("delete-image-form")) {
+        const currentForms = document.getElementsByClassName('personalDetail-name')
+        let currentFormCount = currentForms.length //+ 1
+        event.preventDefault();
+        event.target.parentElement.parentElement.remove();
+        console.log(currentFormCount)
+        currentFormCount--;
+        updateForms();
+        totalNewForms.setAttribute('value', `${currentFormCount + 1}`);
+        console.log(event)
+        console.log(event.target.parentElement.parentElement.remove())
+    }
+}
+
+// const delete_form = document.getElementByClassName('delete-image-form')
+// delete_form.addEventListener("click", someFunction)
+// function someFunction(event) {
+//     event.preventDefault();
+//     console.log('clicked')
 // }
+
+
+function updateForms() {
+    let count = 0;
+    for (let form of container) {
+        const formRegex = RegExp(`form-(\\d){1}-`, 'g');
+        console.log(formRegex)
+        form.innerHTML = form.innerHTML.replace(formRegex, `form-${count++}-`)
+        console.log(form.innerHTML)
+    }
+}
