@@ -52,9 +52,12 @@
                             <h4>Roles and Responsibilities</h4>
                             {{ formset.empty_form.jd }}
                         </div>
-                        <div class="personalDetail-fname">
+                        <!-- <div class="personalDetail-fname">
                             <h4>Delete</h4>
                             {{ formset.empty_form.DELETE }}
+                        </div> -->
+                        <div class="personalDetail-fname">
+                            <button type="button" name="del_btn{{ formset.empty_form.instance.id }}" value="Delete" class="delete-image-form">Delete</button>
                         </div>
                     </div>
                 </div>
@@ -102,9 +105,12 @@
                             <h4>Roles and Responsibilities</h4>
                             {{ form.jd }}
                         </div>
-                        <div class="personalDetail-fname">
+                        <!-- <div class="personalDetail-fname">
                             <h4>Delete</h4>
                             {{ form.DELETE }}
+                        </div> -->
+                        <div class="personalDetail-fname">
+                            <button type="button" name="del_btn{{ formset.empty_form.instance.id }}" value="Delete" class="delete-image-form">Delete</button>
                         </div>
                     </div>
 
