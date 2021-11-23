@@ -10,12 +10,10 @@
             <form id="form-container" class="form-delete" action="{% url 'users:education_info' %}" method="POST">
                 {% csrf_token %}
                 <div id='empty-form' class='hidden-form'>
-                    <div class="personalDetail-name">
                         <div class="maritalStatus">
                             <h4>Degree</h4>
                             {{ formset.empty_form.edu_level }}
                         </div>
-
                         <div class="personalDetail-fname">
                             <h4>Education Program</h4>
                             {{ formset.empty_form.faculty }}
@@ -38,20 +36,15 @@
                         <div class="marksSecured">
                             <h4>Graduation year</h4>
                             <div class="doubleInput">
-                                {{ formset.empty_form.passed_date }}
+                                {{ formset.empty_form.passed_month }}
+                                {{ formset.empty_form.passed_year }}
                             </div>
                         </div>
-                        <!-- <div class="personalDetail-fname">
-                            <h4>Delete</h4>
-                            {{ formset.empty_form.DELETE }}
-                        </div> -->
                         <div class="personalDetail-fname">
-                            <button type="button" name="del_btn{{ formset.empty_form.instance.id }}" value="Delete" class="delete-image-form">Delete</button>
-
+                            <button type="button" name="del_btn{{ formset.empty_form.instance.id }}" value="Delete"
+                                    class="delete-image-form">Delete
+                            </button>
                         </div>
-                    </div>
-                    <br>
-                    <!-- <hr> -->
                 </div>
                 {{ formset.management_form }}
                 {% for form in formset %}
@@ -86,20 +79,15 @@
                         <div class="marksSecured">
                             <h4>Graduation year</h4>
                             <div class="doubleInput">
-                                {{ form.passed_date }}
+                                {{ form.passed_month }}
+                                {{ form.passed_year }}
                             </div>
                         </div>
-                        <!-- <div class="personalDetail-fname">
-                            <h4>Delete</h4>
-                            {{ form.DELETE }}
-                        </div> -->
                         <div class="personalDetail-fname">
-                            <button type="button" hx-post="{% url 'users:delete-single-form' form.instance.id %}" class="delete-image-form" name="del_btn{{ form.instance.id }}" value="Delete">Delete</button>
-                            <!-- <button type="button" class="delete-image-form" name="del_btn{{ form.instance.id }}" value="Delete">Delete</button> -->
-
+                            <button type="button" hx-post="{% url 'users:delete-single-form' form.instance.id %}"
+                                    class="delete-image-form" name="del_btn{{ form.instance.id }}" value="Delete">Delete
+                            </button>
                         </div>
-                        <br>
-                        <!-- <hr> -->
                     </div>
                 {% endfor %}
 
