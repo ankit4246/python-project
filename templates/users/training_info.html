@@ -10,7 +10,7 @@
             <form id="form-container" action="{% url 'users:training_info' %}" method="POST">
                 {% csrf_token %}
                 <div id='empty-form' class='hidden-form'>
-                    <div class="personalDetail-name" id="personalDetail-name">
+                    <!-- <div class="personalDetail-name" id="personalDetail-name"> -->
                         <div class="personalDetail-fname">
                             <h4>Name of the Training</h4>
                             {{ formset.empty_form.name_of_training }}
@@ -43,7 +43,7 @@
                             <button type="button" name="del_btn{{ formset.empty_form.instance.id }}" value="Delete" class="delete-image-form">Delete</button>
 
                         </div>
-                    </div>
+                    <!-- </div> -->
                 </div>
 
 
