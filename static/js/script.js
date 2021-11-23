@@ -49,7 +49,6 @@ function deleteForm(event) {
             event.preventDefault();
         }
         console.log('delete button clicked')
-
         prefix = 'educationdetails_set'
         const currentForms = document.getElementsByClassName('personalDetail-name')
         let total = currentForms.length //+ 1
