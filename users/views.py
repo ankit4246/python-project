@@ -1,6 +1,9 @@
 import re
 import urllib
 import uuid
+import jwt
+from datetime import datetime, timedelta
+from django.conf import settings
 
 from django.contrib import messages
 from django.contrib.auth import login, logout, authenticate
@@ -18,10 +21,10 @@ from users.forms import RegisterForm, LoginForm, \
     BasicInfoUserForm, ProfileForm, AddressDetailsUserForm, TrainingForm, SocialMediaForm, EducationFormSet, \
     SocialFormSet
 from users.models import (AddressDetails, ExperienceDetails, Profile,
-                          TrainingDetails, User, EducationDetails)
+                        TrainingDetails, User, EducationDetails)
 from users.tasks import send_mail_func
 from .tokens import account_activation_token
-from django.http import HttpResponse, HttpResponseNotAllowed
+from django.http import HttpResponse, HttpResponseNotAllowed, Http404
 
 class PersonalInfoView(View):
     template_name = 'users/personal_info.html'
@@ -240,6 +243,15 @@ class SocialInfoView(View):
 #         fm = RegistrationForm()
 #         return render(request, 'users/registration.html', {'form':fm,})
 
+def generate_confirmation_token(pk):
+    payload = {
+        'confirm': pk,
+        'iat': datetime.utcnow(),
+        'exp': datetime.utcnow() + timedelta(days=3)
+    }
+    token = jwt.encode(payload, settings.SECRET_KEY, algorithm='HS256').decode('utf-8')
+    return token
+
 def user_register(request):
     """
     Register a user
@@ -272,22 +284,27 @@ def user_register(request):
 
             current_site = get_current_site(request)
             uid = urlsafe_base64_encode(force_bytes(user.pk))
-            token = account_activation_token.make_token(user)
+
+            # token = account_activation_token.make_token(user)
+            token_needed = generate_confirmation_token(user.pk)
+            
             print("current-domain", str(current_site))
             print('current_uid', type(uid))
-            print('current_token', type(token))
-
+            print('current_token', type(token_needed))
+            print('token', token_needed)
+            # link = settings.BASE_DIR + 'users/confirm_email?token={}'.format(token_needed)
+            # print("link", link)
             if not user.is_verified:
                 status = send_mail_func.delay(
-                    email=email, current_site=str(current_site), uid=uid, token=token
+                    # email=email, current_site=str(current_site), uid=uid, token=token_needed
+                    email=email, token=str(token_needed)
                 )
                 messages.success(request, "Check your email!")
                 messages.add_message(request, messages.INFO, 'Hello world.')
             request.session['current_site'] = str(current_site)
             request.session['uid'] = uid
-            request.session['token'] = token
-
-            return redirect("users:verify-email")
+            request.session['token'] = str(token_needed)
+            return redirect("users:login")
 
     context = {
         'form': form
@@ -339,23 +356,23 @@ class RegistrationView(TemplateView):
     template_name = 'users/registration.html'
 
 
-def activate_user(request, uidb64, token):
-    try:
-        uid = force_text(urlsafe_base64_decode(uidb64))
-        user = User.objects.get(pk=uid)
+# def activate_user(request, uidb64, token):
+#     try:
+#         uid = force_text(urlsafe_base64_decode(uidb64))
+#         user = User.objects.get(pk=uid)
 
-    except Exception as e:
-        user = None
+#     except Exception as e:
+#         user = None
 
-    if user and account_activation_token.check_token(user, token):
-        user.is_verified = True
-        user.save()
+#     if user and account_activation_token.check_token(user, token):
+#         user.is_verified = True
+#         user.save()
 
-        messages.add_message(request, messages.SUCCESS,
-                             'Email verified, you can now login')
-        return redirect(reverse('users:login'))
+#         messages.add_message(request, messages.SUCCESS,
+#                              'Email verified, you can now login')
+#         return redirect(reverse('users:login'))
 
-    return render(request, 'users/activate-failed.html')
+#     return render(request, 'users/activate-failed.html')
 
 def delete_single_form(request,pk):
     single_form = get_object_or_404(EducationDetails, id=pk)
@@ -369,3 +386,40 @@ def delete_single_form(request,pk):
             "POST",
         ]
     )
+
+
+def user_confirm_email(request, token):
+    
+    if request.user.is_authenticated:
+        return redirect('/')
+
+    # token = request.GET.get('token')
+    if token is None:
+        raise Http404()
+    print("Output_token", token)
+    try:
+        payload = jwt.decode(token, settings.SECRET_KEY, algorithm='HS256')
+    except jwt.ExpiredSignature:
+        messages.error(request, 'Confirmation token has expired.')
+        return redirect('/')
+    except jwt.DecodeError:
+        messages.error(request, 'Error decoding confirmation token.')
+        return redirect('/')
+    except jwt.InvalidTokenError:
+        messages.error(request, 'Invalid confirmation token.')
+        return redirect('/')
+
+    try:
+        user = User.objects.get(pk=payload['confirm'])
+        print(user)
+    except User.DoesNotExist:
+        messages.error(request, 'Account not found.')
+        return redirect('/')
+
+    if user.is_verified:
+        messages.error(request, "Email already confirmed.")
+    else:
+        user.is_verified = True
+        user.save()
+        messages.success(request, "Email confirmed.")
+    return redirect('users:login')
