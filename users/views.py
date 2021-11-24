@@ -115,7 +115,6 @@ class EducationInfoView(View):
         formset = EducationFormSet(request.POST, instance=request.user)
         if formset.is_valid():
             formset.save()
-            print("save now")
             return redirect(reverse('users:training_info'))
         context = {
             'formset': formset

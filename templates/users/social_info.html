@@ -10,7 +10,7 @@
             <form id="form-container" action="{% url 'users:social_info' %}" method="POST">
                 {% csrf_token %}
                 <div id='empty-form' class='hidden-form'>
-                    <!-- <div class="personalDetail-name"> -->
+                    <div class="personalDetail-name formset-row">
                         <div class="personalDetail-fname">
                             <h4>Account Name</h4>
                             {{ formset.empty_form.social_media }}
@@ -19,56 +19,49 @@
                             <h4>URL</h4>
                             {{ formset.empty_form.link }}
                         </div>
-                        <!-- <div class="personalDetail-fname">
-                            <h4>Delete</h4>
-                            {{ formset.empty_form.DELETE }}
-                        </div> -->
                         <div class="personalDetail-fname">
-                            <button type="button" name="del_btn{{ formset.empty_form.instance.id }}" value="Delete" class="delete-image-form">Delete</button>
+                            <button type="button" name="del_btn{{ formset.empty_form.instance.id }}" value="Delete"
+                                    class="delete-image-form">Delete
+                            </button>
                         </div>
-                    <!-- </div> -->
+                    </div>
                 </div>
-
                 {{ formset.management_form }}
                 {% for form in formset %}
                     {% for hidden in form.hidden_fields %}
                         {{ hidden }}
                     {% endfor %}
-
-                    <div class="personalDetail-name">
-
-                        <div class="personalDetail-fname">
-                            <h4>Account Name</h4>
-                            {{ form.social_media }}
-                        </div>
-                        <div class="media-url">
-                            <h4>URL</h4>
-                            {{ form.link }}
-                        </div>
-                        <!-- <div class="personalDetail-fname">
-                            <h4>Delete</h4>
-                            {{ form.DELETE }}
-                        </div> -->
-                        <div class="personalDetail-fname">
-                            <button type="button" name="del_btn{{ formset.empty_form.instance.id }}" value="Delete" class="delete-image-form">Delete</button>
+                    <div class="formset-row">
+                        <div class="personalDetail-name">
+                            <div class="personalDetail-fname">
+                                <h4>Account Name</h4>
+                                {{ form.social_media }}
+                            </div>
+                            <div class="media-url">
+                                <h4>URL</h4>
+                                {{ form.link }}
+                            </div>
+                            <div class="personalDetail-fname">
+                                <button type="button" name="del_btn{{ formset.empty_form.instance.id }}" value="Delete"
+                                        class="delete-image-form">Delete
+                                </button>
+                            </div>
                         </div>
                     </div>
-
                 {% endfor %}
-
-
                 <div id="add-form" class="addSection">
                     + Add More Account
                 </div>
-
                 <div class="formSubmitBtn">
-                    <input type="button" value="Skip" class="formButton">
-                    <input type="submit" value="Save" class="formButton">
+                    <input type="button" value="Skip" class="formButtonSkip">
+                    <input type="submit" value="Save" class="formButtonSave">
                 </div>
             </form>
         </div>
     </section>
     <script>
         const totalNewForms = document.getElementById("id_socialmedias_set-TOTAL_FORMS")
+        document.querySelector('#sidebar6').classList.add('activeSideBar');
+
     </script>
 {% endblock %}

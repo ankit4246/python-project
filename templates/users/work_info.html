@@ -11,53 +11,51 @@
                 {% csrf_token %}
 
                 <div id='empty-form' class='hidden-form'>
-                    <div class="personalDetail-name">
-                        <div class="personalDetail-fname">
-                            <h4>Organization Name</h4>
-                            {{ formset.empty_form.institute_name }}
-                        </div>
-                        <div class="personalDetail-fname">
-                            <h4>Job Location</h4>
-                            {{ formset.empty_form.location }}
-                        </div>
-                        <div class="maritalStatus">
-                            <h4>Job Title</h4>
-                            {{ formset.empty_form.designation }}
-                        </div>
-                        <div class="maritalStatus">
-                            <h4>Job Level</h4>
-                            {{ formset.empty_form.job_level }}
-                        </div>
-                        <div class="marksSecured">
-                            <h4>Start Date</h4>
-                            <div class="doubleInput">
-                                {{ formset.empty_form.start_month }}
-                                {{ formset.empty_form.start_year }}
+                    <div class="formset-row">
+                        <div class="personalDetail-name">
+                            <div class="personalDetail-fname">
+                                <h4>Organization Name</h4>
+                                {{ formset.empty_form.institute_name }}
+                            </div>
+                            <div class="personalDetail-fname">
+                                <h4>Job Location</h4>
+                                {{ formset.empty_form.location }}
+                            </div>
+                            <div class="maritalStatus">
+                                <h4>Job Title</h4>
+                                {{ formset.empty_form.designation }}
+                            </div>
+                            <div class="maritalStatus">
+                                <h4>Job Level</h4>
+                                {{ formset.empty_form.job_level }}
+                            </div>
+                            <div class="marksSecured">
+                                <h4>Start Date</h4>
+                                <div class="doubleInput">
+                                    {{ formset.empty_form.start_month }}
+                                    {{ formset.empty_form.start_year }}
+                                </div>
+                            </div>
 
+                            <div class="personalDetail-gender">
+                                <!-- <h4>Gender</h4> -->
+                                <div class="working">
+                                    {{ formset.empty_form.is_current }}
+                                    <label for="male">Is Currently Working Here?</label>
+                                </div>
                             </div>
                         </div>
 
-                        <div class="personalDetail-gender">
-                            <!-- <h4>Gender</h4> -->
-                            <div class="working">
-                                {{ formset.empty_form.is_current }}
-                                <label for="male">Is Currently Working Here?</label>
+                        <div class="personalDetail-name">
+                            <div class="personalDetail-fname">
+                                <h4>Roles and Responsibilities</h4>
+                                {{ formset.empty_form.jd }}
                             </div>
-                        </div>
-
-                    </div>
-
-                    <div class="personalDetail-name">
-                        <div class="personalDetail-fname">
-                            <h4>Roles and Responsibilities</h4>
-                            {{ formset.empty_form.jd }}
-                        </div>
-                        <!-- <div class="personalDetail-fname">
-                            <h4>Delete</h4>
-                            {{ formset.empty_form.DELETE }}
-                        </div> -->
-                        <div class="personalDetail-fname">
-                            <button type="button" name="del_btn{{ formset.empty_form.instance.id }}" value="Delete" class="delete-image-form">Delete</button>
+                            <div class="personalDetail-fname">
+                                <button type="button" name="del_btn{{ formset.empty_form.instance.id }}" value="Delete"
+                                        class="delete-image-form">Delete
+                                </button>
+                            </div>
                         </div>
                     </div>
                 </div>
@@ -67,66 +65,66 @@
                     {% for hidden in form.hidden_fields %}
                         {{ hidden }}
                     {% endfor %}
-                    <div class="personalDetail-name">
-                        <div class="personalDetail-fname">
-                            <h4>Organization Name</h4>
-                            {{ form.institute_name }}
-                        </div>
-                        <div class="personalDetail-fname">
-                            <h4>Job Location</h4>
-                            {{ form.location }}
-                        </div>
-                        <div class="maritalStatus">
-                            <h4>Job Title</h4>
-                            {{ form.designation }}
-                        </div>
-                        <div class="maritalStatus">
-                            <h4>Job Level</h4>
-                            {{ form.job_level }}
-                        </div>
-                        <div class="marksSecured">
-                            <h4>Start Date</h4>
-                            <div class="doubleInput">
-                                {{ form.start_month }}
-                                {{ form.start_year }}
+                    <div class="formset-row">
+                        <div class="personalDetail-name">
+                            <div class="personalDetail-fname">
+                                <h4>Organization Name</h4>
+                                {{ form.institute_name }}
+                            </div>
+                            <div class="personalDetail-fname">
+                                <h4>Job Location</h4>
+                                {{ form.location }}
+                            </div>
+                            <div class="maritalStatus">
+                                <h4>Job Title</h4>
+                                {{ form.designation }}
+                            </div>
+                            <div class="maritalStatus">
+                                <h4>Job Level</h4>
+                                {{ form.job_level }}
+                            </div>
+                            <div class="marksSecured">
+                                <h4>Start Date</h4>
+                                <div class="doubleInput">
+                                    {{ form.start_month }}
+                                    {{ form.start_year }}
+                                </div>
+                            </div>
+
+                            <div class="personalDetail-gender">
+                                <div class="working">
+                                    {{ form.is_current }}
+                                    <label for="male">Is Currently Working Here?</label>
+                                </div>
                             </div>
                         </div>
 
-                        <div class="personalDetail-gender">
-                            <!-- <h4>Gender</h4> -->
-                            <div class="working">
-                                {{ form.is_current }}
-                                <label for="male">Is Currently Working Here?</label>
+                        <div class="personalDetail-name">
+                            <div class="personalDetail-fname">
+                                <h4>Roles and Responsibilities</h4>
+                                {{ form.jd }}
+                            </div>
+
+                            <div class="personalDetail-fname">
+                                <button type="button" name="del_btn{{ formset.empty_form.instance.id }}" value="Delete"
+                                        class="delete-image-form">Delete
+                                </button>
                             </div>
                         </div>
                     </div>
-                    <div class="personalDetail-name">
-                        <div class="personalDetail-fname">
-                            <h4>Roles and Responsibilities</h4>
-                            {{ form.jd }}
-                        </div>
-                        <!-- <div class="personalDetail-fname">
-                            <h4>Delete</h4>
-                            {{ form.DELETE }}
-                        </div> -->
-                        <div class="personalDetail-fname">
-                            <button type="button" name="del_btn{{ formset.empty_form.instance.id }}" value="Delete" class="delete-image-form">Delete</button>
-                        </div>
-                    </div>
-
                 {% endfor %}
-
                 <div id="add-form" class="addSection">
                     + Add More Experience Detail
                 </div>
                 <div class="formSubmitBtn">
-                    <input type="button" value="Skip" class="formButton">
-                    <input type="submit" value="Save" class="formButton">
+                    <input type="button" value="Skip" class="formButtonSkip">
+                    <input type="submit" value="Save" class="formButtonSave">
                 </div>
             </form>
         </div>
     </section>
     <script>
         const totalNewForms = document.getElementById("id_experiencedetails_set-TOTAL_FORMS")
+        document.querySelector('#sidebar5').classList.add('activeSideBar');
     </script>
 {% endblock %}

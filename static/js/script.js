@@ -8,10 +8,10 @@ function addForm(e) {
         e.preventDefault();
     }
     console.log('add button clicked')
-    const currentForms = document.getElementsByClassName('personalDetail-name')
+    const currentForms = document.getElementsByClassName('formset-row')
     const currentFormCount = currentForms.length
     const copyEmptyForm = document.getElementById("empty-form").cloneNode(true)
-    copyEmptyForm.setAttribute('class', 'personalDetail-name')
+    copyEmptyForm.setAttribute('class', 'formset-row')
     copyEmptyForm.setAttribute('id', `form-${currentFormCount}`)
     const regex = new RegExp('__prefix__', 'g')
     copyEmptyForm.innerHTML = copyEmptyForm.innerHTML.replace(regex, currentFormCount)
@@ -50,13 +50,13 @@ function deleteForm(event) {
         }
         console.log('delete button clicked')
         prefix = 'educationdetails_set'
-        const currentForms = document.getElementsByClassName('personalDetail-name')
+        const currentForms = document.getElementsByClassName('formset-row')
         let total = currentForms.length //+ 1
-        event.target.parentElement.parentElement.remove();
+        event.target.parentElement.parentElement.parentElement.remove();
         // var total = parseInt($('#id_' + prefix + '-TOTAL_FORMS').val());
         if (total > 1) {
             // btn.closest('.formset-row').remove();
-            var forms = $('.personalDetail-name');
+            var forms = $('.formset-row');
             $('#id_' + prefix + '-TOTAL_FORMS').val(forms.length);
             for (var i = 0, formCount = forms.length; i < formCount; i++) {
                 $(forms.get(i)).find(':input').each(function () {

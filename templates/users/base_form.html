@@ -33,32 +33,32 @@
         <img src="{% static 'image/logo.png' %}" alt="logo" srcset="">
     </div>
     {% if user.is_authenticated %}
-        Hi {{ user.email }}!
-        <a href="{% url 'users:logout' %}">Log out</a>
+        <p class="userDisplay">Hi {{ user.first_name }}!</p>
+
     {% endif %}
 
     <a href="{% url 'users:personal_info' %}">
-        <div class="sidebarBtn "><i class="far fa-address-card"></i>
+        <div class="sidebarBtn " id="sidebar1"><i class="far fa-address-card"></i>
             <p>Personal Details</p>
         </div>
     </a>
     <a href="{% url 'users:address_info' %}">
-        <div class="sidebarBtn "><i class="far fa-map-marker-alt"></i>
+        <div class="sidebarBtn " id="sidebar2"><i class="far fa-map-marker-alt"></i>
             <p>Address Details</p>
         </div>
     </a>
     <a href="{% url 'users:education_info' %}">
-        <div class="sidebarBtn "><i class="far fa-graduation-cap"></i>
+        <div class="sidebarBtn " id="sidebar3"><i class="far fa-graduation-cap"></i>
             <p>Education Details</p>
         </div>
     </a>
     <a href="{% url 'users:training_info' %}">
-        <div class="sidebarBtn"><i class="far fa-certificate"></i>
+        <div class="sidebarBtn" id="sidebar4"><i class="far fa-certificate"></i>
             <p>Training</p>
         </div>
     </a>
     <a href="{% url 'users:work_info' %}">
-        <div class="sidebarBtn"><i class="far fa-briefcase"></i>
+        <div class="sidebarBtn" id="sidebar5"><i class="far fa-briefcase"></i>
             <p>Work Experience</p>
         </div>
     </a>
@@ -66,11 +66,16 @@
 
     <a href="{% url 'users:social_info' %}">
 
-        <div class="sidebarBtn"><i class="far fa-address-book"></i>
+        <div class="sidebarBtn" id="sidebar6"><i class="far fa-address-book"></i>
             <p>Social Media Accounts</p>
         </div>
     </a>
 
+    <a href="{% url 'users:logout' %}">
+        <div class="sidebarBtn" id="logout"><i class="far fa-sign-out-alt"></i>
+            <p>Log Out</p>
+        </div>
+    </a>
 </section>
 
 {% block content %}
@@ -94,6 +99,7 @@
         document.querySelector(".collapseBar").style.display = "block";
     }
 </script>
+
 <script src="{% static 'js/script.js' %}"></script>
 
 </body>

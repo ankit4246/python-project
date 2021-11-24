@@ -7,10 +7,10 @@
             <p>Training Details</p>
         </div>
         <div class="mainContent">
-            <form id="form-container" action="{% url 'users:training_info' %}" method="POST">
+            <div id="form-container" action="{% url 'users:training_info' %}" method="POST">
                 {% csrf_token %}
                 <div id='empty-form' class='hidden-form'>
-                    <!-- <div class="personalDetail-name" id="personalDetail-name"> -->
+                    <div class="personalDetail-name formset-row">
                         <div class="personalDetail-fname">
                             <h4>Name of the Training</h4>
                             {{ formset.empty_form.name_of_training }}
@@ -30,20 +30,16 @@
                         <div class="marksSecured">
                             <h4>Completion Date</h4>
                             <div class="doubleInput">
-                                <!-- {{ formset.empty_form.completion_date }} -->
-                                {{ form.completion_month }}
-                                {{ form.completion_year }}
+                                {{ formset.empty_form.completion_month }}
+                                {{ formset.empty_form.completion_year }}
                             </div>
                         </div>
-                        <!-- <div class="personalDetail-fname">
-                            <h4>Delete</h4>
-                            {{ formset.empty_form.DELETE }}
-                        </div> -->
                         <div class="personalDetail-fname">
-                            <button type="button" name="del_btn{{ formset.empty_form.instance.id }}" value="Delete" class="delete-image-form">Delete</button>
-
+                            <button type="button" name="del_btn{{ formset.empty_form.instance.id }}" value="Delete"
+                                    class="delete-image-form">Delete
+                            </button>
                         </div>
-                    <!-- </div> -->
+                    </div>
                 </div>
 
 
@@ -52,38 +48,37 @@
                     {% for hidden in form.hidden_fields %}
                         {{ hidden }}
                     {% endfor %}
-                    <div class="personalDetail-name" id="personalDetail-name">
-                        <div class="personalDetail-fname">
-                            <h4>Name of the Training</h4>
-                            {{ form.name_of_training }}
-                        </div>
-                        <div class="personalDetail-fname">
-                            <h4>Institute Name</h4>
-                            {{ form.institute_name }}
-                        </div>
-
-                        <div class="marksSecured">
-                            <h4>Training Duration</h4>
-                            <div class="doubleInput">
-                                {{ form.duration }}
-                                {{ form.duration_type }}
+                    <div class="formset-row">
+                        <div class="personalDetail-name" id="personalDetail-name">
+                            <div class="personalDetail-fname">
+                                <h4>Name of the Training</h4>
+                                {{ form.name_of_training }}
                             </div>
-                        </div>
-                        <div class="marksSecured">
-                            <h4>Completion Date</h4>
-                            <div class="doubleInput">
-                                {{ form.completion_month }}
-                                {{ form.completion_year }}
+                            <div class="personalDetail-fname">
+                                <h4>Institute Name</h4>
+                                {{ form.institute_name }}
                             </div>
-                        </div>
-                        <!-- <div class="personalDetail-fname">
-                            <h4>Delete</h4>
-                            {{ form.DELETE }}
-                        </div> -->
-                        <div class="personalDetail-fname">
-                            <button type="button" hx-post="{% url 'users:delete-single-form' form.instance.id %}" class="delete-image-form" name="del_btn{{ form.instance.id }}" value="Delete">Delete</button>
-                            <!-- <button type="button" class="delete-image-form" name="del_btn{{ form.instance.id }}" value="Delete">Delete</button> -->
 
+                            <div class="marksSecured">
+                                <h4>Training Duration</h4>
+                                <div class="doubleInput">
+                                    {{ form.duration }}
+                                    {{ form.duration_type }}
+                                </div>
+                            </div>
+                            <div class="marksSecured">
+                                <h4>Completion Date</h4>
+                                <div class="doubleInput">
+                                    {{ form.completion_month }}
+                                    {{ form.completion_year }}
+                                </div>
+                            </div>
+                            <div class="personalDetail-fname">
+                                <button type="button" hx-post="{% url 'users:delete-single-form' form.instance.id %}"
+                                        class="delete-image-form" name="del_btn{{ form.instance.id }}" value="Delete">
+                                    Delete
+                                </button>
+                            </div>
                         </div>
                     </div>
                 {% endfor %}
@@ -95,14 +90,15 @@
                 </div>
 
                 <div class="formSubmitBtn">
-                    <input type="button" value="Skip" class="formButton">
-                    <input type="submit" value="Save" class="formButton">
+                    <input type="button" value="Skip" class="formButtonSkip">
+                    <input type="submit" value="Save" class="formButtonSave">
                 </div>
-            </form>
-        </div>
+                </form>
+            </div>
     </section>
     <script>
         const totalNewForms = document.getElementById("id_trainingdetails_set-TOTAL_FORMS")
+        document.querySelector('#sidebar4').classList.add('activeSideBar');
     </script>
 
 {% endblock %}
