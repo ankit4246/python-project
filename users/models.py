@@ -16,10 +16,11 @@ MONTH_CHOICES = [('1', 'January'),
                  ('11', 'November'),
                  ('12', 'December'),
                  ]
-YEAR_CHOICES = [('1999', '1999'),
-                ('2001', '2001'),
-                ('2002', '2002'),
-                ]
+import datetime
+
+YEAR_CHOICES = []
+for r in range(1960, (datetime.datetime.now().year + 1)):
+    YEAR_CHOICES.append((r, r))
 
 
 class UserManager(BaseUserManager):
@@ -150,11 +151,12 @@ class EducationDetails(models.Model):
     per_gpa_type = models.CharField(max_length=100, blank=True, null=True)
     per_gpa_value = models.DecimalField(max_digits=3, decimal_places=2, blank=True, null=True)
     passed_month = models.CharField(max_length=2, blank=True, null=True)
-    passed_year = models.CharField(max_length=4,blank=True, null=True)
+    passed_year = models.CharField(max_length=4, blank=True, null=True)
     user = models.ForeignKey(User, models.DO_NOTHING, blank=True, null=True)
-    
+
     def __str__(self):
         return self.institution_name
+
 
 class ExperienceDetails(models.Model):
     institute_name = models.CharField(max_length=100, blank=True, null=True)
@@ -166,6 +168,7 @@ class ExperienceDetails(models.Model):
     is_current = models.BooleanField(blank=True, null=True)
     jd = models.CharField(max_length=255, blank=True, null=True)
     user = models.ForeignKey(User, models.DO_NOTHING, blank=True, null=True)
+
 
 class Province(models.Model):
     name = models.CharField(max_length=100, blank=True, null=True)
