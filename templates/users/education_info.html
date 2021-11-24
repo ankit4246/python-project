@@ -93,6 +93,7 @@
                                     Delete
                                 </button>
                             </div>
+                            \
                         </div>
                     </div>
                 {% endfor %}
@@ -103,7 +104,7 @@
                 </div>
 
                 <div class="formSubmitBtn">
-                    <input type="button" value="Skip" class="formButtonSkip">
+                    <a href="{% url 'users:training_info' %}"><input type="button" value="Skip" class="formButtonSkip"></a>
                     <input type="submit" value="Save" class="formButtonSave">
                 </div>
             </form>
