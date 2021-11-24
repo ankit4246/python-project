@@ -9,7 +9,7 @@
         <div class="mainContent">
             <form action="{% url 'users:personal_info' %}" method="POST">
                 {% csrf_token %}
-                <div class='personalDetail-name'>
+                <div class='personalDetail-name formset-row'>
                     <div class="personalDetail-fname">
                         <h4>First Name</h4>
                         {{ user_form.first_name }}
@@ -69,22 +69,14 @@
 
 
                 <div class="formSubmitBtn">
-                    <input type="button" value="Skip" class="formButton">
-                    <input type="submit" value="Save" class="formButton">
+                    <input type="button" value="Skip" class="formButtonSkip">
+                    <input type="submit" value="Save" class="formButtonSave">
                 </div>
             </form>
         </div>
     </section>
-    <script>
-        const sideCollapse = () => {
-            document.querySelector(".sideBar").style.width = "50px";
-            document.querySelector(".collapseBar").style.display = "none";
-            document.querySelector(".showBar").style.display = "block";
-        }
-        const sideShow = () => {
-            document.querySelector(".sideBar").style.width = "290px";
-            document.querySelector(".showBar").style.display = "none";
-            document.querySelector(".collapseBar").style.display = "block";
-        }
-    </script>
+
+
+\
+
 {% endblock %}

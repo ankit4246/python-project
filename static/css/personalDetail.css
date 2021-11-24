@@ -1,235 +1,327 @@
 @import url("https://fonts.googleapis.com/css2?family=Poppins&display=swap");
+
 * {
-  font-family: "Poppins", sans-serif;
-  padding: 0;
-  margin: 0;
+    font-family: "Poppins", sans-serif;
+    padding: 0;
+    margin: 0;
 }
 
 .hidden-form {
-  display: none;
+    display: none;
 }
 
 :root {
-  --Primary-Text-Color: #5a5a5a;
-  --Primary-Text-Strong: #000000;
-  --Secondary-Background_Color: #e5e5e5;
-  --Active-color: #035dc8;
+    --Primary-Text-Color-hover: #5a5a5a;
+    --Primary-Text-Color: #fff;
+    --Primary-Text-Strong: #000000;
+    --Secondary-Background_Color: #5965F9;
+    --Active-color: #fff;
 }
+
 body {
-  background-color: white;
-  min-height: 100vh;
-  width: 100%;
-  display: flex;
-  overflow: initial !important;
+    background-color: white;
+    min-height: 100vh;
+    width: 100%;
+    display: flex;
+    overflow: initial !important;
 }
 
 /* start sidebar  */
 .sideBar {
-  width: 290px;
-  height: 100vh;
-  overflow: hidden;
-  background-color: var(--Secondary-Background_Color);
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  position: relative;
-  transition: 0.5s;
-  position: sticky;
-  top: 0;
+    width: 290px;
+    height: 100vh;
+    overflow: hidden;
+    background-color: var(--Secondary-Background_Color);
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    position: relative;
+    transition: 0.5s;
+    position: sticky;
+    top: 0;
 }
+
 .logo {
-  height: 100px;
-  width: 100%;
-  position: absolute;
-  top: 0px;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  font-size: 24px;
-  /* background-color: blue; */
+    height: 100px;
+    width: 100%;
+    position: absolute;
+    top: 0px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: 24px;
+    /* background-color: blue; */
 }
+
 .logo img {
-  width: 80%;
+    width: 80%;
 }
+
 .sidebarBtn {
-  max-width: 100%;
-  height: 45px;
-  color: var(--Primary-Text-Color);
-  margin-bottom: 20px;
-  font-size: 13px;
-  font-weight: 500;
-  display: flex;
-  align-items: center;
-  padding-left: 20px;
-  cursor: pointer;
+    max-width: 100%;
+    height: 45px;
+    color: var(--Primary-Text-Color);
+    margin-bottom: 20px;
+    font-size: 16px;
+    font-weight: 500;
+    display: flex;
+    align-items: center;
+    padding-left: 20px;
+    cursor: pointer;
 }
-.active::after {
-  content: "";
-  width: 6px;
-  height: 45px;
-  background: linear-gradient(180deg, #0f71e5 22.92%, #035dc8 100%);
-  position: absolute;
-  left: 0;
-}
-.active i {
-  color: var(--Active-color);
-}
+
 .sidebarBtn p {
-  margin-left: 20px;
+    font-size: 13px;
 }
+
+#logout {
+    position: absolute;
+    bottom: 1px;
+}
+
+#logout:hover {
+    background-color: transparent;
+    font-size: 18px !important;
+    color: white;
+    /*font-weight: 500;*/
+}
+
+.userDisplay {
+    align-self: stretch;
+    text-align: center;
+    margin-bottom: 20px;
+}
+
+.userCollapse {
+    display: none;
+}
+
+.active::after {
+    content: "";
+    width: 6px;
+    height: 45px;
+    background: linear-gradient(180deg, #0f71e5 22.92%, #035dc8 100%);
+    position: absolute;
+    left: 0;
+}
+
+.active i {
+    color: var(--Active-color);
+}
+
+.activeSideBar {
+    background-color: white;
+    color: var(--Primary-Text-Color-hover);
+}
+
+.sidebarBtn p {
+    margin-left: 20px;
+}
+
 .sidebarBtn:hover {
-  background-color: white;
-  transition: 0.3s;
+    background-color: white;
+    transition: 0.3s;
+    color: var(--Primary-Text-Color-hover)
 }
+
 .active {
-  background-color: white;
+    /*background-color: white;*/
+    background-color: var(--Secondary-Background_Color);
+
 }
+
 /* end sidebar  */
 
 /* start contentBar */
 .contentBar {
-  width: calc(100% - 50px);
-  min-height: 100vh;
-  padding: 0 30px;
+    width: calc(100% - 50px);
+    min-height: 100vh;
+    padding: 0 30px;
 }
+
 .navbar {
-  width: 100%;
-  height: 50px;
-  box-shadow: 0px 2px 0px #e5e5e5;
-  display: flex;
-  align-items: center;
-  font-size: 1rem;
-  color: var(--Primary-Text-Strong);
-  font-weight: 900px;
+    width: 100%;
+    height: 50px;
+    box-shadow: 0px 2px 0px #e5e5e5;
+    display: flex;
+    align-items: center;
+    font-size: 1rem;
+    color: var(--Primary-Text-Strong);
+    font-weight: 900px;
 }
+
 .navbar .showBar {
-  display: none;
+    display: none;
 }
+
 .navbar p {
-  margin-left: 20px;
+    margin-left: 20px;
 }
+
 .mainContent {
-  width: 100%;
-  min-height: calc(100vh - 70px);
-  /* background-color: var(--Secondary-Background_Color); */
+    width: 100%;
+    min-height: calc(100vh - 70px);
+    /* background-color: var(--Secondary-Background_Color); */
 }
+
 .personalDetail-name {
-  width: 100%;
-  display: flex;
-  flex-wrap: wrap;
-  gap: 22px;
-  margin-top: 20px;
+    width: 100%;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 22px;
+    margin-top: 20px;
 }
+
 .gender {
-  display: flex;
+    display: flex;
 }
+
 .personalDetail-gender input {
-  height: 13px;
+    height: 13px;
 }
+
 .gender {
-  width: 189px;
-  height: 30px;
-  display: flex;
-  align-items: center;
+    width: 189px;
+    height: 30px;
+    display: flex;
+    align-items: center;
 }
+
 .working {
-  height: 30px;
-  display: flex;
-  align-items: center;
+    height: 30px;
+    display: flex;
+    align-items: center;
 }
+
 .working label {
-  margin-left: 10px;
+    margin-left: 10px;
 }
+
 .maritalStatus {
-  width: 189px;
+    width: 189px;
 }
+
 #marital {
-  width: 189px;
-  height: 33px;
-  padding-left: 20px;
+    width: 189px;
+    height: 33px;
+    padding-left: 20px;
 }
+
 .navbar1 {
-  max-width: 100%;
-  height: 50px;
-  box-shadow: 0px 2px 0px #e5e5e5;
-  display: flex;
-  align-items: center;
-  font-size: 1rem;
-  color: var(--Primary-Text-Strong);
-  font-weight: 900px;
-  margin-top: 40px;
+    max-width: 100%;
+    height: 50px;
+    box-shadow: 0px 2px 0px #e5e5e5;
+    display: flex;
+    align-items: center;
+    font-size: 1rem;
+    color: var(--Primary-Text-Strong);
+    font-weight: 900px;
+    margin-top: 40px;
 }
+
 .formSubmitBtn {
-  width: 100%;
-  margin-top: 50px;
-  display: flex;
-  justify-content: end;
-  gap: 20px;
+    width: 100%;
+    margin-top: 50px;
+    display: flex;
+    justify-content: end;
+    gap: 20px;
 }
-.formButton {
-  width: 100px;
-  height: 30px;
-  padding-left: 0px;
-  cursor: pointer;
+
+.formButtonSkip {
+    width: 100px;
+    height: 30px;
+    padding-left: 0px;
+    cursor: pointer;
+    border: none;
+    background-color: #5965f9;
+    color: white;
+    border-radius: 13px;
 }
+
+.formButtonSave {
+    width: 100px;
+    height: 30px;
+    padding-left: 0px;
+    cursor: pointer;
+    border: none;
+    border: 2px solid #5965f9;
+    background-color: transparent;
+    color: #5965f9;
+    border-radius: 13px;
+}
+
+formButtonSave:hover {
+    background-color: #5965f9 !important;
+    color: white;
+}
+
 /* end ContentBar */
 .fa-bars {
-  cursor: pointer;
+    cursor: pointer;
 }
+
 h4 {
-  font-size: 13px;
-  font-weight: 500;
-  margin-bottom: 0.2rem;
-  color: var(--Primary-Text-Color);
+    font-size: 13px;
+    font-weight: 500;
+    margin-bottom: 0.2rem;
+    color: var(--Primary-Text-Color-hover);
 }
+
 input {
-  height: 30px;
-  padding-left: 20px;
+    height: 30px;
+    padding-left: 20px;
 }
+
 label {
-  font-weight: 500;
-  font-size: 13px;
-  margin-right: 13px;
-  margin-left: 5px;
+    font-weight: 500;
+    font-size: 13px;
+    margin-right: 13px;
+    margin-left: 5px;
 }
+
 a {
-  text-decoration: none;
+    text-decoration: none;
 }
 
 /* education Start  */
 .doubleInput {
-  width: 189px;
-  display: flex;
-  justify-content: space-between;
+    width: 189px;
+    display: flex;
+    justify-content: space-between;
 }
+
 #marksSecuredNum {
-  width: 30%;
-  padding-left: 5px;
+    width: 30%;
+    padding-left: 5px;
 }
+
 #yearGrg {
-  width: 50%;
+    width: 50%;
 }
+
 #marksSecured {
-  width: 60%;
-  height: 33px;
+    width: 60%;
+    height: 33px;
 }
 
 .addSection {
-  width: 100%;
-  height: 45px;
-  background: var(--Secondary-Background_Color);
-  color: var(--Primary-Text-Color);
-  font-weight: bolder;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  cursor: pointer;
-  margin-top: 20px;
+    width: 100%;
+    height: 45px;
+    background: var(--Secondary-Background_Color);
+    color: var(--Primary-Text-Color);
+    font-weight: bolder;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    cursor: pointer;
+    margin-top: 20px;
 }
+
 /* education End  */
 .media-url {
-  width: 30%;
+    width: 30%;
 }
+
 #media-url {
-  width: 100%;
+    width: 100%;
 }
