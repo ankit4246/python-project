@@ -7,10 +7,10 @@
             <p>Training Details</p>
         </div>
         <div class="mainContent">
-            <div id="form-container" action="{% url 'users:training_info' %}" method="POST">
+            <form id="form-container" action="{% url 'users:training_info' %}" method="POST">
                 {% csrf_token %}
                 <div id='empty-form' class='hidden-form'>
-                    <div class="personalDetail-name formset-row">
+                    <div class="personalDetail-name">
                         <div class="personalDetail-fname">
                             <h4>Name of the Training</h4>
                             {{ formset.empty_form.name_of_training }}
@@ -41,14 +41,12 @@
                         </div>
                     </div>
                 </div>
-
-
                 {{ formset.management_form }}
                 {% for form in formset %}
-                    {% for hidden in form.hidden_fields %}
-                        {{ hidden }}
-                    {% endfor %}
                     <div class="formset-row">
+                        {% for hidden in form.hidden_fields %}
+                            {{ hidden }}
+                        {% endfor %}
                         <div class="personalDetail-name" id="personalDetail-name">
                             <div class="personalDetail-fname">
                                 <h4>Name of the Training</h4>
@@ -74,31 +72,32 @@
                                 </div>
                             </div>
                             <div class="personalDetail-fname">
-                                <button type="button" hx-post="{% url 'users:delete-single-form' form.instance.id %}"
-                                        class="delete-image-form" name="del_btn{{ form.instance.id }}" value="Delete">
+                                <button type="button"
+                                        hx-post="{% url 'users:delete-single-form' 'training_info' form.instance.id %}"
+                                        class="delete-image-form is-get" name="del_btn{{ form.instance.id }}"
+                                        value="Delete">
                                     Delete
                                 </button>
                             </div>
                         </div>
                     </div>
                 {% endfor %}
-
-
-
                 <div id="add-form" class="addSection">
                     + Add More Training Detail
                 </div>
-
                 <div class="formSubmitBtn">
                     <a href="{% url 'users:work_info' %}"><input type="button" value="Skip" class="formButtonSkip"></a>
                     <input type="submit" value="Save" class="formButtonSave">
                 </div>
-                </form>
-            </div>
+            </form>
+        </div>
     </section>
     <script>
+        prefix = 'trainingdetails_set'
         const totalNewForms = document.getElementById("id_trainingdetails_set-TOTAL_FORMS")
+        const initialForms = document.getElementById("id_trainingdetails_set-INITIAL_FORMS")
         document.querySelector('#sidebar4').classList.add('activeSideBar');
     </script>
+
 
 {% endblock %}

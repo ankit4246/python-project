@@ -21,7 +21,7 @@ from users.forms import RegisterForm, LoginForm, \
     BasicInfoUserForm, ProfileForm, AddressDetailsUserForm, TrainingForm, SocialMediaForm, EducationFormSet, \
     SocialFormSet
 from users.models import (AddressDetails, ExperienceDetails, Profile,
-                          TrainingDetails, User, EducationDetails)
+                          TrainingDetails, User, EducationDetails, SocialMedias)
 from users.tasks import send_mail_func
 from .tokens import account_activation_token
 from django.http import HttpResponse, HttpResponseNotAllowed, Http404
@@ -137,12 +137,12 @@ class TrainingInfoView(View):
 
     def post(self, request, *args, **kwargs):
         formset = TrainingFormSet(request.POST, instance=request.user)
+        if formset.is_valid():
+            formset.save()
+            return redirect(reverse('users:work_info'))
         context = {
             'formset': formset
         }
-        if formset.is_valid():
-            formset.save()
-            return redirect(reverse_lazy('users:work_info'))
         return render(request, self.template_name, context)
 
 
@@ -376,8 +376,18 @@ class RegistrationView(TemplateView):
 
 #     return render(request, 'users/activate-failed.html')
 
-def delete_single_form(request, pk):
-    single_form = get_object_or_404(EducationDetails, id=pk)
+
+def delete_single_form(request, str, pk):
+    if str == 'education_info':
+        Model = EducationDetails
+    elif str == 'training_info':
+        Model = TrainingDetails
+    elif str == 'work_info':
+        Model = ExperienceDetails
+    elif str == 'social_info':
+        Model = SocialMedias
+
+    single_form = get_object_or_404(Model, id=pk)
 
     if request.method == 'POST':
         single_form.delete()

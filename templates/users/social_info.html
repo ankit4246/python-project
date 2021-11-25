@@ -10,7 +10,7 @@
             <form id="form-container" action="{% url 'users:social_info' %}" method="POST">
                 {% csrf_token %}
                 <div id='empty-form' class='hidden-form'>
-                    <div class="personalDetail-name formset-row">
+                    <div class="personalDetail-name">
                         <div class="personalDetail-fname">
                             <h4>Account Name</h4>
                             {{ formset.empty_form.social_media }}
@@ -28,10 +28,10 @@
                 </div>
                 {{ formset.management_form }}
                 {% for form in formset %}
-                    {% for hidden in form.hidden_fields %}
-                        {{ hidden }}
-                    {% endfor %}
                     <div class="formset-row">
+                        {% for hidden in form.hidden_fields %}
+                            {{ hidden }}
+                        {% endfor %}
                         <div class="personalDetail-name">
                             <div class="personalDetail-fname">
                                 <h4>Account Name</h4>
@@ -42,8 +42,10 @@
                                 {{ form.link }}
                             </div>
                             <div class="personalDetail-fname">
-                                <button type="button" name="del_btn{{ formset.empty_form.instance.id }}" value="Delete"
-                                        class="delete-image-form">Delete
+                                <button type="button"
+                                        hx-post="{% url 'users:delete-single-form' 'social_info' form.instance.id %}"
+                                        name="del_btn{{ formset.empty_form.instance.id }}" value="Delete"
+                                        class="delete-image-form is-get">Delete
                                 </button>
                             </div>
                         </div>
@@ -59,9 +61,12 @@
             </form>
         </div>
     </section>
-    <script>
-        const totalNewForms = document.getElementById("id_socialmedias_set-TOTAL_FORMS")
-        document.querySelector('#sidebar6').classList.add('activeSideBar');
 
+    <script>
+        prefix = 'socialmedias_set'
+        const totalNewForms = document.getElementById("id_socialmedias_set-TOTAL_FORMS")
+        const initialForms = document.getElementById("id_socialmedias_set-INITIAL_FORMS")
+        document.querySelector('#sidebar6').classList.add('activeSideBar');
     </script>
+
 {% endblock %}

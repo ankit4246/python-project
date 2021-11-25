@@ -15,6 +15,6 @@ urlpatterns = [
     path('logout/', views.logout_user, name='logout'),
     # path('verify-email/', views.VerifyEmail.as_view(), name='verify-email'),
     # path('activate-user/<uidb64>/<token>/', views.activate_user, name="activate"),
-    path('education_info/<pk>/delete', views.delete_single_form, name="delete-single-form"),
+    path('<str>/<pk>/delete', views.delete_single_form, name="delete-single-form"),
     path('user_confirm/<token>/', views.user_confirm_email, name='confirm-email'),
 ]

@@ -48,8 +48,12 @@ function deleteForm(event) {
         if (event) {
             event.preventDefault();
         }
-        console.log('delete button clicked')
-        prefix = 'educationdetails_set'
+        if (event.target.classList.contains("is-get")) {
+            console.log(initialForms.value-1)
+            console.log(typeof(initialForms.value))
+            let initialFormsCount = initialForms.value
+            initialForms.setAttribute('value', initialFormsCount-1);
+        }
         const currentForms = document.getElementsByClassName('formset-row')
         let total = currentForms.length //+ 1
         event.target.parentElement.parentElement.parentElement.remove();

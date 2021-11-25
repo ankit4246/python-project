@@ -113,6 +113,7 @@ class ExperienceForm(forms.ModelForm):
                                                 attrs={'id': 'marksSecured'}),
             'start_year': forms.widgets.Select(choices=YEAR_CHOICES,
                                                attrs={'id': 'marksSecured'}),
+            'is_current': forms.widgets.CheckboxInput()
         }
 
 
