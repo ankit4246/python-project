@@ -51,10 +51,11 @@
 
                 {{ formset.management_form }}
                 {% for form in formset %}
-                    {% for hidden in form.hidden_fields %}
-                        {{ hidden }}
-                    {% endfor %}
                     <div class='formset-row'>
+                        {% for hidden in form.hidden_fields %}
+                            {{ hidden }}
+                        {% endfor %}
+
                         <div class="personalDetail-name">
                             <div class="maritalStatus">
                                 <h4>Degree</h4>
@@ -88,12 +89,12 @@
                                 </div>
                             </div>
                             <div class="personalDetail-fname">
-                                <button type="button" hx-post="{% url 'users:delete-single-form' form.instance.id %}"
-                                        class="delete-image-form" name="del_btn{{ form.instance.id }}" value="Delete">
+                                <button type="button" hx-post="{% url 'users:delete-single-form' 'education_info' form.instance.id %}"
+                                        class="delete-image-form is-get" name="del_btn{{ form.instance.id }}"
+                                        value="Delete">
                                     Delete
                                 </button>
                             </div>
-                            \
                         </div>
                     </div>
                 {% endfor %}
@@ -112,7 +113,9 @@
     </section>
 
     <script>
+        prefix = 'educationdetails_set'
         const totalNewForms = document.getElementById("id_educationdetails_set-TOTAL_FORMS")
+        const initialForms = document.getElementById("id_educationdetails_set-INITIAL_FORMS")
         document.querySelector('#sidebar3').classList.add('activeSideBar');
     </script>
 
