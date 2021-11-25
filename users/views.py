@@ -430,6 +430,7 @@ def resend_email(request):
     if request.method == 'POST':
         user = request.user
         token = generate_confirmation_token(user.pk)
-        status = send_mail_func.delay(user, token)
+        status = send_mail_func.delay(user, 
+        str(token))
         messages.success(request, 'A email has sent to your address. Please check!')
     return redirect('pentest:home')
