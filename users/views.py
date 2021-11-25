@@ -424,3 +424,12 @@ def user_confirm_email(request, token):
         user.save()
         messages.success(request, "Email confirmed.")
     return redirect('users:login')
+
+
+def resend_email(request):
+    if request.method == 'POST':
+        user = request.user
+        token = generate_confirmation_token(user.pk)
+        status = send_mail_func.delay(user, token)
+        messages.success(request, 'A email has sent to your address. Please check!')
+    return redirect('pentest:home')
