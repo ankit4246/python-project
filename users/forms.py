@@ -3,7 +3,7 @@ from django.forms import inlineformset_factory
 from users.models import Profile, TrainingDetails, ExperienceDetails, SocialMedias, User, MONTH_CHOICES, YEAR_CHOICES
 from users.models import Profile, AddressDetails, EducationDetails
 from django import forms
-from django.contrib.auth import password_validation
+from django.contrib.auth import get_user_model, password_validation
 import re
 from django.contrib.admin import widgets
 
@@ -324,22 +324,67 @@ class RegisterForm(forms.ModelForm):
             'email': forms.EmailInput(attrs={'class': 'form-control', 'placeholder': 'Enter your email'}),
         }
 
-    def clean(self):
-        cleaned_data = super().clean()
-        password = cleaned_data['password1']
-        confirm_password = cleaned_data['password2']
-        first_name = cleaned_data['first_name']
-        last_name = cleaned_data['last_name']
-        email = cleaned_data["email"]
+    # def clean(self):
+    #     cleaned_data = super().clean()
+    #     password = cleaned_data.get('password1')
+    #     confirm_password = cleaned_data.get('password2')
+    #     first_name = cleaned_data.get('first_name')
+    #     middle_name = cleaned_data.get('middle_name')
+    #     last_name = cleaned_data.get('last_name')
+    #     email = cleaned_data.get("email")
+        
+        # if not re.match(r"[a-zA-Z]{3,30}", first_name):
+        #     raise forms.ValidationError('Invalid First Name')
+        # if not re.match(r"[a-zA-Z]{3,30}", middle_name):
+        #     raise forms.ValidationError('Invalid Middle Name')
+        # if not re.match(r"[a-zA-Z]{3,30}", last_name):
+        #     raise forms.ValidationError('Invalid Last Name')
+        # if not re.match(r"^[\w\.\+\-]+\@[\w]+\.[a-z]{2,3}$", email):
+        #     raise forms.ValidationError('Invalid Email format')
+        # if len(password) < 8 and len(confirm_password) < 8:
+        #     raise forms.ValidationError('Password must be more than 8 character long')
+        # if password and confirm_password and password != confirm_password:
+        #     raise forms.ValidationError('Password mismatch')
+        # if first_name.lower() in password.lower() or last_name.lower() in password.lower():
+        #     raise forms.ValidationError('Password similar to name of user.')
+    
+    def clean_first_name(self):
+        first_name = self.cleaned_data.get('first_name')
+
+        if not re.match(r"[a-zA-Z]{3,30}", str(first_name)):
+            raise forms.ValidationError('Invalid First Name')
+        return first_name
+
+    def clean_middle_name(self):
+        middle_name = self.cleaned_data.get('middle_name')
+
+        if not re.match(r"[a-zA-Z]{3,30}", str(middle_name)):
+            raise forms.ValidationError('Invalid Middle Name')
+        return middle_name
+    
+    def clean_last_name(self):
+        last_name = self.cleaned_data.get('last_name')
+
+        if not re.match(r"[a-zA-Z]{3,30}", str(last_name)):
+            raise forms.ValidationError('Invalid Last Name')
+        return last_name
+
+    def clean_email(self):
+        email = self.cleaned_data.get('email')
 
         if not re.match(r"^[\w\.\+\-]+\@[\w]+\.[a-z]{2,3}$", email):
             raise forms.ValidationError('Invalid Email format')
-        if len(password) < 8 and len(confirm_password) < 8:
+        return email
+    
+    def clean_password2(self):
+        password1 = self.cleaned_data.get('password1')
+        password2 = self.cleaned_data.get('password2')
+        
+        if len(password1) < 8:
             raise forms.ValidationError('Password must be more than 8 character long')
-        if password and confirm_password and password != confirm_password:
+        if password1 and password2 and password1 != password2:
             raise forms.ValidationError('Password mismatch')
-        if first_name.lower() in password.lower() or last_name.lower() in password.lower():
-            raise forms.ValidationError('Password similar to name of user.')
+        return password2
 
     # def save(self, commit=True):
     #     user = super(RegisterForm, self).save(commit=False)

@@ -10,6 +10,11 @@
     <link rel="stylesheet" href="https://pro.fontawesome.com/releases/v5.10.0/css/all.css"
         integrity="sha384-AYmEC3Yw5cVb3ZcuHtOA93w35dYTsvhLPVnYs9eStHfGJvOvKxVfELGroGkvsg+p" crossorigin="anonymous"/>
     <link rel="stylesheet" href="{% static 'css/personalDetail.css' %}">
+    <style>
+        .invalid-feedback, .errorlist {
+            color: red;
+        }
+    </style>
 </head>
 
 <body>
@@ -38,27 +43,51 @@
                 <div class="personalDetail-fname">
                     <h4>First Name</h4>
                     <!-- <input type="text" id="FirstName" name="FirstName" placeholder="First Name" required> -->
-                    {{form.first_name}}
+                    <!-- {{form.first_name}} -->
+                    {%  if form.first_name.errors %}
+                        {{ form.first_name|add_class:'is-invalid' }}
+                            <p class="invalid-feedback text-danger">
+                                {{ form.first_name_errors }}
+                            </p>
+                    {% else %}
+                        {{ form.first_name }}
+                    {% endif %}
                 </div>
                 <div class="personalDetail-fname">
                     <h4>Middle Name</h4>
                     <!-- <input type="text" id="MiddleName" name="MiddleName" placeholder="Middle Name"> -->
-                    {{form.middle_name}}
+                    <!-- {{form.middle_name}} -->
+                    {% if form.middle_name.errors %}
+                        {{ form.middle_name|add_class:'is-invalid' }}
+                            <p class="invalid-feedback text-danger">
+                                {{ form.middle_name.errors }}
+                            </p>
+                    {% else %}
+                        {{ form.middle_name }}
+                    {% endif %}
                 </div>
                 <div class="personalDetail-fname">
                     <h4>Last Name</h4>
                     <!-- <input type="text" id="LastName" name="LastName" placeholder="Last Name" required> -->
-                    {{form.last_name}}
+                    <!-- {{form.last_name}} -->
+                    {% if form.last_name.errors %}
+                        {{ form.last_name|add_class:'is-invalid' }}
+                            <p class="invalid-feedback">
+                                {{ form.last_name.errors }}
+                            </p>
+                    {% else %}
+                        {{ form.last_name }}
+                    {% endif %}
                 </div>
                 <div class="personalDetail-fname">
                     <h4>Email</h4>
                     <!-- <input type="email" placeholder="anil@example.com"> -->
                     <!-- {{form.email}} -->
                     {% if form.email.errors %}
-                        {{ form.email| add_class:'is-invalid' }}
-                            <div class="invalid-feedback">
+                        {{ form.email|add_class:'is-invalid' }}
+                            <p class="invalid-feedback">
                                 {{ form.email.errors }}
-                            </div>
+                            </p>
                     {% else %}
                         {{ form.email }}
                     {% endif %}
@@ -67,18 +96,42 @@
                 <div class="personalDetail-fname">
                     <h4>Password</h4>
                     <!-- <input placeholder="Type in your password"> -->
-                    {{form.password1}}
+                    <!-- {{form.password1}} -->
+                    {% if form.password1.errors %}
+                        {{ form.password1|add_class:'is-invalid' }}
+                            <p class="invalid-feedback">
+                                {{ form.password1.errors }}
+                            </p>
+                    {% else %}
+                        {{ form.password1 }}
+                    {% endif %}
                 </div>
                 <div class="personalDetail-fname">
                     <h4>Retype Password</h4>
                     <!-- <input placeholder="Retype in your password"> -->
-                    {{form.password2}}
+                    <!-- {{form.password2}} -->
+                    {% if form.password2.errors %}
+                        {{ form.password2|add_class:'is-invalid' }}
+                            <p class="invalid-feedback">
+                                {{ form.password2.errors }}
+                            </p>
+                    {% else %}
+                        {{ form.password2 }}
+                    {% endif %}
                 </div>
 
-                                   <div class="personalDetail-fname">
+                    <div class="personalDetail-fname">
                         <h4>Date Of Birth</h4>
                         <!-- <input type="date"> -->
-                        {{form.dob}}
+                        <!-- {{form.dob}} -->
+                        {% if form.dob.errors %}
+                        {{ form.dob|add_class:'is-invalid' }}
+                            <p class="invalid-feedback">
+                                {{ form.dob.errors }}
+                            </p>
+                    {% else %}
+                        {{ form.dob }}
+                    {% endif %}
                     </div>
                     <div class="personalDetail-gender">
                         <h4>Gender</h4>
@@ -89,7 +142,15 @@
                             <label for="female">Female</label>
                             <input type="radio" id="other" name="gender" value="Other">
                             <label for="other">Other</label> -->
-                            {{form.gender}}
+                            <!-- {{form.gender}} -->
+                            {% if form.gender.errors %}
+                            {{ form.gender|add_class:'is-invalid' }}
+                            <p class="invalid-feedback">
+                                {{ form.gender.errors }}
+                            </p>
+                            {% else %}
+                                {{ form.gender }}
+                            {% endif %}
                         </div>
                     </div>
             </div>
