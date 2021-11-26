@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Projects</title>
+</head>
+<body>
+{#<a href="url {% url 'project:create_project' %}"></a>#}
+<ul>
+    <!-- Iterate over object_list -->
+    {% for project in object_list %}
+        <!-- Display Objects -->
+        <li>{{ project.project_name }}</li>
+        <li>{{ project.description }}</li>
+
+        <hr/>
+        <!-- If objet_list is empty  -->
+    {% empty %}
+        <li>No projects yet.</li>
+    {% endfor %}
+</ul>
+</body>
+</html>
