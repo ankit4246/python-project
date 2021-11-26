@@ -350,3 +350,59 @@ class RegisterForm(forms.ModelForm):
     #     # email_celery = json.dumps(user)
     #     # send_mail_func.delay(instance=User.objects.filter(pk=user.pk).values('email'))
     #     return user
+
+
+class PasswordResetForm(forms.Form):
+    current_password = forms.CharField(
+        label='Current Password',
+        widget=forms.PasswordInput(attrs={'class': 'form-control', 'placeholder': 'Enter your current password'}),
+        strip=False,
+    )
+
+    new_password = forms.CharField(
+        label='New Password',
+        widget=forms.PasswordInput(attrs={'class': 'form-control', 'placeholder': 'Enter your new password'}),
+        strip=False,
+    )
+
+    confirm_new_password = forms.CharField(
+        label='Confirm New Password',
+        widget=forms.PasswordInput(attrs={'class': 'form-control', 'placeholder': 'Enter your new password password'}),
+        strip=False,
+    )
+
+    def __init__(self, *args, **kwargs):
+        self.user = kwargs.pop('user', None)
+        super(PasswordResetForm, self).__init__(*args, **kwargs)
+
+    def clean_current_password(self):
+        current_password = self.cleaned_data.get('current_password')
+
+        if not self.user.check_password(current_password):
+            raise forms.ValidationError('Incorrect current password')
+        return current_password
+
+    def clean_new_password(self):
+        current_password = self.cleaned_data.get('current_password')
+        new_password = self.cleaned_data.get('new_password')
+
+        if current_password == new_password:
+            raise forms.ValidationError('current password is similar to the new password')
+        return new_password
+
+    def clean_confirm_new_password(self):
+        new_password = self.cleaned_data.get('new_password')
+        confirm_new_password = self.cleaned_data.get('confirm_new_password')
+
+        if new_password and confirm_new_password and new_password != confirm_new_password:
+            raise forms.ValidationError('Both Password does not match!')
+        return confirm_new_password
+
+
+    
+    def save(self, commit=True):
+        password = self.cleaned_data.get('confirm_new_password')
+        self.user.set_password(password)
+        if commit:
+            self.user.save()
+        return self.user

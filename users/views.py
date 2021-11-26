@@ -19,7 +19,7 @@ from django.views.generic.edit import FormView
 from users.forms import AddressForm, EducationInfoForm, ExperienceForm, TrainingFormSet, ExperienceFormSet
 from users.forms import RegisterForm, LoginForm, \
     BasicInfoUserForm, ProfileForm, AddressDetailsUserForm, TrainingForm, SocialMediaForm, EducationFormSet, \
-    SocialFormSet
+    SocialFormSet, PasswordResetForm
 from users.models import (AddressDetails, ExperienceDetails, Profile,
                           TrainingDetails, User, EducationDetails)
 from users.tasks import send_mail_func
@@ -424,3 +424,18 @@ def user_confirm_email(request, token):
         user.save()
         messages.success(request, "Email confirmed.")
     return redirect('users:login')
+
+@login_required
+def passwordResetWithEmail(request):
+    form = PasswordResetForm(request.POST or None, user=request.user)
+    if request.method == "POST":
+        if form.is_valid():
+            form.save()
+            messages.success(request, "Your password has successfully changed")
+            return redirect('users:login')
+    else:
+        form = PasswordResetForm()
+    context ={
+        "form":form,
+    }
+    return render(request, 'users/password_reset.html', context)
