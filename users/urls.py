@@ -17,5 +17,7 @@ urlpatterns = [
     # path('activate-user/<uidb64>/<token>/', views.activate_user, name="activate"),
     path('education_info/<pk>/delete/', views.delete_single_form, name="delete-single-form"),
     path('user_confirm/<token>/', views.user_confirm_email, name='confirm-email'),
-    path('password_reset/', views.passwordResetWithEmail, name='password-reset'),
+    path('password_reset/', views.passwordReset, name='password-reset'),
+    path('confirm_password_reset/<token>/', views.passwordConfirmFromEmail, name='confirm-password-reset'),
+    path('change_password/', views.changePassword, name="change-password"),
 ]

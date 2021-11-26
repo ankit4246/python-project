@@ -22,7 +22,7 @@ from users.forms import RegisterForm, LoginForm, \
     SocialFormSet, PasswordResetForm
 from users.models import (AddressDetails, ExperienceDetails, Profile,
                           TrainingDetails, User, EducationDetails)
-from users.tasks import send_mail_func
+from users.tasks import send_mail_func, reset_mail_pass
 from .tokens import account_activation_token
 from django.http import HttpResponse, HttpResponseNotAllowed, Http404
 
@@ -244,6 +244,7 @@ class SocialInfoView(View):
 #         fm = RegistrationForm()
 #         return render(request, 'users/registration.html', {'form':fm,})
 
+
 def generate_confirmation_token(pk):
     payload = {
         'confirm': pk,
@@ -425,8 +426,48 @@ def user_confirm_email(request, token):
         messages.success(request, "Email confirmed.")
     return redirect('users:login')
 
-@login_required
-def passwordResetWithEmail(request):
+def generate_password_token(pk):
+    payload = {
+        'confirm': pk,
+        'iat': datetime.utcnow(),
+        'exp': datetime.utcnow() + timedelta(days=3)
+    }
+    token = jwt.encode(payload, settings.SECRET_KEY, algorithm='HS256').decode('utf-8')
+    return token
+
+# @login_required
+def passwordReset(request):
+    user = request.user
+    token = generate_password_token(user.pk)
+    status = reset_mail_pass.delay(email=user.email, token=str(token))
+    messages.success(request, 'A mail has been sent to your mailing address!')
+    return redirect('users:change-password')
+
+# @login_required
+def passwordConfirmFromEmail(request, token):
+    try:
+        payload = jwt.decode(token, settings.SECRET_KEY, algorithm='HS256')
+    except jwt.ExpiredSignature:
+        messages.error(request, 'Confirmation token has expired.')
+        return redirect('users:change-password')
+    except jwt.DecodeError:
+        messages.error(request, 'Error decoding confirmation token.')
+        return redirect('users:change-password')
+    except jwt.InvalidTokenError:
+        messages.error(request, 'Invalid confirmation token.')
+        return redirect('users:change-password')
+    
+    try:
+        user = User.objects.get(pk=payload['confirm'])
+    except User.DoesNotExist:
+        messages.error(request, 'Account not found.')
+        return redirect('users:change-password')
+        
+    messages.success(request, "You can change your password now.")
+    return redirect('users:change-password')
+
+
+def changePassword(request):
     form = PasswordResetForm(request.POST or None, user=request.user)
     if request.method == "POST":
         if form.is_valid():
