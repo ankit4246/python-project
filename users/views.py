@@ -404,8 +404,8 @@ def delete_single_form(request, str, pk):
 
 
 def user_confirm_email(request, token):
-    if request.user.is_authenticated:
-        return redirect('/')
+    # if request.user.is_authenticated:
+    #     return redirect('/')
 
     # token = request.GET.get('token')
     if token is None:
@@ -415,20 +415,20 @@ def user_confirm_email(request, token):
         payload = jwt.decode(token, settings.SECRET_KEY, algorithm='HS256')
     except jwt.ExpiredSignature:
         messages.error(request, 'Confirmation token has expired.')
-        return redirect('/')
+        return redirect('users:change-password')
     except jwt.DecodeError:
         messages.error(request, 'Error decoding confirmation token.')
-        return redirect('/')
+        return redirect('users:change-password')
     except jwt.InvalidTokenError:
         messages.error(request, 'Invalid confirmation token.')
-        return redirect('/')
+        return redirect('users:change-password')
 
     try:
         user = User.objects.get(pk=payload['confirm'])
         print(user)
     except User.DoesNotExist:
         messages.error(request, 'Account not found.')
-        return redirect('/')
+        return redirect('users:change-password')
 
     if user.is_verified:
         messages.error(request, "Email already confirmed.")
@@ -436,7 +436,7 @@ def user_confirm_email(request, token):
         user.is_verified = True
         user.save()
         messages.success(request, "Email confirmed.")
-    return redirect('users:login')
+    return redirect('users:change-password')
 
 
 def generate_password_token(pk):
@@ -495,13 +495,11 @@ def changePassword(request):
     }
     return render(request, 'users/password_reset.html', context)
 
-
+# @login_required
 def resend_email(request):
-    if request.method == 'POST':
         user = request.user
         token = generate_confirmation_token(user.pk)
-        status = send_mail_func.delay(user, 
-        str(token))
+        status = send_mail_func.delay(str(user), str(token))
         messages.success(request, 'A email has sent to your address. Please check!')
-    return redirect('pentest:home')
+        return redirect('users:change-password')
 
