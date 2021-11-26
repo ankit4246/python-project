@@ -22,8 +22,7 @@ from users.forms import RegisterForm, LoginForm, \
     SocialFormSet, PasswordResetForm
 from users.models import (AddressDetails, ExperienceDetails, Profile,
                           TrainingDetails, User, EducationDetails)
-from users.tasks import send_mail_func, reset_mail_pass
-                          TrainingDetails, User, EducationDetails, SocialMedias)
+from users.tasks import send_mail_func, reset_mail_pass 
 from users.tasks import send_mail_func
 from .tokens import account_activation_token
 from django.http import HttpResponse, HttpResponseNotAllowed, Http404
@@ -309,6 +308,7 @@ def user_register(request):
             request.session['current_site'] = str(current_site)
             request.session['uid'] = uid
             request.session['token'] = str(token_needed)
+            request.session['name'] = first_name
             return redirect("users:login")
 
     context = {
@@ -454,6 +454,7 @@ def passwordReset(request):
     token = generate_password_token(user.pk)
     status = reset_mail_pass.delay(email=user.email, token=str(token))
     messages.success(request, 'A mail has been sent to your mailing address!')
+    request.session['name'] = user.first_name
     return redirect('users:change-password')
 
 # @login_required
