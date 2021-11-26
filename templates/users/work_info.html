@@ -9,9 +9,7 @@
         <div class="mainContent">
             <form id="form-container" action="{% url 'users:work_info' %}" method="POST">
                 {% csrf_token %}
-
                 <div id='empty-form' class='hidden-form'>
-                    <div class="formset-row">
                         <div class="personalDetail-name">
                             <div class="personalDetail-fname">
                                 <h4>Organization Name</h4>
@@ -45,7 +43,6 @@
                                 </div>
                             </div>
                         </div>
-
                         <div class="personalDetail-name">
                             <div class="personalDetail-fname">
                                 <h4>Roles and Responsibilities</h4>
@@ -57,15 +54,15 @@
                                 </button>
                             </div>
                         </div>
-                    </div>
                 </div>
 
                 {{ formset.management_form }}
                 {% for form in formset %}
-                    {% for hidden in form.hidden_fields %}
-                        {{ hidden }}
-                    {% endfor %}
                     <div class="formset-row">
+                        {% for hidden in form.hidden_fields %}
+                            {{ hidden }}
+                        {% endfor %}
+
                         <div class="personalDetail-name">
                             <div class="personalDetail-fname">
                                 <h4>Organization Name</h4>
@@ -106,8 +103,10 @@
                             </div>
 
                             <div class="personalDetail-fname">
-                                <button type="button" name="del_btn{{ formset.empty_form.instance.id }}" value="Delete"
-                                        class="delete-image-form">Delete
+                                <button type="button"
+                                        hx-post="{% url 'users:delete-single-form' 'work_info' form.instance.id %}"
+                                        name="del_btn{{ formset.empty_form.instance.id }}" value="Delete"
+                                        class="delete-image-form is-get">Delete
                                 </button>
                             </div>
                         </div>
@@ -117,14 +116,18 @@
                     + Add More Experience Detail
                 </div>
                 <div class="formSubmitBtn">
-                    <a href="{% url 'users:social_info' %}"><input type="button" value="Skip" class="formButtonSkip"></a>
+                    <a href="{% url 'users:social_info' %}"><input type="button" value="Skip"
+                                                                   class="formButtonSkip"></a>
                     <input type="submit" value="Save" class="formButtonSave">
                 </div>
             </form>
         </div>
     </section>
+
     <script>
+        prefix = 'experiencedetails_set'
         const totalNewForms = document.getElementById("id_experiencedetails_set-TOTAL_FORMS")
+        const initialForms = document.getElementById("id_experiencedetails_set-INITIAL_FORMS")
         document.querySelector('#sidebar5').classList.add('activeSideBar');
     </script>
 {% endblock %}
