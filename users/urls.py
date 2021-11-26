@@ -20,4 +20,7 @@ urlpatterns = [
     path('password_reset/', views.passwordReset, name='password-reset'),
     path('confirm_password_reset/<token>/', views.passwordConfirmFromEmail, name='confirm-password-reset'),
     path('change_password/', views.changePassword, name="change-password"),
+    path('<str>/<pk>/delete', views.delete_single_form, name="delete-single-form"),
+    path('user_confirm/<token>/', views.user_confirm_email, name='confirm-email'),
+    path('resend-email/', views.resend_email, name='resend-email'),
 ]

@@ -23,6 +23,8 @@ from users.forms import RegisterForm, LoginForm, \
 from users.models import (AddressDetails, ExperienceDetails, Profile,
                           TrainingDetails, User, EducationDetails)
 from users.tasks import send_mail_func, reset_mail_pass
+                          TrainingDetails, User, EducationDetails, SocialMedias)
+from users.tasks import send_mail_func
 from .tokens import account_activation_token
 from django.http import HttpResponse, HttpResponseNotAllowed, Http404
 
@@ -137,12 +139,12 @@ class TrainingInfoView(View):
 
     def post(self, request, *args, **kwargs):
         formset = TrainingFormSet(request.POST, instance=request.user)
+        if formset.is_valid():
+            formset.save()
+            return redirect(reverse('users:work_info'))
         context = {
             'formset': formset
         }
-        if formset.is_valid():
-            formset.save()
-            return redirect(reverse_lazy('users:work_info'))
         return render(request, self.template_name, context)
 
 
@@ -377,8 +379,18 @@ class RegistrationView(TemplateView):
 
 #     return render(request, 'users/activate-failed.html')
 
-def delete_single_form(request, pk):
-    single_form = get_object_or_404(EducationDetails, id=pk)
+
+def delete_single_form(request, str, pk):
+    if str == 'education_info':
+        Model = EducationDetails
+    elif str == 'training_info':
+        Model = TrainingDetails
+    elif str == 'work_info':
+        Model = ExperienceDetails
+    elif str == 'social_info':
+        Model = SocialMedias
+
+    single_form = get_object_or_404(Model, id=pk)
 
     if request.method == 'POST':
         single_form.delete()
@@ -425,6 +437,7 @@ def user_confirm_email(request, token):
         user.save()
         messages.success(request, "Email confirmed.")
     return redirect('users:login')
+
 
 def generate_password_token(pk):
     payload = {
@@ -480,3 +493,14 @@ def changePassword(request):
         "form":form,
     }
     return render(request, 'users/password_reset.html', context)
+
+
+def resend_email(request):
+    if request.method == 'POST':
+        user = request.user
+        token = generate_confirmation_token(user.pk)
+        status = send_mail_func.delay(user, 
+        str(token))
+        messages.success(request, 'A email has sent to your address. Please check!')
+    return redirect('pentest:home')
+
