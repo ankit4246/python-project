@@ -3,6 +3,8 @@ from django.contrib.auth.models import PermissionsMixin
 from django.db import models
 
 # Create your models here.
+from roles.models import Role
+
 MONTH_CHOICES = [('1', 'January'),
                  ('2', 'February'),
                  ('3', 'March'),
@@ -85,6 +87,7 @@ class User(AbstractBaseUser, PermissionsMixin):
     last_name = models.CharField(max_length=100, null=True, blank=True)
     date_joined = models.DateTimeField(auto_now_add=True)
     skills = models.ManyToManyField(Skills, blank=True)
+    roles = models.ManyToManyField(Role, blank=True, related_name="users")
 
     USERNAME_FIELD = 'email'
     REQUIRED_FIELDS = []  # Email & Password are required by default.

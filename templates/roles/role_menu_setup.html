@@ -1,0 +1,198 @@
+{% load role_menus_check %}
+
+{% block content %}
+
+    <div class="content-body">
+        <div class="container-fluid">
+            <div class="layout-flex">
+                <div class="dashboard--title mb-3">
+                    <h6 class="text-dark font-weight-bold">{{ role.name }} Permission Setup </h6>
+                </div>
+                <div class="requestcard-header">
+                    <p><a class="btn btn-sm btn-primary"
+                          href="{% url 'roles:list_role' %}"><span class="ic-add"></span>back to list</a></p>
+                </div>
+                <div class="flex-grow-1">
+
+                    <div class="col-10 h-100">
+                        <div class="position-relative h-100">
+                            <div class="layout-absolute" id="roleDetail">
+                                <div class="bg-white layout-flex p-3">
+                                    <h6 class="text-primary mb-3"></h6>
+                                    <small class="text-success mb-2" style="display:none" id="assign-success">
+                                        <strong>Action Successful.</strong>
+                                    </small>
+                                    <div class="form-group">
+                                        <div class="form-control-icon rft">
+                                            <input type="text" class="form-control" id="q" placeholder="Search Menu">
+                                            <i class="ic-search"></i>
+                                        </div>
+                                    </div>
+                                    <div class="flex-grow-1 scrollable">
+                                        <div id="accordion" class="accordion-01" style="color:black;">
+                                            {% for menu in menus %}
+                                                <div class="card p-0">
+                                                    <form action="{% url 'roles:assign_perm' menu.id role.id %}"
+                                                          class="assignForm" method="post">
+                                                        {% csrf_token %}
+                                                        <strong>
+                                                            <div class="card-header" id="headingOne"
+                                                                 title="click to configure" style="cursor: pointer;">
+                                                                <a data-toggle="collapse"
+                                                                   {% if menu in role.menus.all %}class="text-success" {% endif %}
+                                                                   data-target="#collapse{{ menu.pk }}"
+                                                                   aria-expanded="false" aria-controls="collapseThree">
+                                                                    {{ menu.name }}
+                                                                </a>
+                                                            </div>
+                                                        </strong>
+
+                                                        <div id="collapse{{ menu.pk }}" class="collapse"
+                                                             aria-labelledby="headingOne" data-parent="#accordion">
+                                                            <div class="card-body">
+                                                                <div class="form-row">
+                                                                    <div class="col-3">
+                                                                        <div class="form-group">
+                                                                            <div class="custom-control custom-checkbox">
+                                                                                <input type="checkbox" name='all'
+                                                                                       value="all"
+                                                                                       class="custom-control-input all"
+                                                                                       id="flexCheckDefault{{ menu.pk }}0">
+                                                                                <label class="custom-control-label"
+                                                                                       for="flexCheckDefault{{ menu.pk }}0">All</label>
+                                                                            </div>
+                                                                        </div>
+                                                                    </div>
+                                                                    <div class="col-3">
+                                                                        <div class="form-group">
+                                                                            <div class="custom-control custom-checkbox">
+                                                                                <input type="checkbox" {% role_can_view menu role %}
+                                                                                       name='can_view' value="1"
+                                                                                       class="custom-control-input"
+                                                                                       id="flexCheckDefault{{ menu.pk }}4">
+                                                                                <label class="custom-control-label"
+                                                                                       for="flexCheckDefault{{ menu.pk }}4">Can
+                                                                                    View</label>
+                                                                            </div>
+                                                                        </div>
+                                                                    </div>
+
+                                                                    <div class="col-3">
+                                                                        <div class="form-group">
+                                                                            <div class="custom-control custom-checkbox">
+                                                                                <input type="checkbox" {% role_can_add menu role %}
+                                                                                       name='can_add' value="1"
+                                                                                       class="custom-control-input"
+                                                                                       id="flexCheckDefault{{ menu.pk }}1">
+                                                                                <label class="custom-control-label"
+                                                                                       for="flexCheckDefault{{ menu.pk }}1">Can
+                                                                                    Create</label>
+                                                                            </div>
+                                                                        </div>
+                                                                    </div>
+                                                                    <div class="col-3">
+                                                                        <div class="form-group">
+                                                                            <div class="custom-control custom-checkbox">
+                                                                                <input type="checkbox" {% role_can_change menu role %}
+                                                                                       name='can_change' value="1"
+                                                                                       class="custom-control-input"
+                                                                                       id="flexCheckDefault{{ menu.pk }}2">
+                                                                                <label class="custom-control-label"
+                                                                                       for="flexCheckDefault{{ menu.pk }}2">Can
+                                                                                    Update</label>
+                                                                            </div>
+                                                                        </div>
+                                                                    </div>
+                                                                    <div class="col-3">
+                                                                        <div class="form-group">
+                                                                            <div class="custom-control custom-checkbox">
+                                                                                <input type="checkbox" {% role_can_delete menu role %}
+                                                                                       name="can_delete" value="1"
+                                                                                       class="custom-control-input"
+                                                                                       id="flexCheckDefault{{ menu.pk }}3">
+                                                                                <label class="custom-control-label"
+                                                                                       for="flexCheckDefault{{ menu.pk }}3">Can
+                                                                                    Delete</label>
+                                                                            </div>
+                                                                        </div>
+                                                                    </div>
+
+
+                                                                </div>
+
+                                                                <div class="text-right">
+                                                                    <button class="btn btn-primary">Assign</button>
+                                                                </div>
+
+
+                                                            </div>
+                                                        </div>
+                                                    </form>
+                                                </div>
+
+                                            {% endfor %}
+
+                                        </div>
+                                    </div>
+
+                                </div>
+                            </div>
+                        </div>
+
+                    </div>
+
+                </div>
+
+            </div>
+        </div>
+    </div>
+{% endblock content %}
+
+{% block extra_js %}
+
+    <script>
+        $("body").on('submit', '.assignForm', function (e) {
+            e.preventDefault();
+            url = $(this).attr('action')
+            $.ajax({
+                url: url,
+                type: 'POST',
+                data: new FormData(this),
+                processData: false,
+                contentType: false,
+                success: function (data) {
+
+                    if (data['success']) {
+                        $("#accordion").load(" #accordion");
+                    }
+                },
+            });
+        });
+
+    </script>
+
+    <script>
+        $(document).on('click', '.all', function () {
+            console.log('ok')
+            var check = this
+            //get closest collapse class and find all checkbox inside it
+            var selector = $(this).closest(".collapse").find(':checkbox').not(this)
+            selector.each(function () {
+                this.checked = check.checked ? true : false;
+            });
+        });
+    </script>
+
+    <script>
+        jQuery("#q").keyup(function () {
+            var filter = jQuery(this).val().toLowerCase();
+            jQuery("#accordion [data-toggle]").each(function () {
+                if (jQuery(this).text().toLowerCase().trim().indexOf(filter) < 0) {
+                    jQuery(this).closest(".card").hide();
+                } else {
+                    jQuery(this).closest(".card").show()
+                }
+            });
+        });
+    </script>
+{% endblock extra_js %}
