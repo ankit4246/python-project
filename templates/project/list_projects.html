@@ -5,19 +5,29 @@
     <title>Projects</title>
 </head>
 <body>
-{#<a href="url {% url 'project:create_project' %}"></a>#}
-<ul>
-    <!-- Iterate over object_list -->
-    {% for project in object_list %}
-        <!-- Display Objects -->
-        <li>{{ project.project_name }}</li>
-        <li>{{ project.description }}</li>
+<a href="{% url 'project:create_project' %}"> Create Project </a>
+<br>
+{% for project in page_obj %}
+    {{ project.project_name|upper }}<br>
+{% endfor %}
 
-        <hr/>
-        <!-- If objet_list is empty  -->
-    {% empty %}
-        <li>No projects yet.</li>
-    {% endfor %}
-</ul>
+
+<div class="pagination">
+    <span class="step-links">
+        {% if page_obj.has_previous %}
+            <a href="?page=1">&laquo; first</a>
+            <a href="?page={{ page_obj.previous_page_number }}">previous</a>
+        {% endif %}
+
+        <span class="current">
+            Page {{ page_obj.number }} of {{ page_obj.paginator.num_pages }}.
+        </span>
+
+        {% if page_obj.has_next %}
+            <a href="?page={{ page_obj.next_page_number }}">next</a>
+            <a href="?page={{ page_obj.paginator.num_pages }}">last &raquo;</a>
+        {% endif %}
+    </span>
+</div>
 </body>
 </html>
