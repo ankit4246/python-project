@@ -76,6 +76,6 @@ class Role(TimeStamp):
     def __str__(self):
         return self.name
 
-    @property
-    def total_users(self):
-        return self.users.count()
+    # @property
+    # def total_users(self):
+    #     return self.users.count()
