@@ -19,9 +19,10 @@ from django.views.generic.edit import FormView
 from users.forms import AddressForm, EducationInfoForm, ExperienceForm, TrainingFormSet, ExperienceFormSet
 from users.forms import RegisterForm, LoginForm, \
     BasicInfoUserForm, ProfileForm, AddressDetailsUserForm, TrainingForm, SocialMediaForm, EducationFormSet, \
-    SocialFormSet
+    SocialFormSet, PasswordResetForm
 from users.models import (AddressDetails, ExperienceDetails, Profile,
-                          TrainingDetails, User, EducationDetails, SocialMedias)
+                          TrainingDetails, User, EducationDetails)
+from users.tasks import send_mail_func, reset_mail_pass 
 from users.tasks import send_mail_func
 from .tokens import account_activation_token
 from django.http import HttpResponse, HttpResponseNotAllowed, Http404
@@ -244,6 +245,7 @@ class SocialInfoView(View):
 #         fm = RegistrationForm()
 #         return render(request, 'users/registration.html', {'form':fm,})
 
+
 def generate_confirmation_token(pk):
     payload = {
         'confirm': pk,
@@ -306,6 +308,7 @@ def user_register(request):
             request.session['current_site'] = str(current_site)
             request.session['uid'] = uid
             request.session['token'] = str(token_needed)
+            request.session['name'] = first_name
             return redirect("users:login")
 
     context = {
@@ -401,8 +404,8 @@ def delete_single_form(request, str, pk):
 
 
 def user_confirm_email(request, token):
-    if request.user.is_authenticated:
-        return redirect('/')
+    # if request.user.is_authenticated:
+    #     return redirect('/')
 
     # token = request.GET.get('token')
     if token is None:
@@ -412,20 +415,20 @@ def user_confirm_email(request, token):
         payload = jwt.decode(token, settings.SECRET_KEY, algorithm='HS256')
     except jwt.ExpiredSignature:
         messages.error(request, 'Confirmation token has expired.')
-        return redirect('/')
+        return redirect('users:change-password')
     except jwt.DecodeError:
         messages.error(request, 'Error decoding confirmation token.')
-        return redirect('/')
+        return redirect('users:change-password')
     except jwt.InvalidTokenError:
         messages.error(request, 'Invalid confirmation token.')
-        return redirect('/')
+        return redirect('users:change-password')
 
     try:
         user = User.objects.get(pk=payload['confirm'])
         print(user)
     except User.DoesNotExist:
         messages.error(request, 'Account not found.')
-        return redirect('/')
+        return redirect('users:change-password')
 
     if user.is_verified:
         messages.error(request, "Email already confirmed.")
@@ -433,14 +436,70 @@ def user_confirm_email(request, token):
         user.is_verified = True
         user.save()
         messages.success(request, "Email confirmed.")
-    return redirect('users:login')
+    return redirect('users:change-password')
 
 
+def generate_password_token(pk):
+    payload = {
+        'confirm': pk,
+        'iat': datetime.utcnow(),
+        'exp': datetime.utcnow() + timedelta(days=3)
+    }
+    token = jwt.encode(payload, settings.SECRET_KEY, algorithm='HS256').decode('utf-8')
+    return token
+
+# @login_required
+def passwordReset(request):
+    user = request.user
+    token = generate_password_token(user.pk)
+    status = reset_mail_pass.delay(email=user.email, token=str(token))
+    messages.success(request, 'A mail has been sent to your mailing address!')
+    request.session['name'] = user.first_name
+    return redirect('users:change-password')
+
+# @login_required
+def passwordConfirmFromEmail(request, token):
+    try:
+        payload = jwt.decode(token, settings.SECRET_KEY, algorithm='HS256')
+    except jwt.ExpiredSignature:
+        messages.error(request, 'Confirmation token has expired.')
+        return redirect('users:change-password')
+    except jwt.DecodeError:
+        messages.error(request, 'Error decoding confirmation token.')
+        return redirect('users:change-password')
+    except jwt.InvalidTokenError:
+        messages.error(request, 'Invalid confirmation token.')
+        return redirect('users:change-password')
+    
+    try:
+        user = User.objects.get(pk=payload['confirm'])
+    except User.DoesNotExist:
+        messages.error(request, 'Account not found.')
+        return redirect('users:change-password')
+        
+    messages.success(request, "You can change your password now.")
+    return redirect('users:change-password')
+
+
+def changePassword(request):
+    form = PasswordResetForm(request.POST or None, user=request.user)
+    if request.method == "POST":
+        if form.is_valid():
+            form.save()
+            messages.success(request, "Your password has successfully changed")
+            return redirect('users:login')
+    else:
+        form = PasswordResetForm()
+    context ={
+        "form":form,
+    }
+    return render(request, 'users/password_reset.html', context)
+
+# @login_required
 def resend_email(request):
-    if request.method == 'POST':
         user = request.user
         token = generate_confirmation_token(user.pk)
-        status = send_mail_func.delay(user, 
-        str(token))
+        status = send_mail_func.delay(str(user), str(token))
         messages.success(request, 'A email has sent to your address. Please check!')
-    return redirect('pentest:home')
+        return redirect('users:change-password')
+
