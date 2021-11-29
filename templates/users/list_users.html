@@ -1,4 +1,5 @@
 <table>
+    <a href="{% url 'users:create_user' %}">Create</a>
     {% for user in users %}
         <tr>
             <td class="cell-num">{{ forloop.counter0|add:page_obj.start_index }}</td>
@@ -21,6 +22,8 @@
                 <a class="btn btn-sm btn-danger u-delete"
                    data-toggle="modal" data-target="#deleteModal"
                 {#               href="" url="{% url 'accounts:delete_user' user.id %}">Delete</a>#}
+                <a href="{% url 'users:update_user' user.pk %}">Update</a>
+                <a href="{% url 'users:delete_user' user.pk %}">Delete</a>
             </td>
 
         </tr>

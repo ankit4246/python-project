@@ -23,5 +23,9 @@ urlpatterns = [
     path('<str>/<pk>/delete', views.delete_single_form, name="delete-single-form"),
     path('user_confirm/<token>/', views.user_confirm_email, name='confirm-email'),
     path('resend-email/', views.resend_email, name='resend-email'),
+    # For User Management
     path("list/user/", views.UserListView.as_view(), name="list_user"),
+    path("create/user/", views.UserCreateView.as_view(), name="create_user"),
+    path("update/<pk>/user/", views.UserUpdateView.as_view(), name="update_user"),
+    path('delete/<pk>/user/', views.UserDeleteView.as_view(), name='delete_user'),
 ]
