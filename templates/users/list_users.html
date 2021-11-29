@@ -1,0 +1,28 @@
+<table>
+    {% for user in users %}
+        <tr>
+            <td class="cell-num">{{ forloop.counter0|add:page_obj.start_index }}</td>
+            <td>{{ user.first_name }}</td>
+            <td>{{ user.username }}</td>
+            <td>{{ user.email }}</td>
+            <td>{{ user.get_user_roles }}</td>
+            <td>
+                {% if user.is_active %}
+{#                    <a class="btn btn-sm btn-danger action-info u-deactivate" data-toggle="modal"#}
+{#                       data-target="#deactivateModal" href=""#}
+                    {#                   url="{% url 'accounts:deactivate_user' user.id %}">Deactivate</a>#}
+                {% else %}
+{#                    <a class="btn btn-sm btn-success action-info u-activate" data-toggle="modal"#}
+                    {#                   data-target="#activateModal" href="" url="{% url 'accounts:activate_user' user.id %}">Activate</a>#}
+                {% endif %}
+
+                {#            <a class="btn btn-primary action-info" href="{% url 'accounts:user_update' user.id %}" data-toggle="tooltip"#}
+                {#               data-placement="top" title="Edit">Edit</a>#}
+                <a class="btn btn-sm btn-danger u-delete"
+                   data-toggle="modal" data-target="#deleteModal"
+                {#               href="" url="{% url 'accounts:delete_user' user.id %}">Delete</a>#}
+            </td>
+
+        </tr>
+    {% endfor %}
+</table>

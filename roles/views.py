@@ -53,7 +53,7 @@ class RoleDeleteView(DeleteView):
 
 
 class RolePermissionSetupView(View):
-    template = "roles/role_menus_setup.html"
+    template_name = "roles/role_menu_setup.html"
 
     def get(self, request, *args, **kwargs):
         role_qs = Role.objects.all()
@@ -79,7 +79,7 @@ class RolePermissionSetupView(View):
             "menus": menus,
             "kwargs_id": kwargs.get("role_id"),
         }
-        return render(request, self.template, context)
+        return render(request, self.template_name, context)
 
 
 class AssignRolePermissionsView(View):

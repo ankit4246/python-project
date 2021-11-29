@@ -24,13 +24,13 @@
   {
     "name": "User Management",
     "code": "user_mgmt",
-    "url": "dashboard",
+    "url": "users:list_user",
     "ic_class": "icon icon-single-04",
     "children": [
       {
         "name": "Users Setup",
         "code": "user_setup",
-        "url": "pentest:home",
+        "url": "users:list_user",
         "children": []
       },
       {

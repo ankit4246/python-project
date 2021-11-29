@@ -14,14 +14,14 @@ from django.urls import reverse, reverse_lazy
 from django.utils.encoding import force_bytes, force_text
 from django.utils.http import urlsafe_base64_decode, urlsafe_base64_encode
 from django.views import View
-from django.views.generic import TemplateView
+from django.views.generic import TemplateView, ListView
 from django.views.generic.edit import FormView
 from users.forms import AddressForm, EducationInfoForm, ExperienceForm, TrainingFormSet, ExperienceFormSet
 from users.forms import RegisterForm, LoginForm, \
     BasicInfoUserForm, ProfileForm, AddressDetailsUserForm, TrainingForm, SocialMediaForm, EducationFormSet, \
     SocialFormSet, PasswordResetForm
 from users.models import (AddressDetails, ExperienceDetails, Profile,
-                          TrainingDetails, User, EducationDetails)
+                          TrainingDetails, User, EducationDetails, SocialMedias)
 from users.tasks import send_mail_func, reset_mail_pass
 from users.tasks import send_mail_func
 from .tokens import account_activation_token
@@ -219,6 +219,18 @@ class SocialInfoView(View):
         return render(request, self.template_name, context)
 
 
+class UserListView(ListView):
+    model = User
+    # ordering = ["-date_joined"]
+    context_object_name = "users"
+    template_name = "users/list_users.html"
+    paginate_by = 10
+
+    def Retrive_ListView(self, request):
+        dataset = User.objects.all()
+        return render(request, self.template_name, {"dataset": dataset})
+
+
 # class RegistrationView(TemplateView):
 #     template_name = 'users/registration.html'
 
@@ -343,7 +355,7 @@ def login_user(request):
                 return render(request, 'users/login.html', context)
             else:
                 login(request, user)
-                return redirect("users:personal_info")
+                return redirect("pentest:home")
 
     return render(request, 'users/login.html', context)
 

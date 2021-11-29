@@ -115,6 +115,13 @@ class User(AbstractBaseUser, PermissionsMixin):
         # Simplest possible answer: Yes, always
         return True
 
+    def get_user_roles(self):
+        # returns comma separted role names of user
+        roles = self.roles.values_list("name", flat=True)
+        if self.is_superuser:
+            return "Superuser"
+        return ", ".join(roles)
+
 
 class AddressDetails(models.Model):
     address = models.CharField(max_length=150, blank=True, null=True)
