@@ -452,7 +452,7 @@ class UserUpdateView(UpdateView):
 
 # class UserDeleteView(DeleteView):
 #     model = User
-#     # template_name = "users/list_users.html"
+#     template_name = "users/list_users.html"
 #     success_url = reverse_lazy('users:list_user')
 
 def userDeleteView(request, pk):

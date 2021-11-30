@@ -139,7 +139,8 @@
                                     </div>
                                     <div class="vehicleDetailModalCancle">
                                         <!-- <h1>Cancel</h1> -->
-                                        <a href="{% url 'users:list_user' %}">Cancel</a>
+                                        <!-- <a href="{% url 'users:list_user' %}">Cancel</a> -->
+                                        <a onclick="backwardVehicleDetail()">Cancel</a>
                                     </div>
                                 </div>
                             </form>
@@ -155,6 +156,9 @@
     <script>
         function forwardVehicleDetail() {
             document.getElementById("vehicleDetailModal").style.display = "flex"
+        }
+        function backwardVehicleDetail() {
+            document.getElementById("vehicleDetailModal").style.display = "none"
         }
     </script>
 </body>
