@@ -128,12 +128,12 @@ class AddressDetails(models.Model):
     province = models.ForeignKey('Province', models.DO_NOTHING, blank=True, null=True)
     country = models.ForeignKey('Country', models.DO_NOTHING, blank=True, null=True)
     district = models.ForeignKey('District', models.DO_NOTHING, blank=True, null=True)
-    local_body = models.CharField(max_length=100, blank=True, null=True)  ############################
-    mobile_no = models.CharField(max_length=20, blank=True, null=True)  ##########################
+    local_body = models.CharField(max_length=100, blank=True, null=True)
+    mobile_no = models.CharField(max_length=20, blank=True, null=True)
     ward_no = models.IntegerField(blank=True, null=True)
     tole = models.CharField(max_length=100, blank=True, null=True)
     house_no = models.CharField(max_length=100, blank=True, null=True)
-    user = models.ForeignKey('User', models.DO_NOTHING, blank=True, null=True)
+    user = models.ForeignKey('User', models.CASCADE, blank=True, null=True)
 
 
 class Country(models.Model):
@@ -159,10 +159,10 @@ class EducationDetails(models.Model):
     faculty = models.CharField(max_length=150, blank=True, null=True)
     institution_name = models.CharField(max_length=150, blank=True, null=True)
     per_gpa_type = models.CharField(max_length=100, blank=True, null=True)
-    per_gpa_value = models.DecimalField(max_digits=3, decimal_places=2, blank=True, null=True)
+    per_gpa_value = models.DecimalField(max_digits=5, decimal_places=2, blank=True, null=True)
     passed_month = models.CharField(max_length=2, blank=True, null=True)
     passed_year = models.CharField(max_length=4, blank=True, null=True)
-    user = models.ForeignKey(User, models.DO_NOTHING, blank=True, null=True)
+    user = models.ForeignKey(User, models.CASCADE, blank=True, null=True)
 
     def __str__(self):
         return self.institution_name
@@ -177,7 +177,7 @@ class ExperienceDetails(models.Model):
     start_year = models.CharField(max_length=4, blank=True, null=True)
     is_current = models.BooleanField(blank=True, null=True)
     jd = models.CharField(max_length=255, blank=True, null=True)
-    user = models.ForeignKey(User, models.DO_NOTHING, blank=True, null=True)
+    user = models.ForeignKey(User, models.CASCADE, blank=True, null=True)
 
 
 class Province(models.Model):
@@ -196,7 +196,7 @@ class TrainingDetails(models.Model):
     duration_type = models.CharField(max_length=100, blank=True, null=True)
     completion_month = models.CharField(max_length=2, blank=True, null=True)
     completion_year = models.CharField(max_length=4, blank=True, null=True)
-    user = models.ForeignKey(User, models.DO_NOTHING, blank=True, null=True)
+    user = models.ForeignKey(User, models.CASCADE, blank=True, null=True)
 
 
 class University(models.Model):
@@ -227,10 +227,10 @@ class Profile(models.Model):
     pan_number = models.CharField(max_length=10, blank=True, null=True)
     national_identity_num = models.IntegerField(blank=True, null=True)
     gender = models.CharField(max_length=1, choices=GENDER_CHOICES, blank=True, null=True)
-    user = models.ForeignKey(User, models.DO_NOTHING, blank=True, null=True)
+    user = models.ForeignKey(User, models.CASCADE, blank=True, null=True)
 
 
 class SocialMedias(models.Model):
     social_media = models.CharField(max_length=100, blank=True, null=True)
     link = models.CharField(max_length=200, blank=True, null=True)
-    user = models.ForeignKey(User, models.DO_NOTHING, blank=True, null=True)
+    user = models.ForeignKey(User, models.CASCADE, blank=True, null=True)
