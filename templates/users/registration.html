@@ -47,7 +47,7 @@
                     {%  if form.first_name.errors %}
                         {{ form.first_name|add_class:'is-invalid' }}
                             <p class="invalid-feedback text-danger">
-                                {{ form.first_name_errors }}
+                                {{ form.first_name.errors }}
                             </p>
                     {% else %}
                         {{ form.first_name }}

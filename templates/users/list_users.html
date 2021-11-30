@@ -1,28 +1,165 @@
-<table>
-    {% for user in users %}
-        <tr>
-            <td class="cell-num">{{ forloop.counter0|add:page_obj.start_index }}</td>
-            <td>{{ user.first_name }}</td>
-            <td>{{ user.username }}</td>
-            <td>{{ user.email }}</td>
-            <td>{{ user.get_user_roles }}</td>
-            <td>
-                {% if user.is_active %}
-{#                    <a class="btn btn-sm btn-danger action-info u-deactivate" data-toggle="modal"#}
-{#                       data-target="#deactivateModal" href=""#}
-                    {#                   url="{% url 'accounts:deactivate_user' user.id %}">Deactivate</a>#}
-                {% else %}
-{#                    <a class="btn btn-sm btn-success action-info u-activate" data-toggle="modal"#}
-                    {#                   data-target="#activateModal" href="" url="{% url 'accounts:activate_user' user.id %}">Activate</a>#}
-                {% endif %}
 
-                {#            <a class="btn btn-primary action-info" href="{% url 'accounts:user_update' user.id %}" data-toggle="tooltip"#}
-                {#               data-placement="top" title="Edit">Edit</a>#}
-                <a class="btn btn-sm btn-danger u-delete"
-                   data-toggle="modal" data-target="#deleteModal"
-                {#               href="" url="{% url 'accounts:delete_user' user.id %}">Delete</a>#}
-            </td>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>User List</title>
+    <style>
+        .vehicleDetailModal {
+            width: 100%;
+            height: 100vh;
+            background: rgba(52, 57, 87, 0.5);
+            position: absolute;
+            top: 0;
+            right: 0;
+            position: fixed;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            display: none;
+        }
 
-        </tr>
-    {% endfor %}
-</table>
+        .vehicleDetailModalMain {
+            padding: 78px 162px;
+            background: #fff6f8;
+            border-radius: 5px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        .vehicleDetailModalIcon .fa-check-circle {
+            font-size: 80px;
+            color: #6b51df;
+        }
+
+        .vehicleDetailModalConfirmTitle {
+            font-weight: 500;
+            font-size: 32px;
+            line-height: 37px;
+            letter-spacing: 0.02em;
+            font-style: normal;
+            color: #2d2b2b;
+            margin-top: 18px;
+        }
+
+        .vehicleDetailModalBtns {
+            width: 354px;
+            height: 60px;
+            border-radius: 5px;
+            overflow: hidden;
+            position: relative;
+            margin-top: 48px;
+        }
+
+        .vehicleDetailModalConfirm,
+        .vehicleDetailModalCancle {
+            position: absolute;
+            width: 190px;
+            height: 60px;
+            border-radius: 5px;
+            transform: skewX(-30deg);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            cursor: pointer;
+        }
+
+        .vehicleDetailModalConfirm {
+            left: -18px;
+            background: #6b51df;
+            color: #ffffff;
+            box-shadow: 2px 2px 8px rgba(0, 0, 0, 0.25);
+        }
+
+        .vehicleDetailModalCancle {
+            right: -18px;
+            background: #d2caf8;
+            color: #6b51df !important;
+        }
+
+        .vehicleDetailModalConfirm h1,
+        .vehicleDetailModalCancle h1 {
+            transform: skewX(30deg);
+            font-weight: 500;
+            font-size: 24px;
+            font-style: normal;
+        }
+    </style>
+</head>
+<body>
+    
+    <table>
+        <a href="{% url 'users:create_user' %}">Create</a>
+        {% for user in users %}
+            <tr>
+                <td class="cell-num">{{ forloop.counter0|add:page_obj.start_index }}</td>
+                <td>{{ user.first_name }}</td>
+                <td>{{ user.username }}</td>
+                <td>{{ user.email }}</td>
+                <td>{{ user.get_user_roles }}</td>
+                <td>
+                    {% if user.is_active %}
+    {#                    <a class="btn btn-sm btn-danger action-info u-deactivate" data-toggle="modal"#}
+    {#                       data-target="#deactivateModal" href=""#}
+                        {#                   url="{% url 'accounts:deactivate_user' user.id %}">Deactivate</a>#}
+                    {% else %}
+    {#                    <a class="btn btn-sm btn-success action-info u-activate" data-toggle="modal"#}
+                        {#                   data-target="#activateModal" href="" url="{% url 'accounts:activate_user' user.id %}">Activate</a>#}
+                    {% endif %}
+    
+                    {#            <a class="btn btn-primary action-info" href="{% url 'accounts:user_update' user.id %}" data-toggle="tooltip"#}
+                    {#               data-placement="top" title="Edit">Edit</a>#}
+                    <a class="btn btn-sm btn-danger u-delete"
+                        data-toggle="modal" data-target="#deleteModal"
+                    {#               href="" url="{% url 'accounts:delete_user' user.id %}">Delete</a>#}
+                    <a href="{% url 'users:update_user' user.pk %}">Update</a>
+                    <!-- <a href="{% url 'users:delete_user' user.pk %}" >Delete</a> -->
+                    <!-- <button type="button" class="btn btn-danger" data-toggle="modal" data-target="#exampleModalCenter">
+                        Delete
+                    </button> -->
+                    <div class="submitBtnFooter">
+                        <div class="submitBtnWrap">
+                            <div class="detailForwardBtn" onclick="forwardVehicleDetail()">
+                                <h1>Delete</h1>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="vehicleDetailModal" id="vehicleDetailModal">
+                        <div class="vehicleDetailModalMain">
+                            <form action="#" method="POST">
+                                <div class="vehicleDetailModalIcon"><i class="fas fa-check-circle"></i></div>
+                                <div class="vehicleDetailModalConfirmTitle">Delete this user</div>
+                                <div class="vehicleDetailModalBtns">
+                                    <div class="vehicleDetailModalConfirm">
+                                        <!-- <h1>Confirm</h1> -->
+                                        <a href="{% url 'users:delete_user' user.pk %}">Confirm</a>
+                                    </div>
+                                    <div class="vehicleDetailModalCancle">
+                                        <!-- <h1>Cancel</h1> -->
+                                        <!-- <a href="{% url 'users:list_user' %}">Cancel</a> -->
+                                        <a onclick="backwardVehicleDetail()">Cancel</a>
+                                    </div>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                </td>
+    
+            </tr>
+        {% endfor %}
+    </table>
+    
+                
+    <script>
+        function forwardVehicleDetail() {
+            document.getElementById("vehicleDetailModal").style.display = "flex"
+        }
+        function backwardVehicleDetail() {
+            document.getElementById("vehicleDetailModal").style.display = "none"
+        }
+    </script>
+</body>
+</html>
