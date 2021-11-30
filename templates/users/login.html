@@ -2,62 +2,63 @@
 {% load static %}
 
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Registration</title>
     <link rel="stylesheet" href="https://pro.fontawesome.com/releases/v5.10.0/css/all.css"
-          integrity="sha384-AYmEC3Yw5cVb3ZcuHtOA93w35dYTsvhLPVnYs9eStHfGJvOvKxVfELGroGkvsg+p" crossorigin="anonymous"/>
+        integrity="sha384-AYmEC3Yw5cVb3ZcuHtOA93w35dYTsvhLPVnYs9eStHfGJvOvKxVfELGroGkvsg+p" crossorigin="anonymous" />
     <link rel="stylesheet" href="{% static 'css/personalDetail.css' %}">
 </head>
 
 <body>
 
-<section class="contentBar">
-    <div class="navbar">
-        <p>Login</p>
-    </div>
+    <section class="contentBar">
+        <div class="navbar">
+            <p>Login</p>
+        </div>
 
-    {% if messages %}
+        {% if messages %}
         <div class="row">
             <div class="offset-md-4 col-md-4">
 
                 {% for message in messages %}
-                    <div class="alert alert-dismissible alert-{{ message.tags }}" role="alert">
-                        {{ message }}
-                    </div>
+                <div class="alert alert-dismissible alert-{{ message.tags }}" role="alert">
+                    {{ message }}
+                </div>
                 {% endfor %}
             </div>
         </div>
-    {% endif %}
+        {% endif %}
 
-    <div class="mainContent">
-        <form action="{% url 'users:login' %}" method="POST">
-            <div class="personalDetail-name">
-                {% csrf_token %}
-                <div class="personalDetail-fname">
-                    <h4>{{ form.username.label_tag }}</h4>
-                    <!-- <input type="text" id="FirstName" name="FirstName" placeholder="First Name" required> -->
-                    {{ form.username }}
+        <div class="mainContent">
+            <form action="{% url 'users:login' %}" method="POST">
+                <div class="personalDetail-name">
+                    {% csrf_token %}
+                    <div class="personalDetail-fname">
+                        <h4>{{ form.username.label_tag }}</h4>
+                        <!-- <input type="text" id="FirstName" name="FirstName" placeholder="First Name" required> -->
+                        {{ form.username }}
+                    </div>
+                    <div class="personalDetail-fname">
+                        <h4>{{ form.password.label_tag }}</h4>
+                        <!-- <input type="text" id="MiddleName" name="MiddleName" placeholder="Middle Name"> -->
+                        {{ form.password }}
+                    </div>
+                    <div>
+                        <input type="button" value="Skip" class="formButton">
+                        <input type="submit" value="Login" class="formButton">
+                    </div>
+                    <div class="personalDetail-fname">
+                        <a href="{% url 'users:register' %}">Register</a>
+                    </div>
                 </div>
-                <div class="personalDetail-fname">
-                    <h4>{{ form.password.label_tag }}</h4>
-                    <!-- <input type="text" id="MiddleName" name="MiddleName" placeholder="Middle Name"> -->
-                    {{ form.password }}
-                </div>
-                <div>
-                    <input type="button" value="Skip" class="formButton">
-                    <input type="submit" value="Login" class="formButton">
-                </div>
-                <div class="personalDetail-fname">
-                    <a href="{% url 'users:register' %}">Register</a>
-                </div>
-            </div>
 
-        </form>
-    </div>
-</section>
+            </form>
+        </div>
+    </section>
 
 </body>
 

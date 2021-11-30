@@ -441,16 +441,22 @@ class UserListView(ListView):
 class UserCreateView(CreateView):
     model = User
     template_name = "users/user-create.html"
-    fields = "__all__"
+    fields = ["first_name", "middle_name", "last_name", "skills", "roles", "password", "email"]
     success_url = reverse_lazy('users:list_user')
 
 class UserUpdateView(UpdateView):
     model = User
     template_name = "users/user-update.html"
-    fields = "__all__"
+    fields = ["first_name", "middle_name", "last_name", "skills", "roles"]
     success_url = reverse_lazy('users:list_user')
 
-class UserDeleteView(DeleteView):
-    model = User
-    template_name = "users/user-delete.html"
-    success_url = reverse_lazy('users:list_user')
+# class UserDeleteView(DeleteView):
+#     model = User
+#     # template_name = "users/list_users.html"
+#     success_url = reverse_lazy('users:list_user')
+
+def userDeleteView(request, pk):
+    user = User.objects.get(pk=pk)
+    user.delete()
+    messages.success(request, "A user has been deleted.")
+    return redirect('users:list_user')
