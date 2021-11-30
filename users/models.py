@@ -128,8 +128,8 @@ class AddressDetails(models.Model):
     province = models.ForeignKey('Province', models.DO_NOTHING, blank=True, null=True)
     country = models.ForeignKey('Country', models.DO_NOTHING, blank=True, null=True)
     district = models.ForeignKey('District', models.DO_NOTHING, blank=True, null=True)
-    local_body = models.CharField(max_length=100, blank=True, null=True)  ############################
-    mobile_no = models.CharField(max_length=20, blank=True, null=True)  ##########################
+    local_body = models.CharField(max_length=100, blank=True, null=True)
+    mobile_no = models.CharField(max_length=20, blank=True, null=True)
     ward_no = models.IntegerField(blank=True, null=True)
     tole = models.CharField(max_length=100, blank=True, null=True)
     house_no = models.CharField(max_length=100, blank=True, null=True)
@@ -159,7 +159,7 @@ class EducationDetails(models.Model):
     faculty = models.CharField(max_length=150, blank=True, null=True)
     institution_name = models.CharField(max_length=150, blank=True, null=True)
     per_gpa_type = models.CharField(max_length=100, blank=True, null=True)
-    per_gpa_value = models.DecimalField(max_digits=3, decimal_places=2, blank=True, null=True)
+    per_gpa_value = models.DecimalField(max_digits=5, decimal_places=2, blank=True, null=True)
     passed_month = models.CharField(max_length=2, blank=True, null=True)
     passed_year = models.CharField(max_length=4, blank=True, null=True)
     user = models.ForeignKey(User, models.DO_NOTHING, blank=True, null=True)
