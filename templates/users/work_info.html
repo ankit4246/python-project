@@ -48,9 +48,9 @@
                                 <h4>Roles and Responsibilities</h4>
                                 {{ formset.empty_form.jd }}
                             </div>
-                            <div class="personalDetail-fname">
+                            <div class="personalDetail-fname dltBtnWrap">
                                 <button type="button" name="del_btn{{ formset.empty_form.instance.id }}" value="Delete"
-                                        class="delete-image-form">Delete
+                                        class="delete-image-form dltBtnAction">Delete
                                 </button>
                             </div>
                         </div>
@@ -102,18 +102,18 @@
                                 {{ form.jd }}
                             </div>
 
-                            <div class="personalDetail-fname">
+                            <div class="personalDetail-fname dltBtnWrap">
                                 <button type="button"
                                         hx-post="{% url 'users:delete-single-form' 'work_info' form.instance.id %}"
                                         name="del_btn{{ formset.empty_form.instance.id }}" value="Delete"
-                                        class="delete-image-form is-get">Delete
+                                        class="delete-image-form is-get dltBtnAction">Delete
                                 </button>
                             </div>
                         </div>
                     </div>
                 {% endfor %}
                 <div id="add-form" class="addSection">
-                    + Add More Experience Detail
+                    + Add More Work Experiences
                 </div>
                 <div class="formSubmitBtn">
                     <a href="{% url 'users:social_info' %}"><input type="button" value="Skip"

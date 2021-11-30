@@ -19,9 +19,9 @@
                             <h4>URL</h4>
                             {{ formset.empty_form.link }}
                         </div>
-                        <div class="personalDetail-fname">
+                        <div class="personalDetail-fname dltBtnWrap">
                             <button type="button" name="del_btn{{ formset.empty_form.instance.id }}" value="Delete"
-                                    class="delete-image-form">Delete
+                                    class="delete-image-form dltBtnAction">Delete
                             </button>
                         </div>
                     </div>
@@ -41,18 +41,18 @@
                                 <h4>URL</h4>
                                 {{ form.link }}
                             </div>
-                            <div class="personalDetail-fname">
+                            <div class="personalDetail-fname dltBtnWrap">
                                 <button type="button"
                                         hx-post="{% url 'users:delete-single-form' 'social_info' form.instance.id %}"
                                         name="del_btn{{ formset.empty_form.instance.id }}" value="Delete"
-                                        class="delete-image-form is-get">Delete
+                                        class="delete-image-form is-get dltBtnAction">Delete
                                 </button>
                             </div>
                         </div>
                     </div>
                 {% endfor %}
                 <div id="add-form" class="addSection">
-                    + Add More Account
+                    + Add More Social Medias
                 </div>
                 <div class="formSubmitBtn">
                     <input type="button" value="Skip" class="formButtonSkip">

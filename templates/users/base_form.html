@@ -30,7 +30,7 @@
 
 <section id="sideBar" class="sideBar">
     <div class="logo">
-        <img src="{% static 'image/logo.png' %}" alt="logo" srcset="">
+        <a href="{% url 'pentest:home' %}"><img src="{% static 'image/logo.png' %}" alt="logo" srcset=""></a>
     </div>
     {% if user.is_authenticated %}
         <p class="userDisplay">Hi {{ user.first_name }}!</p>

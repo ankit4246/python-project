@@ -34,9 +34,9 @@
                                 {{ formset.empty_form.completion_year }}
                             </div>
                         </div>
-                        <div class="personalDetail-fname">
+                        <div class="personalDetail-fname dltBtnWrap">
                             <button type="button" name="del_btn{{ formset.empty_form.instance.id }}" value="Delete"
-                                    class="delete-image-form">Delete
+                                    class="delete-image-form dltBtnAction">Delete
                             </button>
                         </div>
                     </div>
@@ -71,10 +71,10 @@
                                     {{ form.completion_year }}
                                 </div>
                             </div>
-                            <div class="personalDetail-fname">
+                            <div class="personalDetail-fname dltBtnWrap">
                                 <button type="button"
                                         hx-post="{% url 'users:delete-single-form' 'training_info' form.instance.id %}"
-                                        class="delete-image-form is-get" name="del_btn{{ form.instance.id }}"
+                                        class="delete-image-form is-get dltBtnAction" name="del_btn{{ form.instance.id }}"
                                         value="Delete">
                                     Delete
                                 </button>
@@ -83,7 +83,7 @@
                     </div>
                 {% endfor %}
                 <div id="add-form" class="addSection">
-                    + Add More Training Detail
+                    + Add More Training Details
                 </div>
                 <div class="formSubmitBtn">
                     <a href="{% url 'users:work_info' %}"><input type="button" value="Skip" class="formButtonSkip"></a>

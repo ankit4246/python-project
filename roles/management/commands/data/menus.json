@@ -1,0 +1,44 @@
+[
+  {
+    "name": "Dashboard",
+    "code": "dashboard",
+    "url": "pentest:home",
+    "ic_class": "fas fa-home",
+    "children": [
+    ]
+  },
+  {
+    "name": "Dashboard",
+    "code": "dashboard",
+    "url": "pentest:home",
+    "ic_class": "fas fa-home",
+    "children": []
+  },
+  {
+    "name": "Profile",
+    "code": "profile",
+    "url": "users:personal_info",
+    "ic_class": "fas fa-home",
+    "children": []
+  },
+  {
+    "name": "User Management",
+    "code": "user_mgmt",
+    "url": "users:list_user",
+    "ic_class": "icon icon-single-04",
+    "children": [
+      {
+        "name": "Users Setup",
+        "code": "user_setup",
+        "url": "users:list_user",
+        "children": []
+      },
+      {
+        "name": "Roles Setup",
+        "code": "roles_setup",
+        "url": "roles:list_role",
+        "children": []
+      }
+    ]
+  }
+]

@@ -1,0 +1,91 @@
+<div class="content-body">
+  <div class="container-fluid">
+    <div class="row page-titles mx-0">
+      <div class="col-sm-6 p-md-0">
+        <div class="welcome-text">
+          <h4>Role Create</h4>
+        </div>
+      </div>
+      <div class="col-sm-6 p-md-0 justify-content-sm-end mt-2 mt-sm-0 d-flex">
+        <ol class="breadcrumb">
+          <li class="breadcrumb-item"><a href="javascript:void(0)">Home</a></li>
+          <li class="breadcrumb-item active">
+            <a href="javascript:void(0)">User Management</a>
+          </li>
+           <li class="breadcrumb-item active">
+            <a href="javascript:void(0)">Role setup</a>
+          </li>
+        </ol>
+      </div>
+    </div>
+
+
+    <div class="row">
+      <div class="col-12">
+        <div class="card">
+          <div class="card-header">
+            {% comment %}
+            <h4 class="card-title">Roles List</h4>
+            {% endcomment %}
+            <p>
+              <a class="btn btn-secondary" href="{% url 'roles:list_role' %}"
+                ><span class="ic-add"></span>back to list</a
+              >
+            </p>
+          </div>
+          <div class="card-body" style="color: black">
+            <form method="post">
+              {% csrf_token %}
+              <div class="row">
+                {% comment %}
+                <div class="col-lg-4">
+                  <h3 class="section-header">Role Detail</h3>
+                  <p class="section-para">Add role details here</p>
+                </div>
+                {% endcomment %}
+
+                <div class="col-lg-8">
+                  <div class="form-row mt-lg-0 mt-3">
+                    <div class="col-md-4 form-group">
+                      <label for=""> <strong>Name</strong> </label
+                      ><input
+                        class="form-control"
+                        value="{{form.name.value|default_if_none:''}}"
+                        name="name"
+                        type="text"
+                        placeholder="Role Name"
+                      />
+
+                      <span class="text-danger"
+                        >{{form.name.errors.as_text}}</span
+                      >
+                    </div>
+                    <div class="col-md-8 form-group">
+                      <label for=""> <strong>Description</strong> </label>
+                      <input
+                        type="text"
+                        class="form-control"
+                        name="desc"
+                        value="{{form.desc.value|default_if_none:''}}"
+                        placeholder="Role Description"
+                      />
+                      <span class="text-danger"
+                        >{{form.desc.errors.as_text}}</span
+                      >
+                    </div>
+                  </div>
+                  <button class="btn btn-info" name="perm-setup" type="submit">
+                    Save and permission setup
+                  </button>
+
+                  <button class="btn btn-success" type="submit">Save</button>
+                </div>
+              </div>
+            </form>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</div>
