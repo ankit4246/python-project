@@ -39,16 +39,13 @@
                     {% csrf_token %}
                     <div class="personalDetail-fname">
                         <h4>{{ form.username.label_tag }}</h4>
-                        <!-- <input type="text" id="FirstName" name="FirstName" placeholder="First Name" required> -->
                         {{ form.username }}
                     </div>
                     <div class="personalDetail-fname">
                         <h4>{{ form.password.label_tag }}</h4>
-                        <!-- <input type="text" id="MiddleName" name="MiddleName" placeholder="Middle Name"> -->
                         {{ form.password }}
                     </div>
                     <div>
-                        <input type="button" value="Skip" class="formButton">
                         <input type="submit" value="Login" class="formButton">
                     </div>
                     <div class="personalDetail-fname">

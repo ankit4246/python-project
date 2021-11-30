@@ -77,6 +77,34 @@ class TrainingForm(forms.ModelForm):
                                                     attrs={'id': 'marksSecured'}),
         }
 
+    def clean(self):
+
+        # data from the form is fetched using super function
+        super(TrainingForm, self).clean()
+
+        # extract the username and text field from the data
+        name_of_training = self.cleaned_data.get('name_of_training')
+        institute_name = self.cleaned_data.get('institute_name')
+        duration = self.cleaned_data.get('duration')
+
+        # text = self.cleaned_data.get('text')
+
+        if not re.match(r"[a-zA-Z]{3,30}", name_of_training):
+            self._errors['name_of_training'] = self.error_class([
+                'Invalid Name of Training'])
+
+        if not re.match(r"[a-zA-Z]{3,30}", name_of_training):
+            self._errors['institute_name'] = self.error_class([
+                'Invalid Name of Institute Name'])
+
+        # if int(duration):
+        #     self._errors['duration'] = self.error_class([
+        #         'Invalid Duration'])
+            # raise forms.ValidationError('Invalid Name of Training')
+
+        # return any errors if found
+        return self.cleaned_data
+
 
 TrainingFormSet = inlineformset_factory(User, TrainingDetails,
                                         form=TrainingForm,

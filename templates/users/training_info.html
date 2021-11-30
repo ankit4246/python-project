@@ -14,6 +14,7 @@
                         <div class="personalDetail-fname">
                             <h4>Name of the Training</h4>
                             {{ formset.empty_form.name_of_training }}
+                            {{ formset.empty_form.errors }}
                         </div>
                         <div class="personalDetail-fname">
                             <h4>Institute Name</h4>
@@ -51,10 +52,12 @@
                             <div class="personalDetail-fname">
                                 <h4>Name of the Training</h4>
                                 {{ form.name_of_training }}
+                                {{ form.name_of_training.errors }}
                             </div>
                             <div class="personalDetail-fname">
                                 <h4>Institute Name</h4>
                                 {{ form.institute_name }}
+                                {{ form.institute_name.errors }}
                             </div>
 
                             <div class="marksSecured">
@@ -63,6 +66,7 @@
                                     {{ form.duration }}
                                     {{ form.duration_type }}
                                 </div>
+                                {{ form.duration.errors }}
                             </div>
                             <div class="marksSecured">
                                 <h4>Completion Date</h4>
@@ -74,7 +78,8 @@
                             <div class="personalDetail-fname dltBtnWrap">
                                 <button type="button"
                                         hx-post="{% url 'users:delete-single-form' 'training_info' form.instance.id %}"
-                                        class="delete-image-form is-get dltBtnAction" name="del_btn{{ form.instance.id }}"
+                                        class="delete-image-form is-get dltBtnAction"
+                                        name="del_btn{{ form.instance.id }}"
                                         value="Delete">
                                     Delete
                                 </button>
