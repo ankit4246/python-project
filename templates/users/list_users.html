@@ -177,12 +177,22 @@
     <!-- pagination ends -->
                 
     <script>
+        var modal = document.getElementById("vehicleDetailModal");
+        // for delete button ---> opne modal in the user list page
         function forwardVehicleDetail() {
             document.getElementById("vehicleDetailModal").style.display = "flex"
         }
+        
+        // for modal ---> clicking on the cancel button in modal
         function backwardVehicleDetail() {
             document.getElementById("vehicleDetailModal").style.display = "none"
         }
+        // for modal ---> clicking outside the modal
+        window.onclick = function (event) {
+            if (event.target == modal) {
+                modal.style.display = "none";
+            }
+        };
     </script>
 </body>
 </html>
