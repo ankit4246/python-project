@@ -23,7 +23,7 @@ from users.models import (AddressDetails, ExperienceDetails, Profile,
 from users.tasks import send_mail_func, reset_mail_pass
 from django.http import HttpResponse, HttpResponseNotAllowed, Http404
 from users.utils import generate_confirmation_token, generate_password_token
-
+from django.core.paginator import Paginator
 class PersonalInfoView(View):
     template_name = 'users/personal_info.html'
 
@@ -219,18 +219,8 @@ def user_register(request):
                 profile = Profile.objects.create(user=user, date_of_birth=dob, gender=gender)
                 profile.save()
 
-            current_site = get_current_site(request)
-            uid = urlsafe_base64_encode(force_bytes(user.pk))
-
-            # token = account_activation_token.make_token(user)
             token_needed = generate_confirmation_token(user.pk)
 
-            print("current-domain", str(current_site))
-            print('current_uid', type(uid))
-            print('current_token', type(token_needed))
-            print('token', token_needed)
-            # link = settings.BASE_DIR + 'users/confirm_email?token={}'.format(token_needed)
-            # print("link", link)
             if not user.is_verified:
                 status = send_mail_func.delay(
                     # email=email, current_site=str(current_site), uid=uid, token=token_needed
@@ -238,8 +228,7 @@ def user_register(request):
                 )
                 messages.success(request, "Check your email!")
                 messages.add_message(request, messages.INFO, 'Hello world.')
-            request.session['current_site'] = str(current_site)
-            request.session['uid'] = uid
+            # request.session['current_site'] = str(current_site)
             request.session['token'] = str(token_needed)
             request.session['name'] = first_name
             return redirect("users:login")
@@ -433,11 +422,8 @@ class UserListView(ListView):
     # ordering = ["-date_joined"]
     context_object_name = "users"
     template_name = "users/list_users.html"
-    paginate_by = 10
+    paginate_by = 2
 
-    def Retrive_ListView(self, request):
-        dataset = User.objects.all()
-        return render(request, self.template_name, {"dataset": dataset})
 class UserCreateView(CreateView):
     model = User
     template_name = "users/user-create.html"
