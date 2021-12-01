@@ -19,12 +19,11 @@ from users.forms import RegisterForm, LoginForm, \
     BasicInfoUserForm, ProfileForm, AddressDetailsUserForm, TrainingForm, SocialMediaForm, EducationFormSet, \
     SocialFormSet, PasswordResetForm
 from users.models import (AddressDetails, ExperienceDetails, Profile,
-                          TrainingDetails, User, EducationDetails, SocialMedias)
+                        TrainingDetails, User, EducationDetails, SocialMedias)
 from users.tasks import send_mail_func, reset_mail_pass
 from django.http import HttpResponse, HttpResponseNotAllowed, Http404
 from users.utils import generate_confirmation_token, generate_password_token
-
-
+from django.core.paginator import Paginator
 class PersonalInfoView(View):
     template_name = 'users/personal_info.html'
 
@@ -143,7 +142,6 @@ class TrainingInfoView(View):
         }
         return render(request, self.template_name, context)
 
-
 class WorkInfoView(View):
     template_name = 'users/work_info.html'
     form_class = ExperienceForm
@@ -191,7 +189,6 @@ class SocialInfoView(View):
             return redirect(reverse_lazy('users:social_info'))
         return render(request, self.template_name, context)
 
-
 def user_register(request):
     """
     Register a user
@@ -222,18 +219,8 @@ def user_register(request):
                 profile = Profile.objects.create(user=user, date_of_birth=dob, gender=gender)
                 profile.save()
 
-            current_site = get_current_site(request)
-            uid = urlsafe_base64_encode(force_bytes(user.pk))
-
-            # token = account_activation_token.make_token(user)
             token_needed = generate_confirmation_token(user.pk)
 
-            print("current-domain", str(current_site))
-            print('current_uid', type(uid))
-            print('current_token', type(token_needed))
-            print('token', token_needed)
-            # link = settings.BASE_DIR + 'users/confirm_email?token={}'.format(token_needed)
-            # print("link", link)
             if not user.is_verified:
                 status = send_mail_func.delay(
                     # email=email, current_site=str(current_site), uid=uid, token=token_needed
@@ -241,8 +228,7 @@ def user_register(request):
                 )
                 messages.success(request, "Check your email!")
                 messages.add_message(request, messages.INFO, 'Hello world.')
-            request.session['current_site'] = str(current_site)
-            request.session['uid'] = uid
+            # request.session['current_site'] = str(current_site)
             request.session['token'] = str(token_needed)
             request.session['name'] = first_name
             return redirect("users:login")
@@ -374,7 +360,6 @@ def user_confirm_email(request, token):
         messages.success(request, "Email confirmed.")
     return redirect('users:change-password')
 
-
 # @login_required
 def passwordReset(request):
     user = request.user
@@ -383,7 +368,6 @@ def passwordReset(request):
     messages.success(request, 'A mail has been sent to your mailing address!')
     request.session['name'] = user.first_name
     return redirect('users:change-password')
-
 
 # @login_required
 def passwordConfirmFromEmail(request, token):
@@ -432,19 +416,13 @@ def resend_email(request):
     messages.success(request, 'A email has sent to your address. Please check!')
     return redirect('users:change-password')
 
-
 # For User Management
 class UserListView(ListView):
     model = User
     # ordering = ["-date_joined"]
     context_object_name = "users"
     template_name = "users/list_users.html"
-    paginate_by = 10
-
-    def Retrive_ListView(self, request):
-        dataset = User.objects.all()
-        return render(request, self.template_name, {"dataset": dataset})
-
+    paginate_by = 2
 
 class UserCreateView(CreateView):
     model = User
@@ -452,13 +430,11 @@ class UserCreateView(CreateView):
     fields = ["first_name", "middle_name", "last_name", "skills", "roles", "password", "email"]
     success_url = reverse_lazy('users:list_user')
 
-
 class UserUpdateView(UpdateView):
     model = User
     template_name = "users/user-update.html"
     fields = ["first_name", "middle_name", "last_name", "skills", "roles"]
     success_url = reverse_lazy('users:list_user')
-
 
 # class UserDeleteView(DeleteView):
 #     model = User

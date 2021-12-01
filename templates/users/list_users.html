@@ -71,14 +71,47 @@
         {% endfor %}
     </table>
     
+    <!-- pagination starts -->
+    
+    {% if is_paginated %}
+
+        {% if page_obj.has_previous %}
+             <a class='btn btn-outline-info mb-4' href="?page=1">First</a>
+             <a class='btn btn-outline-info mb-4' href="?page={{ page_obj.previous_page_number }}">Previous</a>
+        {% endif %}
+        
+        {% for num in page_obj.paginator.page_range %}
+            {% if page_obj.number == num %}
+                <a class='btn btn-info mb-4' href="?page={{ num }}">{{ num }}</a>
+            {% elif num > page_obj.number|add:'-3' and num < page_obj.number|add:'3' %}
+                 <a class='btn btn-outline-info mb-4' href="?page={{ num }}">{{ num }}</a>
+            {% endif %}
+        {% endfor %}
+
+        {% if page_obj.has_next %}
+             <a class='btn btn-outline-info mb-4' href="?page={{ page_obj.next_page_number}}">Next</a>
+             <a class='btn btn-outline-info mb-4' href="?page={{ page_obj.paginator.num_pages }}">Last</a>
+        {% endif %}
+    {% endif %}
+    <!-- pagination ends -->
                 
     <script>
+        var modal = document.getElementById("vehicleDetailModal");
+        // for delete button ---> opne modal in the user list page
         function forwardVehicleDetail() {
             document.getElementById("vehicleDetailModal").style.display = "flex"
         }
+        
+        // for modal ---> clicking on the cancel button in modal
         function backwardVehicleDetail() {
             document.getElementById("vehicleDetailModal").style.display = "none"
         }
+        // for modal ---> clicking outside the modal
+        window.onclick = function (event) {
+            if (event.target == modal) {
+                modal.style.display = "none";
+            }
+        };
     </script>
 </body>
 </html>
