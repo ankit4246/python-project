@@ -1,5 +1,6 @@
+from django.contrib import messages
 from django.http.response import HttpResponse
-from django.shortcuts import render
+from django.shortcuts import render, redirect
 from django.urls.base import reverse
 from django.views.generic import ListView, CreateView, View
 from django.views.generic.edit import DeleteView, UpdateView
@@ -47,9 +48,16 @@ class RoleUpdateView(SuccessMessageMixin, UpdateView):
     success_message = "Updated Successfully."
 
 
-class RoleDeleteView(DeleteView):
-    model = Role
-    success_url = reverse_lazy("roles:list_role")
+# class RoleDeleteView(DeleteView):
+#     model = Role
+#     template_name = 'roles/role_list.html'
+#     success_url = reverse_lazy("roles:list_role")
+
+def role_delete_view(request, pk):
+    role = Role.objects.get(pk=pk)
+    role.delete()
+    messages.success(request, "A role has been deleted.")
+    return redirect('roles:list_role')
 
 
 class RolePermissionSetupView(View):
@@ -69,8 +77,8 @@ class RolePermissionSetupView(View):
                     output_field=IntegerField(),
                 )
             )
-            .order_by("order", "order_id")
-            .distinct()
+                .order_by("order", "order_id")
+                .distinct()
         )
 
         context = {

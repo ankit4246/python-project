@@ -1,6 +1,12 @@
 {% load static %}
 {% load user_roles_tags %}
-
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <title>Role List</title>
+    <link rel="stylesheet" href="{% static 'css/modal.css' %}">
+</head>
+<body>
 <div>
     <div>
         <div>
@@ -45,9 +51,32 @@
                                         <td><a class="btn btn-sm btn-success"
                                                href="{% url 'roles:role_setup' role.id %}">Permission Setup</a>
                                             <a href="{% url 'roles:role_update' role.id %}" title="Edit">Update</a>
-                                            <a href="{% url 'roles:role_delete' role.id %}"
-                                            >Delete</a>
+
+                                            <div class="detailForwardBtn"
+                                                 onclick="forwardVehicleDetail()">
+                                                <h1>Delete</h1>
+                                            </div>
                                         </td>
+
+                                        <div class="vehicleDetailModal" id="vehicleDetailModal">
+                                            <div class="vehicleDetailModalMain">
+                                                <form action="#" method="POST">
+                                                    <div class="vehicleDetailModalIcon"><i
+                                                            class="fas fa-check-circle"></i></div>
+                                                    <div class="vehicleDetailModalConfirmTitle">Delete this role</div>
+                                                    <div class="vehicleDetailModalBtns">
+                                                        <div class="vehicleDetailModalConfirm"
+                                                             id="vehicleDetailModalConfirm">
+                                                            <a>Confirm</a>
+                                                        </div>
+                                                        <div class="vehicleDetailModalCancle">
+                                                            <a onclick="backwardVehicleDetail()">Cancel</a>
+                                                        </div>
+                                                    </div>
+                                                </form>
+                                            </div>
+                                        </div>
+
                                     </tr>
                                 {% endfor %}
                                 </tbody>
@@ -56,42 +85,19 @@
                     </div>
                 </div>
             </div>
-
-            <div class="modal mymodal modal-01" id="deleteModal" tabindex="-1" role="dialog">
-                <div class="modal-dialog" role="document">
-                    <div class="modal-content">
-                        <div class="modal-header align-items-center">
-                            <h5 class="modal-title">Delete Role</h5>
-                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                                <span aria-hidden="true" class="ic-close-circular-filled text-danger h5"></span>
-                            </button>
-                        </div>
-                        <div class="modal-body">
-                            <form action="" method="POST" class="delete-form">
-                                {% csrf_token %}
-                                <label class="d-block">Confirm Delete</label>
-
-                                <div class="modal-footer">
-                                    <button type="button" class="btn btn-light" data-dismiss="modal">
-                                        Cancel
-                                    </button>
-                                    <button type="submit" class="btn btn-danger">Delete</button>
-                            </form>
-                        </div>
-                    </div>
-                </div>
-            </div>
-
-
         </div>
+    </div>
+</div>
+<script>
+    function forwardVehicleDetail(href) {
+        console.log("div clicked")
+        document.getElementById("vehicleDetailModal").style.display = "flex"
+        document.getElementById("vehicleDetailModalConfirm").children[0].href = href
+    }
 
-        {% block extra_js %}
-
-            <script>
-                $(".role-delete").on("click", function () {
-                    let url = $(this).attr("url")
-                    $(".delete-form").attr("action", url)
-                })
-            </script>
-
-        {% endblock extra_js %}
+    function backwardVehicleDetail() {
+        document.getElementById("vehicleDetailModal").style.display = "none"
+    }
+</script>
+</body>
+</html>
