@@ -29,6 +29,7 @@ urlpatterns = [
     path("update/<pk>/user/", views.UserUpdateView.as_view(), name="update_user"),
     # path('delete/<pk>/user/', views.UserDeleteView.as_view(), name='delete_user'),
     path('delete/<pk>/user/', views.userDeleteView, name='delete_user'),
-
+    path("activate/user/<int:user_id>/", views.user_activate, name="activate_user"),
+    path("deactivate/user/<int:user_id>/", views.user_deactivate, name="deactivate_user"),
 
 ]

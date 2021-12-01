@@ -12,6 +12,7 @@ def generate_confirmation_token(pk):
     token = jwt.encode(payload, settings.SECRET_KEY, algorithm='HS256').decode('utf-8')
     return token
 
+
 def generate_password_token(pk):
     payload = {
         'confirm': pk,
