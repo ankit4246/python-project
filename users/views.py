@@ -19,11 +19,13 @@ from users.forms import RegisterForm, LoginForm, \
     BasicInfoUserForm, ProfileForm, AddressDetailsUserForm, TrainingForm, SocialMediaForm, EducationFormSet, \
     SocialFormSet, PasswordResetForm
 from users.models import (AddressDetails, ExperienceDetails, Profile,
-                        TrainingDetails, User, EducationDetails, SocialMedias)
+                          TrainingDetails, User, EducationDetails, SocialMedias)
 from users.tasks import send_mail_func, reset_mail_pass
 from django.http import HttpResponse, HttpResponseNotAllowed, Http404
 from users.utils import generate_confirmation_token, generate_password_token
 from django.core.paginator import Paginator
+
+
 class PersonalInfoView(View):
     template_name = 'users/personal_info.html'
 
@@ -142,6 +144,7 @@ class TrainingInfoView(View):
         }
         return render(request, self.template_name, context)
 
+
 class WorkInfoView(View):
     template_name = 'users/work_info.html'
     form_class = ExperienceForm
@@ -188,6 +191,7 @@ class SocialInfoView(View):
             formset.save()
             return redirect(reverse_lazy('users:social_info'))
         return render(request, self.template_name, context)
+
 
 def user_register(request):
     """
@@ -360,6 +364,7 @@ def user_confirm_email(request, token):
         messages.success(request, "Email confirmed.")
     return redirect('users:change-password')
 
+
 # @login_required
 def passwordReset(request):
     user = request.user
@@ -368,6 +373,7 @@ def passwordReset(request):
     messages.success(request, 'A mail has been sent to your mailing address!')
     request.session['name'] = user.first_name
     return redirect('users:change-password')
+
 
 # @login_required
 def passwordConfirmFromEmail(request, token):
@@ -416,6 +422,7 @@ def resend_email(request):
     messages.success(request, 'A email has sent to your address. Please check!')
     return redirect('users:change-password')
 
+
 # For User Management
 class UserListView(ListView):
     model = User
@@ -424,17 +431,20 @@ class UserListView(ListView):
     template_name = "users/list_users.html"
     paginate_by = 2
 
+
 class UserCreateView(CreateView):
     model = User
     template_name = "users/user-create.html"
     fields = ["first_name", "middle_name", "last_name", "skills", "roles", "password", "email"]
     success_url = reverse_lazy('users:list_user')
 
+
 class UserUpdateView(UpdateView):
     model = User
     template_name = "users/user-update.html"
     fields = ["first_name", "middle_name", "last_name", "skills", "roles"]
     success_url = reverse_lazy('users:list_user')
+
 
 # class UserDeleteView(DeleteView):
 #     model = User

@@ -1,3 +1,5 @@
+{% extends 'users/base_bootstrap.html' %}
+{% load static %}
 {% load role_menus_check %}
 
 {% block content %}
@@ -13,7 +15,6 @@
                           href="{% url 'roles:list_role' %}"><span class="ic-add"></span>back to list</a></p>
                 </div>
                 <div class="flex-grow-1">
-
                     <div class="col-10 h-100">
                         <div class="position-relative h-100">
                             <div class="layout-absolute" id="roleDetail">
@@ -46,7 +47,6 @@
                                                                 </a>
                                                             </div>
                                                         </strong>
-
                                                         <div id="collapse{{ menu.pk }}" class="collapse"
                                                              aria-labelledby="headingOne" data-parent="#accordion">
                                                             <div class="card-body">
@@ -116,83 +116,70 @@
                                                                             </div>
                                                                         </div>
                                                                     </div>
-
-
                                                                 </div>
-
                                                                 <div class="text-right">
                                                                     <button class="btn btn-primary">Assign</button>
                                                                 </div>
-
-
                                                             </div>
                                                         </div>
                                                     </form>
                                                 </div>
-
                                             {% endfor %}
-
                                         </div>
                                     </div>
-
                                 </div>
                             </div>
                         </div>
-
                     </div>
-
                 </div>
-
             </div>
         </div>
     </div>
+
 {% endblock content %}
 
-{% block extra_js %}
 
-    <script>
-        $("body").on('submit', '.assignForm', function (e) {
-            e.preventDefault();
-            url = $(this).attr('action')
-            $.ajax({
-                url: url,
-                type: 'POST',
-                data: new FormData(this),
-                processData: false,
-                contentType: false,
-                success: function (data) {
-
-                    if (data['success']) {
-                        $("#accordion").load(" #accordion");
-                    }
-                },
-            });
-        });
-
-    </script>
-
-    <script>
-        $(document).on('click', '.all', function () {
-            console.log('ok')
-            var check = this
-            //get closest collapse class and find all checkbox inside it
-            var selector = $(this).closest(".collapse").find(':checkbox').not(this)
-            selector.each(function () {
-                this.checked = check.checked ? true : false;
-            });
-        });
-    </script>
-
-    <script>
-        jQuery("#q").keyup(function () {
-            var filter = jQuery(this).val().toLowerCase();
-            jQuery("#accordion [data-toggle]").each(function () {
-                if (jQuery(this).text().toLowerCase().trim().indexOf(filter) < 0) {
-                    jQuery(this).closest(".card").hide();
-                } else {
-                    jQuery(this).closest(".card").show()
+<script>
+    $("body").on('submit', '.assignForm', function (e) {
+        e.preventDefault();
+        url = $(this).attr('action')
+        $.ajax({
+            url: url,
+            type: 'POST',
+            data: new FormData(this),
+            processData: false,
+            contentType: false,
+            success: function (data) {
+                if (data['success']) {
+                    $("#accordion").load(" #accordion");
                 }
-            });
+            },
         });
-    </script>
-{% endblock extra_js %}
+    });
+
+</script>
+
+<script>
+    $(document).on('click', '.all', function () {
+        console.log('ok')
+        var check = this
+        //get closest collapse class and find all checkbox inside it
+        var selector = $(this).closest(".collapse").find(':checkbox').not(this)
+        selector.each(function () {
+            this.checked = check.checked ? true : false;
+        });
+    });
+</script>
+
+<script>
+    jQuery("#q").keyup(function () {
+        var filter = jQuery(this).val().toLowerCase();
+        jQuery("#accordion [data-toggle]").each(function () {
+            if (jQuery(this).text().toLowerCase().trim().indexOf(filter) < 0) {
+                jQuery(this).closest(".card").hide();
+            } else {
+                jQuery(this).closest(".card").show()
+            }
+        });
+    });
+</script>
