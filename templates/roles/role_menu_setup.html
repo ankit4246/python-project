@@ -39,16 +39,16 @@
                                                         <strong>
                                                             <div class="card-header" id="headingOne"
                                                                  title="click to configure" style="cursor: pointer;">
-                                                                <a data-toggle="collapse"
+                                                                <a data-bs-toggle="collapse"
                                                                    {% if menu in role.menus.all %}class="text-success" {% endif %}
-                                                                   data-target="#collapse{{ menu.pk }}"
+                                                                   data-bs-target="#collapse{{ menu.pk }}"
                                                                    aria-expanded="false" aria-controls="collapseThree">
                                                                     {{ menu.name }}
                                                                 </a>
                                                             </div>
                                                         </strong>
                                                         <div id="collapse{{ menu.pk }}" class="collapse"
-                                                             aria-labelledby="headingOne" data-parent="#accordion">
+                                                             aria-labelledby="headingOne" data-bs-parent="#accordion">
                                                             <div class="card-body">
                                                                 <div class="form-row">
                                                                     <div class="col-3">
@@ -138,7 +138,7 @@
 
 {% endblock content %}
 
-
+{% block extra_js %}
 <script>
     $("body").on('submit', '.assignForm', function (e) {
         e.preventDefault();
@@ -174,7 +174,7 @@
 <script>
     jQuery("#q").keyup(function () {
         var filter = jQuery(this).val().toLowerCase();
-        jQuery("#accordion [data-toggle]").each(function () {
+        jQuery("#accordion [data-bs-toggle]").each(function () {
             if (jQuery(this).text().toLowerCase().trim().indexOf(filter) < 0) {
                 jQuery(this).closest(".card").hide();
             } else {
@@ -183,3 +183,4 @@
         });
     });
 </script>
+{% endblock extra_js %}

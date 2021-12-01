@@ -69,8 +69,8 @@
                                                 Setup</a>
                                                 <a class="btn btn-info" href="{% url 'roles:role_update' role.id %}"
                                                    title="Edit">Update</a>
-                                                <a class="btn btn-sm btn-danger role-delete" data-toggle="modal"
-                                                   data-target="#deleteModal" href=""
+                                                <a class="btn btn-sm btn-danger role-delete" data-bs-toggle="modal"
+                                                   data-bs-target="#deleteModal" href=""
                                                    url="{% url 'roles:role_delete' role.id %}"
                                                 >Delete</a>
                                             </td>
@@ -114,10 +114,12 @@
     </div>
 {% endblock content %}
 
-
+{% block extra_js %}
 <script>
     $(".role-delete").on("click", function () {
+        console.log('delete button clicked')
         let url = $(this).attr("url")
         $(".delete-form").attr("action", url)
     })
 </script>
+{% endblock extra_js %}
