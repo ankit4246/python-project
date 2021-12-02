@@ -494,3 +494,21 @@ def userDeleteView(request, pk):
     user.delete()
     messages.success(request, "A user has been deleted.")
     return redirect('users:list_user')
+
+
+def user_deactivate(request, user_id):
+    user = User.objects.get(pk=user_id)
+    if request.method == "POST":
+        user.is_active = False
+        user.save()
+        messages.success(request, " User account has been successfully deactivated! ")
+        return redirect("users:list_user")
+
+
+def user_activate(request, user_id):
+    user = User.objects.get(pk=user_id)
+    if request.method == "POST":
+        user.is_active = True
+        user.save()
+        messages.success(request, " User account has been successfully activated! ")
+        return redirect("users:list_user")
