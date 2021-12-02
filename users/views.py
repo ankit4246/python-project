@@ -26,6 +26,7 @@ from users.utils import generate_confirmation_token, generate_password_token, ge
 from django.core.paginator import Paginator
 from roles.models import Role
 
+
 class PersonalInfoView(View):
     template_name = 'users/personal_info.html'
 
@@ -429,7 +430,9 @@ class UserListView(ListView):
     # ordering = ["-date_joined"]
     context_object_name = "users"
     template_name = "users/list_users.html"
-    paginate_by = 2
+    paginate_by = 10
+
+
 
 class UserCreateView(View):
     template_name = "users/user-create.html"
@@ -443,32 +446,29 @@ class UserCreateView(View):
 
         form = UserRegisterFormByAdmin()
         # profile_form = ProfileForm(instance=profile)
-        context = {"form": form}
-        context["roles"] = Role.objects.all()
+        context = {"form": form, "roles": Role.objects.all()}
         return render(request, self.template_name, context)
-    
+
     def post(self, request, *args, **kwargs):
         pwd = User.objects.make_random_password(length=8)
         print(request.POST)
         updated_request = request.POST.copy()
         updated_request.update({"password": pwd})
         form = UserRegisterFormByAdmin(updated_request)
-        print("before valid")
         if form.is_valid():
-            print("after valid")
             user = form.save(commit=False)
             user.set_password(pwd)
             user.save()
             token = generate_invitation_token(form.instance.id)
             send_invitation_mail.delay(email=form.instance.email, token=str(token), pwd=pwd)
             return redirect(reverse_lazy('users:list_user'))
-        print("outside valid")
         print(form.errors)
         context = {
             'form': form,
             "roles": Role.objects.all()
         }
         return render(request, self.template_name, context)
+
 
 # def userCreateView(request):
 #     form = RegisterForm(data=request.POST or None)
