@@ -1,7 +1,161 @@
 
-<h2>Form Creation</h2>
-<form action="" method="post">
-    {% csrf_token %}
-    {{ form.as_p }}
-    <input type="submit" value="Save">
-</form>
+{% extends 'users/base_bootstrap.html' %}
+{% load static %}
+
+{% block content %}
+<div class="content-body">
+    <div class="container-fluid">
+        <div class="row page-titles mx-0">
+            <div class="col-sm-6 p-md-0">
+                <div class="welcome-text">
+                    <h4>Staff Create</h4>
+                </div>
+            </div>
+            <div class="col-sm-6 p-md-0 justify-content-sm-end mt-2 mt-sm-0 d-flex">
+                <ol class="breadcrumb">
+                    <li class="breadcrumb-item"><a href="javascript:void(0)">Home</a></li>
+                    <li class="breadcrumb-item active">
+                        <a href="javascript:void(0)">User Management</a>
+                    </li>
+                    <li class="breadcrumb-item active">
+                        <a href="javascript:void(0)">User setup</a>
+                    </li>
+                </ol>
+            </div>
+        </div>
+        <!-- row -->
+        <div class="row">
+            <div class="col-12">
+                <div class="card">
+                    <div class="card-header">
+                        <p>
+                            <a class="btn btn-secondary" href="{% url 'users:list_user' %}"><span
+                                    class="ic-add"></span>back to list</a>
+                        </p>
+                    </div>
+                    <div class="card-body" style="color:black">
+                        <form method="post">
+                            {% csrf_token %}
+                            <div class="row">
+                                <div class="authincation-content">
+                                    <div class="row no-gutters">
+                                        <div class="col-xl-12">
+                                            <div class="card">
+                                                {% comment %} <div class="card-header" style="align-self:center;">
+                                                    <h4 class="text-center mb-4">Register New staff</h4>
+                                                </div> {% endcomment %}
+                                                <div class="card-body" style="color:black">
+                                                    <div class="basic-form">
+                                                        <form method="post">
+                                                            {% csrf_token %}
+                                                            <div class="form-row">
+                                                                <div class="form-group col-md-6">
+                                                                    <label><strong>First Name</strong></label>
+                                                                    <input type="text" class="form-control"
+                                                                        placeholder="First Name"
+                                                                        value="{{form.first_name.value|default_if_none:''}}"
+                                                                        name="first_name">
+                                                                    <span
+                                                                        class="text-danger">{{form.first_name.errors.as_text}}</span>
+                                                                </div>
+                                                                <div class="form-group col-md-6">
+                                                                    <label><strong>Middle Name</strong></label>
+                                                                    <input type="text" class="form-control"
+                                                                        value="{{form.middle_name.value|default_if_none:''}}"
+                                                                        placeholder="middle_name" name="middle_name">
+                                                                    <span
+                                                                        class="text-danger">{{form.middle_name.errors.as_text}}</span>
+                                                                </div>
+                                                                <div class="form-group col-md-6">
+                                                                    <label><strong>Last Name</strong></label>
+                                                                    <input type="text"
+                                                                        value="{{form.last_name.value|default_if_none:''}}"
+                                                                        class="form-control" placeholder="last_name"
+                                                                        name="last_name">
+                                                                    <span
+                                                                        class="text-danger">{{form.last_name.errors.as_text}}</span>
+                                                                </div>
+                                                                <div class="form-group col-md-6">
+                                                                    <label><strong>Username</strong></label>
+                                                                    <input type="text"
+                                                                        value="{{form.username.value|default_if_none:''}}"
+                                                                        class="form-control" placeholder="Username"
+                                                                        name="username">
+                                                                    <span
+                                                                        class="text-danger">{{form.username.errors.as_text}}</span>
+                                                                </div>
+                                                                <div class="form-group col-md-6">
+                                                                    <label><strong>Email</strong></label>
+                                                                    <input type="email"
+                                                                        value="{{form.email.value|default_if_none:''}}"
+                                                                        class="form-control" placeholder="email"
+                                                                        name="email">
+                                                                    <span
+                                                                        class="text-danger">{{form.email.errors.as_text}}</span>
+                                                                </div>
+                                                                <!-- <div class="form-group col-md-6">
+                                                                    <label><strong></strong></label>
+                                                                    <input type="text"
+                                                                        value="{{form.value|default_if_none:''}}"
+                                                                        class="form-control" placeholder="email"
+                                                                        name="email">
+                                                                    <span
+                                                                        class="text-danger">{{form.email.errors.as_text}}</span>
+                                                                </div> -->
+                                                                {% comment %} <div class="form-group col-md-6">
+                                                                    <label>Role</label><select name="roles"
+                                                                        class="form-control">
+                                                                        Select
+                                                                        <option value="">Select...</option>
+                                                                        {% for role in form.roles %}
+                                                                        <option value="{{role.pk}}">{{role}}</option>
+                                                                        {% endfor %}
+                                                                    </select>
+                                                                </div> {% endcomment %}
+
+                                                                <div class="form-group col-md-6">
+                                                                    <label for=""> <strong>Roles</strong> </label>
+                                                                    </br>
+                                                                    {% for role in roles %}
+                                                                    <div class="form-check form-check-inline">
+                                                                        <input class="form-check-input" name="roles"
+                                                                            type="checkbox"
+                                                                            id="inlineCheckbox{{role.pk}}"
+                                                                            value="{{role.pk}}">
+                                                                        <label class="form-check-label"
+                                                                            for="inlineCheckbox{{role.pk}}">{{role}}</label>
+                                                                    </div>
+                                                                    {% endfor %}
+                                                                    <span
+                                                                        class="text-danger">{{form.non_field_errors}}</span>
+                                                                </div>
+                                                                <div
+                                                                    class="form-row col-md-12 d-flex justify justify-content-center">
+                                                                    <button type="submit"
+                                                                        class="btn btn-primary btn-block mt-4 col-md-4">Submit</button>
+                                                                </div>
+                                                            </div>
+                                                        </form>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                    </div>
+                </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
+</div>
+</div>
+</div>
+
+
+
+</div>
+
+{% endblock %}

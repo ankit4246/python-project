@@ -480,3 +480,11 @@ class PasswordResetForm(forms.Form):
         if commit:
             self.user.save()
         return self.user
+
+class UserRegisterFormByAdmin(forms.ModelForm):
+    """
+    Form to register a new user
+    """
+    class Meta:
+        model = User
+        fields = ['first_name', "middle_name", "last_name",'username', 'email', 'password','roles']
