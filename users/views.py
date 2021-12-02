@@ -429,7 +429,7 @@ class UserListView(ListView):
     # ordering = ["-date_joined"]
     context_object_name = "users"
     template_name = "users/list_users.html"
-    paginate_by = 2
+    paginate_by = 20
 
 class UserCreateView(View):
     template_name = "users/user-create.html"
@@ -477,12 +477,41 @@ class UserCreateView(View):
 #         pwd = User.objects.create_random_password(length=)make_random_password(length=8)
 #         email = form.cleaned_data['email']
 
+# class UserUpdateView(UpdateView):
+#     model = User
+#     template_name = "users/user-update.html"
+#     fields = ["first_name", "middle_name", "last_name", "roles"]
+#     # form_class = UserRegisterFormByAdmin
+#     # fields = ['first_name', "middle_name", "last_name",'username', 'email', 'password','roles']
+#     success_url = reverse_lazy('users:list_user')
+
+#     def get_context_data(self, **kwargs):
+#         # print(self.kwargs['pk'])
+#         context = super().get_context_data(**kwargs)
+#         context["roles"] =  Role.objects.all()
+#         # context["own_role"] = Role.objects.filter(users=self.request.user)
+#         # context['own_role'] = 
+#         # form = context['form']
+#         # form.initial = {"first_name": 'jpt',"roles": Role.objects.filter(users=self.request.user)}
+#         # print(form.initial)
+#         # # print(form)
+#         # context['form']=form
+#         # print(form)
+#         # context['']
+#         return context
+
 class UserUpdateView(UpdateView):
     model = User
     template_name = "users/user-update.html"
-    fields = ["first_name", "middle_name", "last_name", "skills", "roles"]
-    success_url = reverse_lazy('users:list_user')
+    fields = ["first_name", "middle_name", "last_name", "username", "roles"]
+    success_url = reverse_lazy("users:list_user")
+    context_object_name = "user"
 
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context["roles"] = Role.objects.all()
+        return context
+    
 
 # class UserDeleteView(DeleteView):
 #     model = User
