@@ -16,7 +16,7 @@ from django.views import View
 from django.views.generic import TemplateView, ListView, CreateView, UpdateView, DeleteView
 from django.views.generic.edit import FormView
 
-from users.decorators import  permissions_in_menu_required
+from users.decorators import permissions_in_menu_required
 from users.forms import AddressForm, EducationInfoForm, ExperienceForm, TrainingFormSet, ExperienceFormSet
 from users.forms import RegisterForm, LoginForm, \
     BasicInfoUserForm, ProfileForm, AddressDetailsUserForm, TrainingForm, SocialMediaForm, EducationFormSet, \
@@ -369,7 +369,7 @@ def user_confirm_email(request, token):
     return redirect('users:login')
 
 
-
+# @login_required
 def passwordReset(request):
     user = request.user
     token = generate_password_token(user.pk)
@@ -379,7 +379,7 @@ def passwordReset(request):
     return redirect('users:change-password')
 
 
-
+# @login_required
 def passwordConfirmFromEmail(request, token):
     try:
         payload = jwt.decode(token, settings.SECRET_KEY, algorithm='HS256')
@@ -418,7 +418,7 @@ def changePassword(request):
     return render(request, 'users/password_reset.html', context)
 
 
-
+# @login_required
 def resend_email(request):
     user = request.user
     token = generate_confirmation_token(user.pk)
@@ -428,13 +428,15 @@ def resend_email(request):
 
 
 # For User Management
+# @method_decorator(roles_required('manager'), name='dispatch')
 @method_decorator(permissions_in_menu_required('User Management', ['can_view']), name='dispatch')
 class UserListView(ListView):
+
     model = User
     # ordering = ["-date_joined"]
     context_object_name = "users"
     template_name = "users/list_users.html"
-    paginate_by = 20
+    # paginate_by = 100
 
 
 @method_decorator(permissions_in_menu_required('User Management', ['can_add']), name='dispatch')
@@ -527,7 +529,6 @@ class UserUpdateView(UpdateView):
 #     template_name = "users/list_users.html"
 #     success_url = reverse_lazy('users:list_user')
 
-@permissions_in_menu_required('User Management', ['can_delete'])
 def userDeleteView(request, pk):
     user = User.objects.get(pk=pk)
     user.delete()
@@ -535,7 +536,6 @@ def userDeleteView(request, pk):
     return redirect('users:list_user')
 
 
-@permissions_in_menu_required('User Management', ['can_delete'])
 def user_deactivate(request, user_id):
     user = User.objects.get(pk=user_id)
     if request.method == "POST":
@@ -545,7 +545,6 @@ def user_deactivate(request, user_id):
         return redirect("users:list_user")
 
 
-@permissions_in_menu_required('User Management', ['can_delete'])
 def user_activate(request, user_id):
     user = User.objects.get(pk=user_id)
     if request.method == "POST":
