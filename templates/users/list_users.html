@@ -55,7 +55,7 @@
                                     <tbody>
                                     {% for user in users %}
                                         <tr>
-                                            <td class="cell-num">{{ forloop.counter0|add:page_obj.start_index }}</td>
+                                            <td class="cell-num">{{ forloop.counter }}</td>
                                             <td>{{ user.full_name }}</td>
                                             <td>{{ user.username }}</td>
                                             <td>{{ user.email }}</td>
@@ -186,6 +186,9 @@
             let url = $(this).attr("url")
             $(".deactivate-form").attr("action", url)
         })
+        $(document).ready(function() {
+            $('#example').DataTable();
+        } );
     </script>
 
 {% endblock extra_js %}

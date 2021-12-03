@@ -429,7 +429,7 @@ class UserListView(ListView):
     # ordering = ["-date_joined"]
     context_object_name = "users"
     template_name = "users/list_users.html"
-    paginate_by = 20
+    # paginate_by = 100
 
 class UserCreateView(View):
     template_name = "users/user-create.html"
