@@ -29,8 +29,8 @@ def menu_permissions_remove(role, menu):
     # remove menus from role
     role.menus.remove(menu)
     if menu.parent:
-        childrens = menu.parent.children.all()
+        children = menu.parent.children.all()
         # if parent menu doesn't have any children inside role remove the parent menu from role as well
-        if not role.menus.filter(id__in=childrens).exists():
+        if not role.menus.filter(id__in=children).exists():
             role.menus.remove(menu.parent)
             role.menu_permissions.filter(menu=menu.parent).delete()

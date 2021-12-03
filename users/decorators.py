@@ -44,7 +44,6 @@ def permissions_in_menu_required(menu_name, permission_names):
 
     def in_groups(u):
         if u.is_authenticated:
-            # roles = u.roles.filter(menus__in=menu_name)
             role_names = get_roles_from_menu_and_permissions(menu_name, permission_names)
             user_roles = u.roles.filter(name__in=role_names)
             if user_roles or u.is_superuser:

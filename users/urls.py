@@ -1,35 +1,36 @@
 from django.contrib.auth.decorators import login_required
 from django.urls import path
-from users import views
+from users.views import auth_views, kyc_views, management_views
 
+# auth url
 urlpatterns = [
-    path('personal_info/', login_required(views.PersonalInfoView.as_view()), name='personal_info'),
-    path('address_info/', login_required(views.AddressInfoView.as_view()), name='address_info'),
-    path('education_info/', login_required(views.EducationInfoView.as_view()), name='education_info'),
-    path('training_info/', login_required(views.TrainingInfoView.as_view()), name='training_info'),
-    path('work_info/', login_required(views.WorkInfoView.as_view()), name='work_info'),
-    path('social_info/', login_required(views.SocialInfoView.as_view()), name='social_info'),
-    # path('register/', views.RegistrationView.as_view(), name='register'),
-    path('register/', views.user_register, name='register'),
-    path('login/', views.login_user, name="login"),
-    path('logout/', views.logout_user, name='logout'),
-    # path('verify-email/', views.VerifyEmail.as_view(), name='verify-email'),
-    # path('activate-user/<uidb64>/<token>/', views.activate_user, name="activate"),
-    path('education_info/<pk>/delete/', views.delete_single_form, name="delete-single-form"),
-    path('user_confirm/<token>/', views.user_confirm_email, name='confirm-email'),
-    path('password_reset/', views.passwordReset, name='password-reset'),
-    path('confirm_password_reset/<token>/', views.passwordConfirmFromEmail, name='confirm-password-reset'),
-    path('change_password/', views.changePassword, name="change-password"),
-    path('<str>/<pk>/delete', views.delete_single_form, name="delete-single-form"),
-    path('user_confirm/<token>/', views.user_confirm_email, name='confirm-email'),
-    path('resend-email/', views.resend_email, name='resend-email'),
-    # For User Management
-    path("list/user/", views.UserListView.as_view(), name="list_user"),
-    path("create/user/", views.UserCreateView.as_view(), name="create_user"),
-    path("update/<pk>/user/", views.UserUpdateView.as_view(), name="update_user"),
-    # path('delete/<pk>/user/', views.UserDeleteView.as_view(), name='delete_user'),
-    path('delete/<pk>/user/', views.userDeleteView, name='delete_user'),
-    path("activate/user/<int:user_id>/", views.user_activate, name="activate_user"),
-    path("deactivate/user/<int:user_id>/", views.user_deactivate, name="deactivate_user"),
+    path('register/', auth_views.user_register, name='register'),
+    path('login/', auth_views.login_user, name="login"),
+    path('logout/', auth_views.logout_user, name='logout'),
+    path('user_confirm/<token>/', auth_views.user_confirm_email, name='confirm_email'),
+    path('password-reset/', auth_views.password_reset, name='password_reset'),
+    path('confirm-password-reset/<token>/', auth_views.password_confirm_from_email, name='confirm_password_reset'),
+    path('change-password/', auth_views.change_password, name="change_password"),
+    path('resend-email/', auth_views.resend_email, name='resend_email'),
+]
 
+# kyc urls
+urlpatterns += [
+    path('personal-info/', login_required(kyc_views.PersonalInfoView.as_view()), name='personal_info'),
+    path('address-info/', login_required(kyc_views.AddressInfoView.as_view()), name='address_info'),
+    path('education-info/', login_required(kyc_views.EducationInfoView.as_view()), name='education_info'),
+    path('training-info/', login_required(kyc_views.TrainingInfoView.as_view()), name='training_info'),
+    path('work-info/', login_required(kyc_views.WorkInfoView.as_view()), name='work_info'),
+    path('social-info/', login_required(kyc_views.SocialInfoView.as_view()), name='social_info'),
+    path('<str>/<pk>/delete', kyc_views.delete_single_form, name="delete-single-form"),
+]
+
+# management urls
+urlpatterns += [
+    path("list/user/", management_views.UserListView.as_view(), name="list_user"),
+    path("create/user/", management_views.UserCreateView.as_view(), name="create_user"),
+    path("update/<pk>/user/", management_views.UserUpdateView.as_view(), name="update_user"),
+    path('delete/<pk>/user/', management_views.user_delete_view, name='delete_user'),
+    path("activate/user/<int:user_id>/", management_views.user_activate, name="activate_user"),
+    path("deactivate/user/<int:user_id>/", management_views.user_deactivate, name="deactivate_user"),
 ]
