@@ -1,30 +1,34 @@
 from django.contrib import messages
+from django.contrib.auth import get_user_model
+from django.contrib.messages.views import SuccessMessageMixin
+from django.db import transaction
+from django.db.models import Case, When, IntegerField
+from django.http import JsonResponse
 from django.http.response import HttpResponse
 from django.shortcuts import render, redirect
-from django.urls.base import reverse
-from django.views.generic import ListView, CreateView, View
-from django.views.generic.edit import DeleteView, UpdateView
-from roles.forms import RolePermissionSetupForm
-from roles.models import Menu, MenuPermission, Role
 from django.urls import reverse_lazy
-from django.db import transaction
-from django.contrib.messages.views import SuccessMessageMixin
-from django.http import JsonResponse
+from django.urls.base import reverse
+from django.utils.decorators import method_decorator
+from django.views.generic import ListView, CreateView, View
+from django.views.generic.edit import UpdateView
+from roles.forms import RolePermissionSetupForm
+from roles.models import Menu, Role
 from roles.utils import menu_permissions_create, menu_permissions_remove
-from django.db.models import Case, When, IntegerField, Count
-from django.contrib.auth import get_user_model
 
 # Create your views here.
+from users.decorators import permissions_in_menu_required
 
 User = get_user_model()
 
 
+@method_decorator(permissions_in_menu_required('Project', ['can_view']), name='dispatch')
 class RoleListView(ListView):
     model = Role
     context_object_name = "roles"
     template_name = "roles/role_list.html"
 
 
+@method_decorator(permissions_in_menu_required('Project', ['can_add']), name='dispatch')
 class RoleCreateView(SuccessMessageMixin, CreateView):
     model = Role
     fields = ["name", "desc"]
@@ -40,6 +44,7 @@ class RoleCreateView(SuccessMessageMixin, CreateView):
         return super().get_success_url()
 
 
+@method_decorator(permissions_in_menu_required('Project', ['can_change']), name='dispatch')
 class RoleUpdateView(SuccessMessageMixin, UpdateView):
     model = Role
     fields = ["name", "desc"]
@@ -53,6 +58,7 @@ class RoleUpdateView(SuccessMessageMixin, UpdateView):
 #     template_name = 'roles/role_list.html'
 #     success_url = reverse_lazy("roles:list_role")
 
+@permissions_in_menu_required('Project', ['can_delete'])
 def role_delete_view(request, pk):
     role = Role.objects.get(pk=pk)
     role.delete()
@@ -60,6 +66,7 @@ def role_delete_view(request, pk):
     return redirect('roles:list_role')
 
 
+@method_decorator(permissions_in_menu_required('Project', ['can_change']), name='dispatch')
 class RolePermissionSetupView(View):
     template_name = "roles/role_menu_setup.html"
 
@@ -90,6 +97,7 @@ class RolePermissionSetupView(View):
         return render(request, self.template_name, context)
 
 
+@method_decorator(permissions_in_menu_required('Project', ['can_change']), name='dispatch')
 class AssignRolePermissionsView(View):
     """assign menu permissions inside user role"""
 
