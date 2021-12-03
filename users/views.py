@@ -16,7 +16,7 @@ from django.views import View
 from django.views.generic import TemplateView, ListView, CreateView, UpdateView, DeleteView
 from django.views.generic.edit import FormView
 
-from users.decorators import roles_required, permissions_in_menu_required
+from users.decorators import permissions_in_menu_required
 from users.forms import AddressForm, EducationInfoForm, ExperienceForm, TrainingFormSet, ExperienceFormSet
 from users.forms import RegisterForm, LoginForm, \
     BasicInfoUserForm, ProfileForm, AddressDetailsUserForm, TrainingForm, SocialMediaForm, EducationFormSet, \
@@ -436,7 +436,7 @@ class UserListView(ListView):
     # ordering = ["-date_joined"]
     context_object_name = "users"
     template_name = "users/list_users.html"
-    paginate_by = 20
+    # paginate_by = 100
 
 
 @method_decorator(permissions_in_menu_required('User Management', ['can_add']), name='dispatch')
