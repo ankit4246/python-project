@@ -29,7 +29,7 @@ def send_mail_func(self, email, token):
         # "current_site": current_site,
         # "uid": uid,
     }
-    email_body = render_to_string('users/confirm_email.html', context)
+    email_body = render_to_string('users/auth/confirm_email.html', context)
     mail_subject = "Activation mail"
     send_mail(
         subject=mail_subject,
@@ -40,12 +40,13 @@ def send_mail_func(self, email, token):
     )
     return {"status": True}
 
+
 @shared_task(bind=True)
 def reset_mail_pass(self, email, token):
     context = {
         "token": token,
     }
-    email_body = render_to_string('users/resend_email.html', context)
+    email_body = render_to_string('users/email_body/resend_email.html', context)
     mail_subject = "Password Reset"
     send_mail(
         subject=mail_subject,
@@ -54,7 +55,8 @@ def reset_mail_pass(self, email, token):
         recipient_list=[email, ],
         fail_silently=True,
     )
-    return {"status":True}
+    return {"status": True}
+
 
 @shared_task(bind=True)
 def send_invitation_mail(self, email, token, pwd):
@@ -65,7 +67,7 @@ def send_invitation_mail(self, email, token, pwd):
         # "current_site": current_site,
         # "uid": uid,
     }
-    email_body = render_to_string('users/user_invitation.html', context)
+    email_body = render_to_string('users/email_body/user_invitation.html', context)
     mail_subject = "Invitation mail"
     send_mail(
         subject=mail_subject,
