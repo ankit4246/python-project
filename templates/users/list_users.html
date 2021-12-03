@@ -10,11 +10,12 @@
                 </div>
                 <div class="col-sm-6 p-md-0 justify-content-sm-end mt-2 mt-sm-0 d-flex">
                     <ol class="breadcrumb">
-                        <li class="breadcrumb-item"><a href="{% url 'pentest:home' %}">Home</a></li>
-                        <li class="breadcrumb-item active"><a href="{% url 'users:list_user'  %}">User Management</a></li>
+                        <li class="breadcrumb-item">><a href="{% url 'pentest:home' %}">Home</a></li>
+                        <li class="breadcrumb-item active"><a href="{% url 'users:list_user' %}">Role setup</a></li>
                     </ol>
                 </div>
             </div>
+            <!-- row -->
 
 
             <div class="row">
@@ -74,13 +75,13 @@
                                                 {% endif %}
 
                                                 <a class="btn btn-primary action-info"
-                                                   href="{% url 'users:update_user' user.id %}" data-bs-toggle="tooltip"
+                                                   href="{% url 'users:update_user' user.id %}"
+                                                   data-bs-toggle="tooltip"
                                                    data-bs-placement="top" title="Edit">Edit</a>
                                                 <a class="btn btn-sm btn-danger u-delete"
                                                    data-bs-toggle="modal" data-bs-target="#deleteModal"
                                                    href="" url="{% url 'users:delete_user' user.id %}">Delete</a>
                                             </td>
-
                                         </tr>
                                     {% endfor %}
                                     </tbody>
@@ -128,6 +129,7 @@
                             <form action="" method="POST" class="delete-form">
                                 {% csrf_token %}
                                 <label class="d-block">Are you sure you want to Delete ?</label>
+
                                 <div class="modal-footer">
                                     <button type="button" class="btn btn-light" data-bs-dismiss="modal">
                                         Cancel
@@ -162,6 +164,7 @@
                             </div>
                         </form>
                     </div>
+
                 </div>
             </div>
         </div>
@@ -169,6 +172,7 @@
 
 
 {% endblock content %}
+
 
 {% block extra_js %}
 

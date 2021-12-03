@@ -11,9 +11,12 @@ from django.contrib.auth.decorators import login_required
 from django.contrib.sites.shortcuts import get_current_site
 from django.shortcuts import redirect, render, get_object_or_404
 from django.urls import reverse, reverse_lazy
+from django.utils.decorators import method_decorator
 from django.views import View
 from django.views.generic import TemplateView, ListView, CreateView, UpdateView, DeleteView
 from django.views.generic.edit import FormView
+
+from users.decorators import roles_required, permissions_in_menu_required
 from users.forms import AddressForm, EducationInfoForm, ExperienceForm, TrainingFormSet, ExperienceFormSet
 from users.forms import RegisterForm, LoginForm, \
     BasicInfoUserForm, ProfileForm, AddressDetailsUserForm, TrainingForm, SocialMediaForm, EducationFormSet, \
@@ -25,6 +28,7 @@ from django.http import HttpResponse, HttpResponseNotAllowed, Http404
 from users.utils import generate_confirmation_token, generate_password_token, generate_invitation_token
 from django.core.paginator import Paginator
 from roles.models import Role
+
 
 class PersonalInfoView(View):
     template_name = 'users/personal_info.html'
@@ -424,13 +428,18 @@ def resend_email(request):
 
 
 # For User Management
+# @method_decorator(roles_required('manager'), name='dispatch')
+@method_decorator(permissions_in_menu_required('User Management', ['can_view']), name='dispatch')
 class UserListView(ListView):
+
     model = User
     # ordering = ["-date_joined"]
     context_object_name = "users"
     template_name = "users/list_users.html"
     # paginate_by = 100
 
+
+@method_decorator(permissions_in_menu_required('User Management', ['can_add']), name='dispatch')
 class UserCreateView(View):
     template_name = "users/user-create.html"
 
@@ -446,7 +455,7 @@ class UserCreateView(View):
         context = {"form": form}
         context["roles"] = Role.objects.all()
         return render(request, self.template_name, context)
-    
+
     def post(self, request, *args, **kwargs):
         pwd = User.objects.make_random_password(length=8)
         print(request.POST)
@@ -469,6 +478,7 @@ class UserCreateView(View):
             "roles": Role.objects.all()
         }
         return render(request, self.template_name, context)
+
 
 # def userCreateView(request):
 #     form = RegisterForm(data=request.POST or None)
@@ -500,6 +510,7 @@ class UserCreateView(View):
 #         # context['']
 #         return context
 
+@method_decorator(permissions_in_menu_required('User Management', ['can_change']), name='dispatch')
 class UserUpdateView(UpdateView):
     model = User
     template_name = "users/user-update.html"
@@ -511,7 +522,7 @@ class UserUpdateView(UpdateView):
         context = super().get_context_data(**kwargs)
         context["roles"] = Role.objects.all()
         return context
-    
+
 
 # class UserDeleteView(DeleteView):
 #     model = User
