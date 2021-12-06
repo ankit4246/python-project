@@ -1,7 +1,8 @@
-{% extends 'users/base_bootstrap.html' %}
-{% block content %}
-    <div class="content-body">
-        <div class="container-fluid">
+{% extends 'pentest/base.html' %}
+{% block 'center_content' %}
+
+<div class="maincontent">
+    <div class="container-fluid">
             <div class="row page-titles mx-0">
                 <div class="col-sm-6 p-md-0">
                     <div class="welcome-text">
@@ -16,81 +17,81 @@
                 </div>
             </div>
             <!-- row -->
-
-
+            
+            
             <div class="row">
                 <div class="col-12">
                     <div class="card">
                         <div class="card-header">
                             <h4 class="card-title"></h4>
                             <p><a class="btn btn-secondary"
-                                  href="{% url 'users:create_user' %}"><span class="ic-add"></span>Add User</a></p>
-                        </div>
-                        <div class="card-body">
-                            <div class="table-responsive table-striped" style="color:rgb(104, 104, 104);">
-                                {% if messages %}
+                                href="{% url 'users:create_user' %}"><span class="ic-add"></span>Add User</a></p>
+                            </div>
+                            <div class="card-body">
+                                <div class="table-responsive table-striped" style="color:rgb(104, 104, 104);">
+                                    {% if messages %}
                                     <ul class="messages">
                                         {% for message in messages %}
-                                            <div class="alert alert-{{ message.tags }} alert-dismissible fade show"
-                                                 role="alert">
-                                                {{ message }}
-                                                <button type="button" class="close" data-bs-dismiss="alert"
-                                                        aria-label="Close">
+                                        <div class="alert alert-{{ message.tags }} alert-dismissible fade show"
+                                        role="alert">
+                                        {{ message }}
+                                        <button type="button" class="close" data-bs-dismiss="alert"
+                                        aria-label="Close">
                                                     <span aria-hidden="true">&times;</span>
                                                 </button>
                                             </div>
-                                        {% endfor %}
-                                    </ul>
-                                {% endif %}
-                                <table id="example" class="display" style="min-width: 845px">
-                                    <thead>
-                                    <tr>
-                                        <th>S.N.</th>
-                                        <th>Full Name</th>
-                                        <th>Username</th>
-                                        <th>Email</th>
-                                        <th>Role</th>
-                                        <th>Action</th>
-                                    </tr>
-                                    </thead>
-                                    <tbody>
-                                    {% for user in users %}
-                                        <tr>
-                                            <td class="cell-num">{{ forloop.counter }}</td>
-                                            <td>{{ user.full_name }}</td>
-                                            <td>{{ user.username }}</td>
-                                            <td>{{ user.email }}</td>
-                                            <td>{{ user.get_user_roles }}</td>
-                                            <td>
-                                                {% if user.is_active %}
-                                                    <a class="btn btn-sm btn-danger action-info u-deactivate"
-                                                       data-bs-toggle="modal"
-                                                       data-bs-target="#deactivateModal" href=""
-                                                       url="{% url 'users:deactivate_user' user.id %}">Deactivate</a>
-                                                {% else %}
-                                                    <a class="btn btn-sm btn-success action-info u-activate"
-                                                       data-bs-toggle="modal"
-                                                       data-bs-target="#activateModal" href=""
-                                                       url="{% url 'users:activate_user' user.id %}">Activate</a>
-                                                {% endif %}
-
-                                                <a class="btn btn-primary action-info"
-                                                   href="{% url 'users:update_user' user.id %}"
-                                                   data-bs-toggle="tooltip"
-                                                   data-bs-placement="top" title="Edit">Edit</a>
-                                                <a class="btn btn-sm btn-danger u-delete"
-                                                   data-bs-toggle="modal" data-bs-target="#deleteModal"
-                                                   href="" url="{% url 'users:delete_user' user.id %}">Delete</a>
-                                            </td>
-                                        </tr>
-                                    {% endfor %}
-                                    </tbody>
-                                </table>
-                            </div>
-                        </div>
+                                            {% endfor %}
+                                        </ul>
+                                        {% endif %}
+                                        <table id="example" class="display" style="min-width: 845px">
+                                            <thead>
+                                                <tr>
+                                                    <th>S.N.</th>
+                                                    <th>Full Name</th>
+                                                    <th>Username</th>
+                                                    <th>Email</th>
+                                                    <th>Role</th>
+                                                    <th>Action</th>
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                                {% for user in users %}
+                                                <tr>
+                                                    <td class="cell-num">{{ forloop.counter }}</td>
+                                                    <td>{{ user.full_name }}</td>
+                                                    <td>{{ user.username }}</td>
+                                                    <td>{{ user.email }}</td>
+                                                    <td>{{ user.get_user_roles }}</td>
+                                                    <td>
+                                                        {% if user.is_active %}
+                                                        <a class="btn btn-sm btn-danger action-info u-deactivate"
+                                                        data-bs-toggle="modal"
+                                                        data-bs-target="#deactivateModal" href=""
+                                                        url="{% url 'users:deactivate_user' user.id %}">Deactivate</a>
+                                                        {% else %}
+                                                        <a class="btn btn-sm btn-success action-info u-activate"
+                                                        data-bs-toggle="modal"
+                                                        data-bs-target="#activateModal" href=""
+                                                        url="{% url 'users:activate_user' user.id %}">Activate</a>
+                                                        {% endif %}
+                                                        
+                                                        <a class="btn btn-primary action-info"
+                                                        href="{% url 'users:update_user' user.id %}"
+                                                        data-bs-toggle="tooltip"
+                                                        data-bs-placement="top" title="Edit">Edit</a>
+                                                        <a class="btn btn-sm btn-danger u-delete"
+                                                        data-bs-toggle="modal" data-bs-target="#deleteModal"
+                                                        href="" url="{% url 'users:delete_user' user.id %}">Delete</a>
+                                                    </td>
+                                                </tr>
+                                                {% endfor %}
+                                            </tbody>
+                                        </table>
+                                    </div>
+                                </div>
                     </div>
                 </div>
-
+                
                 <div class="modal mymodal modal-03" id="deactivateModal" tabindex="-1" role="dialog">
                     <div class="modal-dialog" role="document">
                         <div class="modal-content">
@@ -129,7 +130,7 @@
                             <form action="" method="POST" class="delete-form">
                                 {% csrf_token %}
                                 <label class="d-block">Are you sure you want to Delete ?</label>
-
+                                
                                 <div class="modal-footer">
                                     <button type="button" class="btn btn-light" data-bs-dismiss="modal">
                                         Cancel
@@ -142,7 +143,7 @@
                 </div>
             </div>
         </div>
-
+        
         <div class="modal mymodal modal-02" id="activateModal" tabindex="-1" role="dialog">
             <div class="modal-dialog" role="document">
                 <div class="modal-content">
@@ -164,24 +165,24 @@
                             </div>
                         </form>
                     </div>
-
+                    
                 </div>
             </div>
         </div>
     </div>
-
-
-{% endblock content %}
-
-
+    
+    
+{% endblock 'center_content' %}
+    
+    
 {% block extra_js %}
-
+    
     <script>
         $(".u-delete").on("click", function () {
             let url = $(this).attr("url")
             $(".delete-form").attr("action", url)
         })
-
+        
         $(".u-activate").on("click", function () {
             let url = $(this).attr("url")
             $(".activate-form").attr("action", url)
@@ -193,6 +194,6 @@
         $(document).ready(function() {
             $('#example').DataTable();
         } );
-    </script>
+        </script>
 
 {% endblock extra_js %}

@@ -1,8 +1,9 @@
-{% extends 'users/base_bootstrap.html' %}
+{% extends 'pentest/base.html' %}
 {% load user_roles_tags %}
-{% block content %}
+{% block 'center_content' %}
 
-    <div class="content-body">
+
+    <div class="maincontent">
         <div class="container-fluid">
             <div class="row page-titles mx-0">
                 <div class="col-sm-6 p-md-0">
@@ -111,7 +112,8 @@
             </div>
         </div>
     </div>
-{% endblock content %}
+{% endblock 'center_content' %}
+
 
 {% block extra_js %}
 <script>
