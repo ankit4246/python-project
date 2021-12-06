@@ -60,6 +60,14 @@ class ProfileForm(forms.ModelForm):
 
 
 class TrainingForm(forms.ModelForm):
+
+    def __init__(self, *args, **kwargs):
+        super().__init__()
+        self.fields['name_of_training'].required = True
+        self.fields['institute_name'].required = True
+        self.fields['duration'].required = True
+
+
     class Meta:
         model = TrainingDetails
         fields = (
@@ -93,11 +101,11 @@ class TrainingForm(forms.ModelForm):
 
         # text = self.cleaned_data.get('text')
 
-        if not re.match(r"[a-zA-Z]{3,30}", name_of_training):
+        if not re.match(r"[A-Za-z]{2,25}( [A-Za-z]{2,25})?", name_of_training):
             self._errors['name_of_training'] = self.error_class([
                 'Invalid Name of Training'])
 
-        if not re.match(r"[a-zA-Z]{3,30}", name_of_training):
+        if not re.match(r"[a-zA-Z]{3,30}", institute_name):
             self._errors['institute_name'] = self.error_class([
                 'Invalid Name of Institute Name'])
 
