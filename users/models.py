@@ -184,6 +184,7 @@ class Province(models.Model):
     name = models.CharField(max_length=100, blank=True, null=True)
     short_name = models.CharField(max_length=10, blank=True, null=True)
     is_active = models.BooleanField(blank=True, null=True)
+    district = models.ForeignKey(District, models.CASCADE, blank=True, null=True)
 
     def __str__(self):
         return self.name
