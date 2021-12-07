@@ -7,12 +7,16 @@ class ProjectForm(forms.ModelForm):
     class Meta:
         model = Project
         fields = [
-            'id',
+            'logo',
             'project_name',
+            'launched_date',
+            'short_description',
             'description',
+            'bounty_policies',
             'scope',
             'information',
-            'team_lead_id',
-            'created_by',
+            'disclosure_policies',
+            'task_description',
+            'target',
         ]
 
