@@ -22,16 +22,15 @@ class ReportTypeForm(forms.ModelForm):
         fields = ["name", "types", "remarks"]
 
 class DistrictForm(forms.ModelForm):
-    remarks = forms.TextField()
     class Meta:
         model = District
-        fields = ["name", "remarks"]
+        fields = ["name"]
 
 class ProvinceForm(forms.ModelForm):
 
     class Meta:
         model = Province
-        fields = ["name", "remarks"]
+        fields = ["name"]
 
 class DegreeForm(forms.ModelForm):
 

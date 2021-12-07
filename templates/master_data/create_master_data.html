@@ -1,0 +1,101 @@
+{% extends 'pentest/base.html' %}
+{% load static %}
+
+
+{% block 'center_content' %}
+
+<div class="content-body">
+
+    <div class="container-fluid">
+        <div class="row page-titles mx-0">
+            <div class="col-sm-6 p-md-0">
+                <div class="welcome-text">
+                    <!-- <h4>Add Severity</h4> -->
+                    <!-- <p class="mb-0">Add new manufacturer</p> -->
+                </div>
+            </div>
+            <div class="col-sm-6 p-md-0 justify-content-sm-end mt-2 mt-sm-0 d-flex">
+                <ol class="breadcrumb">
+                    
+                </ol>
+            </div>
+        </div>
+
+        <!-- row -->
+        <div class="row">
+            <div class="col-lg-10">
+                <div class="card">
+                    <div class="card-body" style="color: black">
+                        <h3>Add New Garage</h3>
+                        <p>You can add garage details from the following form:</p>
+                        <div class="basic-form">
+                            <form method="post">
+
+                                {% csrf_token %}
+                                <div class="form-row">
+                                    <div class="form-group col-md-6">
+                                        <label>Name</label>
+                                        <input type="text" class="form-control" placeholder="Name" name="name"
+                                            value="{{form.name.value|default_if_none:''}}">
+                                        {% for e in form.name.errors %}
+                                        <p class="text-danger mr-3">{{e|striptags}}</p>
+                                        {% endfor %}
+                                    </div>
+                                    <div class="form-group col-md-6">
+                                        <label>Remarks</label>
+                                        <input type="text" class="form-control" placeholder="Remarks" name="remarks"
+                                            value="{{form.remarks.value|default_if_none:''}}">
+                                        {% for e in form.remarks.errors %}
+                                        <p class="text-danger mr-3">{{e|striptags}}</p>
+                                        {% endfor %}
+                                    </div>
+                                </div>
+                        </div>
+                        <!-- <div class="row"> -->
+                        <!-- <div class="col-5"> -->
+                        <button type="submit" method="post" class="btn btn-primary">Create</button>
+                        <!-- </div> -->
+                    </div>
+                    </form>
+                </div>
+            </div>
+            </form>
+        </div>
+    </div>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+{% endblock 'center_content' %}
+{% block extra_js %}
+<!-- <script src="{% static 'vendor/sweetalert2/dist/sweetalert2.min.js' %}"></script>
+<script src="{% static 'vendor/toastr/js/toastr.min.js' %}"></script> -->
+
+{% if messages %}
+{% for message in messages %}
+<script>
+    toastr.success("{{ message }}", "Garage", {
+        positionClass: "toast-top-right",
+        timeOut: 1e3,
+        closeButton: !0,
+        debug: !1,
+        newestOnTop: !0,
+        progressBar: !0,
+        preventDuplicates: !0,
+        onclick: null,
+        showDuration: "3000",
+        hideDuration: "1000",
+        extendedTimeOut: "1000",
+        showEasing: "swing",
+        hideEasing: "linear",
+        showMethod: "fadeIn",
+        hideMethod: "fadeOut",
+        tapToDismiss: !1
+    })
+</script>
+{% endfor %}
+{% endif %}
+
+{% endblock extra_js %}
