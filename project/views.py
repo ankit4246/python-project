@@ -11,7 +11,7 @@ from project.models import Project
 
 class ListProjectsView(ListView):
     model = Project
-    paginate_by = 3
+    paginate_by = 5
     template_name = 'project/list_projects.html'
 
 

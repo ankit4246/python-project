@@ -36,9 +36,10 @@ class Project(models.Model):
     information = models.CharField(max_length=250, blank=True, null=True)
     disclosure_policies = models.CharField(max_length=250, blank=True, null=True)
     task_description = models.CharField(max_length=250, blank=True, null=True)
-    team_lead_id = models.ForeignKey(User, models.SET_NULL, blank=True, null=True, related_name='team_lead')
     created_by = models.ForeignKey(User, models.SET_NULL, blank=True, null=True, related_name='created_by')
     target = models.ForeignKey(TargetType, models.DO_NOTHING, blank=True, null=True)
+    is_draft = models.BooleanField(default=True)
+    is_published = models.BooleanField(default=False)
 
 
 class Bug(models.Model):
@@ -62,3 +63,10 @@ class ReportType(models.Model):
 
     def __str__(self):
         return self.name
+
+
+class Reward(models.Model):
+    low = models.IntegerField()
+    high = models.IntegerField()
+    severity = models.ForeignKey(Severity, models.DO_NOTHING)
+    project = models.ForeignKey(Project, models.DO_NOTHING)
