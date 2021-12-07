@@ -13,6 +13,13 @@ class Project(models.Model):
     project_name = models.CharField(max_length=100, blank=True, null=True)
     description = models.CharField(max_length=250, blank=True, null=True)
     scope = models.CharField(max_length=100, blank=True, null=True)
+    information = models.CharField(max_length=250, blank=True, null=True)
+    team_lead_id = models.ForeignKey(User, models.SET_NULL, blank=True, null=True, related_name='team_lead')
+    created_by = models.ForeignKey(User, models.SET_NULL, blank=True, null=True, related_name='created_by')
+
+
+class TargetType(models.Model):
+    name = models.CharField(max_length=100, blank=True, null=True)
 
 
 class Bug(models.Model):
