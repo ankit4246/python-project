@@ -1,5 +1,21 @@
 <form method="POST" action="{% url 'project:create_project' %}">
     {% csrf_token %}
-    {{ form.as_p }}
+    {{ form.project_name.label }}
+    {{ form.project_name }}
+
+    {{ form.project_name.label }}
+    {{ form.project_name }}
+
+    {{ form.description.label }}
+    {{ form.description }}
+
+    {{ form.scope.label }}
+    {{ form.scope }}
+
+    {{ form.information.label }}
+    {{ form.information }}
+
+    {{ form.team_lead_id.label }}
+    {{ form.team_lead_id }}
     <input type="submit" value="Create Project">
 </form>

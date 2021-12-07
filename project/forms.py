@@ -11,5 +11,8 @@ class ProjectForm(forms.ModelForm):
             'project_name',
             'description',
             'scope',
+            'information',
+            'team_lead_id',
+            'created_by',
         ]
 

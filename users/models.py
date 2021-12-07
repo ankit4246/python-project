@@ -235,10 +235,11 @@ class SocialMedias(models.Model):
     link = models.CharField(max_length=200, blank=True, null=True)
     user = models.ForeignKey(User, models.CASCADE, blank=True, null=True)
 
+
 class Degree(models.Model):
     name = models.CharField(max_length=100, null=True, blank=True)
     types = models.CharField(max_length=100, null=True, blank=True)
-    remarks = models.TextField(null=100, blank=100)
+    remarks = models.TextField(null=True, blank=True)
 
     def __str__(self):
         return self.name
