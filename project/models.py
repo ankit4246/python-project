@@ -10,10 +10,16 @@ class Role(models.Model):
 
 
 class Project(models.Model):
+    logo = models.ImageField(blank=True, null=True)
     project_name = models.CharField(max_length=100, blank=True, null=True)
-    description = models.CharField(max_length=250, blank=True, null=True)
+    launched_date = models.DateField(blank=True, null=True)
+    short_description = models.CharField(max_length=200, null=True, blank=True)
+    description = models.CharField(max_length=300, blank=True, null=True)
+    bounty_policies = models.CharField(max_length=500, blank=True, null=True)
     scope = models.CharField(max_length=100, blank=True, null=True)
     information = models.CharField(max_length=250, blank=True, null=True)
+    disclosure_policies = models.CharField(max_length=250, blank=True, null=True)
+    task_description = models.CharField(max_length=250, blank=True, null=True)
     team_lead_id = models.ForeignKey(User, models.SET_NULL, blank=True, null=True, related_name='team_lead')
     created_by = models.ForeignKey(User, models.SET_NULL, blank=True, null=True, related_name='created_by')
 
