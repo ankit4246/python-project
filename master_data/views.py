@@ -48,10 +48,34 @@ def severitySaveView(request):
         if form.is_valid():
             name = request.POST['name']
             remarks = request.POST['remarks']
-            severity = Severity(name=name, remarks=remarks)
+            sid = request.POST.get('sid')
+
+            if(sid == ""):
+                severity = Severity(name=name, remarks=remarks)
+            else:
+                severity = Severity(id=sid, name=name, remarks=remarks)
             severity.save()
+
             sv = Severity.objects.values()
             severity_data = list(sv)
             return JsonResponse({"status": "Save", 'severity_data':severity_data,})
         else:
             return JsonResponse({"status": 0})
+
+def severityUpdateView(request):
+    if request.method == 'POST':
+        id = request.POST.get('sid')
+        print(id)
+        severity = Severity.objects.get(pk=id)
+        severity_data = {"id": severity.id, 'name': severity.name, 'remarks': severity.remarks}
+        return JsonResponse(severity_data)
+
+def severityDeleteView(request):
+    if request.method == 'POST':
+        id = request.POST.get('sid')
+        print(id)
+        severity = Severity.objects.get(pk=id)
+        severity.delete()
+        return JsonResponse({'status':1})
+    else:
+        return JsonResponse({'status':0})

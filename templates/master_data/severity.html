@@ -4,6 +4,7 @@
     <form action="POST" action=''>
         
         {% csrf_token %}
+        <input type="hidden" name="sid" id="severityId">
         {{form}}
         <!-- <button type="button" id="btnsave">Submit</button> -->
         <input type='button' class='btn btn-success btn-sm' value='submit' id="btnsave"/>
@@ -26,8 +27,8 @@
                 <td>{{ d.name }}</td>
                 <td>{{ d.name }}</td>
                 <td>
-                    <input type='button' class='btn btn-success btn-sm' value='Edit' data-sid="{{d.id}}" />
-                    <input type='button' class='btn btn-warning btn-sm' value='Delete' data-sid="{{d.id}}" /> 
+                    <input type='button' class='btn btn-success btn-sm btn-update' value='Edit' data-sid="{{d.id}}" />
+                    <input type='button' class='btn btn-warning btn-sm btn-delete' value='Delete' data-sid="{{d.id}}" /> 
                 </td>
             </tr>
             {% endfor %}
@@ -41,20 +42,23 @@
     function fillup(xid, xname) {
         return (
             "<tr><td>" + xid + "</td><td>" + xname + "</td><td>" + xname + 
-                        "</td><td>" +  "<input type='button' class='btn btn-success btn-sm' value='Edit' data-sid=" + xid + 
-                        "/> <input type='button' class='btn btn-warning btn-sm' value='delete' data-sid=" + xid + "/>"
+                        "</td><td>" +  "<input type='button' class='btn btn-success btn-sm btn-update' value='Edit' data-sid=" + xid + 
+                        "> <input type='button' class='btn btn-warning btn-sm btn-delete' value='delete' data-sid=" + xid + ">"
         )
     }
 
+    // Creation of Severity object
     $("#btnsave").on("click", function () {
         let output = "";
         let csr = $("input[name=csrfmiddlewaretoken]").val();
+        let sid = $("#severityId").val();
         let name = $("#nameid").val();
         let remarks = $("#remarksid").val();
         console.log(name)
         console.log(remarks)
-        mydata = { name:name, remarks:remarks,
+        mydata = { sid:sid, name:name, remarks:remarks,
         csrfmiddlewaretoken: csr };
+        console.log(mydata)
         $.ajax({
             url: "{% url 'master_data:severity_save' %}",
             method: 'POST',
@@ -63,19 +67,61 @@
             success: function(data) {
                 x = data.severity_data;
                 if(data.status == "Save"){
-                console.log(data)
-                console.log("Form submitted successfully")
+                // console.log(data)
+                // console.log("Form submitted successfully")
                 for(i=0; i<x.length; i++){
                     output += 
                     fillup(x[i].id, x[i].name)
-                    
                 }
-                console.log(output)
+                // console.log(output)
                 $("#tbody").html(output);
+                $("#severityId").val("");
                 $('form')[0].reset();
                 }
             } 
         });
+    })
+
+    // For Severity object Update
+    $("tbody").on("click", ".btn-update", function (){
+        let id = $(this).attr('data-sid')
+        let csr = $("input[name=csrfmiddlewaretoken]").val()
+        mydata = {sid: id, csrfmiddlewaretoken: csr}
+
+        $.ajax({
+            url: "{% url 'master_data:severity_update' %}",
+            method: 'POST',
+            data: mydata,
+            dataType: 'json',
+            success: function(data) {
+                console.log("Update Button Clicked")
+                $("#severityId").val(data.id)
+                $("#nameid").val(data.name)
+                $("#remarksid").val(data.remarks)
+                $("#btnsave").val("Update")
+            }
+        })
+    })
+
+    // For Severity object Delete
+    $("tbody").on("click", ".btn-delete", function (){
+        let id = $(this).attr('data-sid')
+        let csr = $("input[name=csrfmiddlewaretoken]").val()
+        mydata = {sid: id, csrfmiddlewaretoken: csr}
+        mythis = this;
+
+        $.ajax({
+            url: "{% url 'master_data:severity_delete' %}",
+            method: 'POST',
+            data: mydata,
+            dataType: 'json',
+            success: function(data) {
+                if(data.status == 1) {
+                    console.log("Data Deleted Successfully")
+                    $(mythis).closest('tr').fadeOut();
+                }
+            }
+        })
     })
 </script>
 {% endblock extra_js %}
