@@ -1,0 +1,81 @@
+{% extends "pentest/base.html" %}
+
+{% block 'center_content' %}
+    <form action="POST" action=''>
+        
+        {% csrf_token %}
+        {{form}}
+        <!-- <button type="button" id="btnsave">Submit</button> -->
+        <input type='button' class='btn btn-success btn-sm' value='submit' id="btnsave"/>
+
+    </form>
+    <hr>
+    <table id="example" class="display" style="min-width: 845px">
+        <thead>
+            <tr>
+                <th>S.N.</th>
+                <th>Severity Name</th>
+                <th>Master Division Type</th>
+                <th>Action</th>
+            </tr>
+        </thead>
+        <tbody id="tbody">
+            {% for d in severity %}
+            <tr>
+                <td class="cell-num">{{ forloop.counter }}</td>
+                <td>{{ d.name }}</td>
+                <td>{{ d.name }}</td>
+                <td>
+                    <input type='button' class='btn btn-success btn-sm' value='Edit' data-sid="{{d.id}}" />
+                    <input type='button' class='btn btn-warning btn-sm' value='Delete' data-sid="{{d.id}}" /> 
+                </td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+{% endblock 'center_content' %}
+
+{% block extra_js %}
+<script>
+
+    function fillup(xid, xname) {
+        return (
+            "<tr><td>" + xid + "</td><td>" + xname + "</td><td>" + xname + 
+                        "</td><td>" +  "<input type='button' class='btn btn-success btn-sm' value='Edit' data-sid=" + xid + 
+                        "/> <input type='button' class='btn btn-warning btn-sm' value='delete' data-sid=" + xid + "/>"
+        )
+    }
+
+    $("#btnsave").on("click", function () {
+        let output = "";
+        let csr = $("input[name=csrfmiddlewaretoken]").val();
+        let name = $("#nameid").val();
+        let remarks = $("#remarksid").val();
+        console.log(name)
+        console.log(remarks)
+        mydata = { name:name, remarks:remarks,
+        csrfmiddlewaretoken: csr };
+        $.ajax({
+            url: "{% url 'master_data:severity_save' %}",
+            method: 'POST',
+            data: mydata,
+            dataType: 'json',
+            success: function(data) {
+                x = data.severity_data;
+                if(data.status == "Save"){
+                console.log(data)
+                console.log("Form submitted successfully")
+                for(i=0; i<x.length; i++){
+                    output += 
+                    fillup(x[i].id, x[i].name)
+                    
+                }
+                console.log(output)
+                $("#tbody").html(output);
+                $('form')[0].reset();
+                }
+            } 
+        });
+    })
+</script>
+{% endblock extra_js %}

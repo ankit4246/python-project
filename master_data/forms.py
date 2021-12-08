@@ -7,6 +7,10 @@ class SeverityForm(forms.ModelForm):
     class Meta:
         model = Severity
         fields = ["name", "remarks"]
+        widgets = {
+            'name': forms.TextInput(attrs={'class':'form-control', 'id': 'nameid'}),
+            'remarks': forms.TextInput(attrs={'class':'form-control', 'id': 'remarksid'}),
+        }
 
 
 class TargetTypeForm(forms.ModelForm):
