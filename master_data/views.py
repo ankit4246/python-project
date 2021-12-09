@@ -42,6 +42,7 @@ def severityCreateView(request):
     severity = Severity.objects.all()
     return render(request, 'master_data/severity.html', {"form":form, "severity":severity,})
 
+# ajax function
 def severitySaveView(request):
     if request.method == "POST":
         form = SeverityForm(request.POST)

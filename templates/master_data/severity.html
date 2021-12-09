@@ -38,10 +38,18 @@
 
 {% block extra_js %}
 <script>
+    // for updating the S.N of all rows after deleting and updating
+    function UpdateSN(xid, xloopId, x) {
+        // let loopID = $("#loopID")
+        // for(i=0; i<x.length; i++){
+        xloopId.innerHTML(x+1);
+        // }
+    }
 
-    function fillup(xid, xname) {
+    // for madeUp Html for appending while creating new row
+    function fillup(xid,i,xname) {
         return (
-            "<tr><td>" + xid + "</td><td>" + xname + "</td><td>" + xname + 
+            "<tr><td class='loopID'>" + i + "</td><td>" + xname + "</td><td>" + xname + 
                         "</td><td>" +  "<input type='button' class='btn btn-success btn-sm btn-update' value='Edit' data-sid=" + xid + 
                         "> <input type='button' class='btn btn-warning btn-sm btn-delete' value='delete' data-sid=" + xid + ">"
         )
@@ -71,11 +79,19 @@
                 // console.log("Form submitted successfully")
                 for(i=0; i<x.length; i++){
                     output += 
-                    fillup(x[i].id, x[i].name)
+                    fillup(x[i].id,i+1,x[i].name)
                 }
                 // console.log(output)
                 $("#tbody").html(output);
+
+                // getting the id of the id from the row
+                // let loopID = $("#loopID")
+                // for(i=0; i<x.length; i++){
+                //     updateSN(x[i].id, loopId, i)
+                // }
+
                 $("#severityId").val("");
+                $("#btnsave").val("Submit")
                 $('form')[0].reset();
                 }
             } 
@@ -119,6 +135,7 @@
                 if(data.status == 1) {
                     console.log("Data Deleted Successfully")
                     $(mythis).closest('tr').fadeOut();
+                    
                 }
             }
         })
