@@ -39,12 +39,12 @@
 {% block extra_js %}
 <script>
     // for updating the S.N of all rows after deleting and updating
-    function UpdateSN(xid, xloopId, x) {
-        // let loopID = $("#loopID")
-        // for(i=0; i<x.length; i++){
-        xloopId.innerHTML(x+1);
-        // }
-    }
+    // function UpdateSN(xid, xloopId, x) {
+    //     // let loopID = $("#loopID")
+    //     // for(i=0; i<x.length; i++){
+    //     xloopId.innerHTML(x+1);
+    //     // }
+    // }
 
     // for madeUp Html for appending while creating new row
     function fillup(xid,i,xname) {
@@ -121,6 +121,7 @@
 
     // For Severity object Delete
     $("tbody").on("click", ".btn-delete", function (){
+        let output = "";
         let id = $(this).attr('data-sid')
         let csr = $("input[name=csrfmiddlewaretoken]").val()
         mydata = {sid: id, csrfmiddlewaretoken: csr}
@@ -132,10 +133,16 @@
             data: mydata,
             dataType: 'json',
             success: function(data) {
+                x = data.severity_data;
                 if(data.status == 1) {
                     console.log("Data Deleted Successfully")
                     $(mythis).closest('tr').fadeOut();
-                    
+                    for(i=0; i<x.length; i++){
+                    output += 
+                    fillup(x[i].id,i+1,x[i].name)
+                    }
+                    // console.log(output)
+                    $("#tbody").html(output);
                 }
             }
         })
