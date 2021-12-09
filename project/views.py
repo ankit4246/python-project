@@ -3,9 +3,9 @@ from django.shortcuts import render, redirect
 # Create your views here.
 from django.urls import reverse
 from django.views import View
-from django.views.generic import ListView, FormView
+from django.views.generic import ListView, FormView, CreateView
 
-from project.forms import ProjectForm
+from project.forms import ProjectForm, ProjectUsersForm
 from project.models import Project
 
 
@@ -16,25 +16,51 @@ class ListProjectsView(ListView):
 
 
 class CreateProjectView(View):
-    form_class = ProjectForm
     template_name = 'project/create_project.html'
 
     def get(self, request, *args, **kwargs):
-        form = self.form_class()
+        project_form = ProjectForm()
+        project_users_form = ProjectUsersForm()
         context = {
-            'form': form
+            'project_form': project_form,
+            'project_users_form': project_users_form
         }
         return render(request, self.template_name, context)
 
     def post(self, request, *args, **kwargs):
-        form = self.form_class(request.POST)
-        if form.is_valid():
-            form.save()
-            return redirect(reverse('project:list_projects'))
-        context = {
-            'form': form
-        }
-        return render(request, self.template_name, context)
+        project_form = ProjectForm(request.POST)
+        project_users_form = ProjectUsersForm(request.POST)
+
+        if 'create_project' in request.POST:
+            if project_form.is_valid():
+                project_form.save()
+                return redirect(reverse('project:list_projects'))
+            context = {
+                'project_form': project_form,
+                'project_users_form': project_users_form
+            }
+            return render(request, self.template_name, context)
+
+        elif 'invite_user' in request.POST:
+            if project_users_form.is_valid():
+                project_users_form.save()
+                return redirect(reverse('project:list_projects'))
+            context = {
+                'project_form': project_form,
+                'project_users_form': project_users_form
+            }
+            return render(request, self.template_name, context)
 
 
+class ListProjectView(ListView):
+    form_class = ProjectUsersForm
+    template_name = 'project/create_project.html'
 
+# class VehicleManufacturerCreateView(SuccessMessageMixin, CreateView):
+#     model = Manufacturer
+#     fields = [
+#         "name",
+#     ]
+#     template_name = "core/vehiclemanufacturer/vehiclemanufacturer_create.html"
+#     success_url = reverse_lazy("core:vehiclemanufacturer-list")
+#     success_message = "VehicleManufacturer created successfully"

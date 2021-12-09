@@ -1,6 +1,6 @@
 from django import forms
 
-from project.models import Project
+from project.models import Project, ProjectUsers
 
 
 class ProjectForm(forms.ModelForm):
@@ -19,4 +19,15 @@ class ProjectForm(forms.ModelForm):
             'task_description',
             'target',
         ]
+
+
+class ProjectUsersForm(forms.ModelForm):
+    class Meta:
+        model = ProjectUsers
+        fields = [
+            'user',
+            'project',
+            'project_role',
+        ]
+
 

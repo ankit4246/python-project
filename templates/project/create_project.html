@@ -1,39 +1,50 @@
 <form method="POST" action="{% url 'project:create_project' %}">
     {% csrf_token %}
-    {{ form.logo.label }}
-    {{ form.logo }}
+    {{ project_form.logo.label }}
+    {{ project_form.logo }}
 
-    {{ form.project_name.label }}
-    {{ form.project_name }}
+    {{ project_form.project_name.label }}
+    {{ project_form.project_name }}
 
-    {{ form.launched_date.label }}
-    {{ form.launched_date }}
+    {{ project_form.launched_date.label }}
+    {{ project_form.launched_date }}
 
-    {{ form.short_description.label }}
-    {{ form.short_description }}
+    {{ project_form.short_description.label }}
+    {{ project_form.short_description }}
 
-    {{ form.bounty_policies.label }}
-    {{ form.bounty_policies }}
+    {{ project_form.bounty_policies.label }}
+    {{ project_form.bounty_policies }}
 
-    {{ form.disclosure_policies.label }}
-    {{ form.disclosure_policies }}
+    {{ project_form.disclosure_policies.label }}
+    {{ project_form.disclosure_policies }}
 
-    {{ form.task_description.label }}
-    {{ form.task_description }}
+    {{ project_form.task_description.label }}
+    {{ project_form.task_description }}
 
-    {{ form.description.label }}
-    {{ form.description }}
+    {{ project_form.description.label }}
+    {{ project_form.description }}
 
-    {{ form.scope.label }}
-    {{ form.scope }}
+    {{ project_form.scope.label }}
+    {{ project_form.scope }}
 
-    {{ form.information.label }}
-    {{ form.information }}
+    {{ project_form.information.label }}
+    {{ project_form.information }}
 
-    {{ form.team_lead_id.label }}
-    {{ form.team_lead_id }}
+    {{ project_form.team_lead_id.label }}
+    {{ project_form.team_lead_id }}
 
-    {{ form.target.label }}
-    {{ form.target }}
-    <input type="submit" value="Create Project">
+    {{ project_form.target.label }}
+    {{ project_form.target }}
+    <input type="submit" value="Create Project" name='create_project'>
+</form>
+
+<br>
+<br>
+<br>
+
+<form method="POST" action="{% url 'project:create_project' %}">
+    {% csrf_token %}
+    {{ project_users_form.user.label }}
+    {{ project_users_form.user }}
+    <input type="submit" value="Invite User" name='invite_user'>
 </form>
