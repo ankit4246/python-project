@@ -7,6 +7,10 @@ class SeverityForm(forms.ModelForm):
     class Meta:
         model = Severity
         fields = ["name", "remarks"]
+        widgets = {
+            'name': forms.TextInput(attrs={'class':'form-control', 'id': 'nameid'}),
+            'remarks': forms.TextInput(attrs={'class':'form-control', 'id': 'remarksid'}),
+        }
 
 
 class TargetTypeForm(forms.ModelForm):
@@ -22,16 +26,15 @@ class ReportTypeForm(forms.ModelForm):
         fields = ["name", "types", "remarks"]
 
 class DistrictForm(forms.ModelForm):
-    remarks = forms.TextField()
     class Meta:
         model = District
-        fields = ["name", "remarks"]
+        fields = ["name"]
 
 class ProvinceForm(forms.ModelForm):
 
     class Meta:
         model = Province
-        fields = ["name", "remarks"]
+        fields = ["name"]
 
 class DegreeForm(forms.ModelForm):
 
