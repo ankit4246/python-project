@@ -11,7 +11,7 @@ class Role(models.Model):
 
 class Severity(models.Model):
     name = models.CharField(max_length=100, null=True, blank=True)
-    remarks = models.TextField(null=100, blank=100)
+    remarks = models.TextField(null=True, blank=True)
 
     def __str__(self):
         return self.name
@@ -19,7 +19,7 @@ class Severity(models.Model):
 
 class TargetType(models.Model):
     name = models.CharField(max_length=100, null=True, blank=True)
-    remarks = models.TextField(null=100, blank=100)
+    remarks = models.TextField(null=True, blank=True)
 
     def __str__(self):
         return self.name
