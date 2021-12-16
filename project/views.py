@@ -1,3 +1,4 @@
+from django.http import JsonResponse
 from django.shortcuts import render, redirect
 
 # Create your views here.
@@ -21,6 +22,7 @@ class CreateProjectView(View):
     def get(self, request, *args, **kwargs):
         project_form = ProjectForm()
         project_users_form = ProjectUsersForm()
+
         context = {
             'project_form': project_form,
             'project_users_form': project_users_form
@@ -29,27 +31,23 @@ class CreateProjectView(View):
 
     def post(self, request, *args, **kwargs):
         project_form = ProjectForm(request.POST)
-        project_users_form = ProjectUsersForm(request.POST)
+        project_users_form = ProjectUsersForm(request.POST, request.FILES)
+        if project_form.is_valid():
+            project_form.save()
+            return redirect(reverse('project:list_projects'))
+        context = {
+            'project_form': project_form,
+            'project_users_form': project_users_form
+        }
+        return render(request, self.template_name, context)
 
-        if 'create_project' in request.POST:
-            if project_form.is_valid():
-                project_form.save()
-                return redirect(reverse('project:list_projects'))
-            context = {
-                'project_form': project_form,
-                'project_users_form': project_users_form
-            }
-            return render(request, self.template_name, context)
 
-        elif 'invite_user' in request.POST:
-            if project_users_form.is_valid():
-                project_users_form.save()
-                return redirect(reverse('project:list_projects'))
-            context = {
-                'project_form': project_form,
-                'project_users_form': project_users_form
-            }
-            return render(request, self.template_name, context)
+def create_project_users_view(request):
+    project_users_form = ProjectUsersForm(request.POST)
+    if project_users_form.is_valid():
+        project_users_form.save()
+        return JsonResponse({"status": "Save"})
+    return JsonResponse({"status": 0})
 
 
 class ListProjectView(ListView):

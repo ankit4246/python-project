@@ -19,15 +19,6 @@
 
 <body>
 
-{#{% if user.is_authenticated %}#}
-{#    Hi {{ user.email }}!#}
-{#    <a href="{% url 'users:logout' %}">Log out</a>#}
-{#{% else %}#}
-{#    <p>You are not logged in</p>#}
-{#    <a href="{% url 'users:login' %}">Log In</a>#}
-{#{% endif %}#}
-
-
 <section id="sideBar" class="sideBar">
     <div class="logo">
         <a href="{% url 'pentest:home' %}"><img src="{% static 'image/logo.png' %}" alt="logo" srcset=""></a>

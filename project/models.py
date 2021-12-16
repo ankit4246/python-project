@@ -26,7 +26,7 @@ class TargetType(models.Model):
 
 
 class Project(models.Model):
-    logo = models.ImageField(blank=True, null=True)
+    logo = models.ImageField(blank=True, null=True, upload_to='logos/')
     project_name = models.CharField(max_length=100, blank=True, null=True)
     launched_date = models.DateField(blank=True, null=True)
     short_description = models.CharField(max_length=200, null=True, blank=True)
@@ -41,6 +41,9 @@ class Project(models.Model):
     is_draft = models.BooleanField(default=True)
     is_published = models.BooleanField(default=False)
 
+    def __str__(self):
+        return self.project_name
+
 
 class Bug(models.Model):
     description = models.CharField(max_length=250, blank=True, null=True)
@@ -54,6 +57,9 @@ class ProjectUsers(models.Model):
     user = models.ForeignKey(User, models.DO_NOTHING, blank=True, null=True)
     project = models.ForeignKey(Project, models.DO_NOTHING, blank=True, null=True)
     project_role = models.ForeignKey(Role, models.DO_NOTHING, blank=True, null=True)
+
+    def __str__(self):
+        return self.user.first_name
 
 
 class ReportType(models.Model):

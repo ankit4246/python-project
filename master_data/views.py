@@ -7,6 +7,8 @@ from django.contrib import messages
 from django.contrib.messages.views import SuccessMessageMixin
 from django.urls import reverse_lazy
 from django.http import JsonResponse
+
+
 # For CRUD Severity
 # class SeverityCreateView(SuccessMessageMixin, CreateView):
 #     model = Severity
@@ -40,7 +42,8 @@ from django.http import JsonResponse
 def severityCreateView(request):
     form = SeverityForm
     severity = Severity.objects.all()
-    return render(request, 'master_data/severity.html', {"form":form, "severity":severity,})
+    return render(request, 'master_data/severity.html', {"form": form, "severity": severity, })
+
 
 # ajax function
 def severitySaveView(request):
@@ -51,7 +54,7 @@ def severitySaveView(request):
             remarks = request.POST['remarks']
             sid = request.POST.get('sid')
 
-            if(sid == ""):
+            if (sid == ""):
                 severity = Severity(name=name, remarks=remarks)
             else:
                 severity = Severity(id=sid, name=name, remarks=remarks)
@@ -59,9 +62,10 @@ def severitySaveView(request):
 
             sv = Severity.objects.values()
             severity_data = list(sv)
-            return JsonResponse({"status": "Save", 'severity_data':severity_data,})
+            return JsonResponse({"status": "Save", 'severity_data': severity_data, })
         else:
             return JsonResponse({"status": 0})
+
 
 def severityUpdateView(request):
     if request.method == 'POST':
@@ -71,12 +75,13 @@ def severityUpdateView(request):
         severity_data = {"id": severity.id, 'name': severity.name, 'remarks': severity.remarks}
         return JsonResponse(severity_data)
 
+
 def severityDeleteView(request):
     if request.method == 'POST':
         id = request.POST.get('sid')
         print(id)
         severity = Severity.objects.get(pk=id)
         severity.delete()
-        return JsonResponse({'status':1})
+        return JsonResponse({'status': 1})
     else:
-        return JsonResponse({'status':0})
+        return JsonResponse({'status': 0})
