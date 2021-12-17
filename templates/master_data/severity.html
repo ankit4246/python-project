@@ -1,6 +1,5 @@
 {% extends "pentest/base.html" %}
-
-{% block 'center_content' %}
+{% block center_content %}
     <form action="POST" action=''>
         
         {% csrf_token %}
@@ -34,7 +33,7 @@
             {% endfor %}
         </tbody>
     </table>
-{% endblock 'center_content' %}
+{% endblock center_content %}
 
 {% block extra_js %}
 <script>
