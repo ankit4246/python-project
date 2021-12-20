@@ -9,24 +9,22 @@ class ProjectForm(forms.ModelForm):
         fields = [
             'logo',
             'project_name',
-            'launched_date',
-            'short_description',
-            'description',
-            'bounty_policies',
-            'scope',
-            'information',
-            'disclosure_policies',
-            'task_description',
+            'tagline',
+            'objectives',
+            'policies',
+            'budget',
+            'created_by',
             'target',
+            'is_draft',
+            'is_published',
+            'start_date',
+            'end_date',
         ]
         widgets = {
-            'launched_date': forms.widgets.DateInput(attrs={'type': 'date'}),
-            'short_description': forms.widgets.Textarea(attrs={'rows': '5'}),
-            'description': forms.widgets.Textarea(attrs={'rows': '5'}),
-            'bounty_policies': forms.widgets.Textarea(attrs={'rows': '5'}),
-            'information': forms.widgets.Textarea(attrs={'rows': '5'}),
-            'disclosure_policies': forms.widgets.Textarea(attrs={'rows': '5'}),
-            'task_description': forms.widgets.Textarea(attrs={'rows': '5'}),
+            'start_date': forms.widgets.DateInput(attrs={'type': 'date'}),
+            'end_date': forms.widgets.DateInput(attrs={'type': 'date'}),
+            'objectives': forms.widgets.Textarea(attrs={'rows': '5'}),
+            'policies': forms.widgets.Textarea(attrs={'rows': '5'}),
         }
 
 
