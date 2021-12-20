@@ -17,27 +17,25 @@ class ListProjectsView(ListView):
 
 
 class CreateProjectView(View):
-    template_name = 'project/create_project.html'
+    template_name = 'project/create_project_details.html'
 
     def get(self, request, *args, **kwargs):
         project_form = ProjectForm()
-        project_users_form = ProjectUsersForm()
 
         context = {
             'project_form': project_form,
-            'project_users_form': project_users_form
         }
         return render(request, self.template_name, context)
 
     def post(self, request, *args, **kwargs):
-        project_form = ProjectForm(request.POST)
-        project_users_form = ProjectUsersForm(request.POST, request.FILES)
+        project_form = ProjectForm(request.POST, request.FILES)
         if project_form.is_valid():
-            project_form.save()
+            created_form = project_form.save(commit=False)
+            created_form.created_by = request.user
+            created_form.save()
             return redirect(reverse('project:list_projects'))
         context = {
             'project_form': project_form,
-            'project_users_form': project_users_form
         }
         return render(request, self.template_name, context)
 
@@ -52,7 +50,7 @@ def create_project_users_view(request):
 
 class ListProjectView(ListView):
     form_class = ProjectUsersForm
-    template_name = 'project/create_project.html'
+    template_name = 'project/create_project_details.html'
 
 # class VehicleManufacturerCreateView(SuccessMessageMixin, CreateView):
 #     model = Manufacturer

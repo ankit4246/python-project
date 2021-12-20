@@ -1,0 +1,107 @@
+{% extends 'pentest/base.html' %}
+{% load static %}
+{% block center_content %}
+    <div class="ProjectForm">
+    <div class="maincontent">
+    <div class="maincontentheader d-flex justify-content-between">
+        <div class="d-flex align-items-center" style="gap: 20px">
+            <div class="hamrburgericon" onclick="extendedsidebar() ">
+                <i class="fas fa-bars"></i>
+            </div>
+        </div>
+        <div class="options d-flex align-items-center">
+            <div class="security d-flex align-items-center">
+                <div class="icon">
+                    <img src="{% static 'Icons/ic_baseline-security.png' %}" alt=""/>
+                </div>
+                <p>Security Center</p>
+            </div>
+            <div class="setting d-flex align-items-center">
+                <div class="icon">
+                    <img src="{% static 'Icons/ant-design_setting-outlined.png' %}" alt=""/>
+                </div>
+                <p>Setting</p>
+            </div>
+        </div>
+    </div>
+    <div class="maincontentbody">
+        <div class="form">
+            <form method="post" enctype="multipart/form-data">
+                {% csrf_token %}
+                {{ project_form.logo.label }}
+                {{ project_form.logo }}
+
+                {{ project_form.project_name.label }}
+                {{ project_form.project_name }}
+
+                {{ project_form.tagline.label }}
+                {{ project_form.tagline }}
+
+                {{ project_form.objectives.label }}
+                {{ project_form.objectives }}
+
+                {{ project_form.policies.label }}
+                {{ project_form.policies }}
+
+                {{ project_form.budget.label }}
+                {{ project_form.budget }}
+
+                {{ project_form.start_date.label }}
+                {{ project_form.start_date }}
+
+                {{ project_form.end_date.label }}
+                {{ project_form.end_date }}
+                <div class="form-group d-flex button justify-content-end" style="gap: 20px">
+                    <button type="submit" class="btn Save">Continue</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+{% endblock center_content %}
+
+</div>
+</div>
+
+{% block extra_js %}
+    <script>
+        // for updating the S.N of all rows after deleting and updating
+        function UpdateSN(xid, xloopId, x) {
+            // let loopID = $("#loopID")
+            // for(i=0; i<x.length; i++){
+            xloopId.innerHTML(x + 1);
+            // }
+        }
+
+        // for madeUp Html for appending while creating new row
+        function fillup(xid, i, xname) {
+            return (
+                "<tr><td class='loopID'>" + i + "</td><td>" + xname + "</td><td>" + xname +
+                "</td><td>" + "<input type='button' class='btn btn-success btn-sm btn-update' value='Edit' data-sid=" + xid +
+                "> <input type='button' class='btn btn-warning btn-sm btn-delete' value='delete' data-sid=" + xid + ">"
+            )
+        }
+
+        // Creation of Severity object
+        $("#btnsave").on("click", function () {
+            let output = "";
+            let csr = $("input[name=csrfmiddlewaretoken]").val();
+            let user = $("#user-id").val();
+            console.log(user)
+            mydata = {
+                user: user,
+                csrfmiddlewaretoken: csr
+            };
+            console.log(mydata)
+            $.ajax({
+                url: "{% url 'project:create_project_user' %}",
+                method: 'POST',
+                data: mydata,
+                dataType: 'json',
+                success: function (data) {
+                    console.log('success')
+                }
+            });
+        })
+    </script>
+{% endblock extra_js %}
