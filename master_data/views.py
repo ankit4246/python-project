@@ -85,3 +85,48 @@ def severityDeleteView(request):
         return JsonResponse({'status': 1})
     else:
         return JsonResponse({'status': 0})
+
+
+def targetCreateView(request):
+    form = TargetTypeForm
+    target = TargetType.objects.all()
+    return render(request, 'master_data/target.html', {"form": form, "target": target, })
+
+# ajax function
+def targetSaveView(request):
+    if request.method == "POST":
+        form = TargetTypeForm(request.POST)
+        if form.is_valid():
+            target_name = request.POST['name']
+            target_remarks = request.POST['remarks']
+            tid = request.POST.get('tid')
+
+            if (tid == ""):
+                target = TargetType(name=target_name, remarks=target_remarks)
+            else:
+                target = TargetType(id=tid, name=target_name, remarks=target_remarks)
+            target.save()
+
+            sv = TargetType.objects.values()
+            target_data = list(sv)
+            return JsonResponse({"status": "Save", 'target_data': target_data, })
+        else:
+            return JsonResponse({"status": 0})
+
+def targetUpdateView(request):
+    if request.method == 'POST':
+        id = request.POST.get('tid')
+        print(id)
+        target = TargetType.objects.get(pk=id)
+        target_data = {"id": TargetType.id, 'name': TargetType.name, 'remarks': TargetType.remarks}
+        return JsonResponse(target_data)
+
+def targetDeleteView(request):
+    if request.method == 'POST':
+        id = request.POST.get('tid')
+        print(id)
+        target = TargetType.objects.get(pk=id)
+        target.delete()
+        return JsonResponse({'status': 1})
+    else:
+        return JsonResponse({'status': 0})

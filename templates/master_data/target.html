@@ -1,0 +1,143 @@
+{% extends "pentest/base.html" %}
+{% block center_content %}
+    <form action="POST" action=''>
+        
+        {% csrf_token %}
+        <input type="hidden" name="tid" id="targetId">
+        {{form}}
+        <!-- <button type="button" id="btnsave">Submit</button> -->
+        <input type='button' class='btn btn-success btn-sm' value='submit' id="btnsave1"/>
+
+    </form>
+    <hr>
+    <table id="example" class="display" style="min-width: 845px">
+        <thead>
+            <tr>
+                <th>S.N.</th>
+                <th>Target Name</th>
+                <th>Master Division Type</th>
+                <th>Action</th>
+            </tr>
+        </thead>
+        <tbody id="tbody">
+            {% for t in target %}
+            <tr>
+                <td class="cell-num">{{ forloop.counter }}</td>
+                <td>{{ t.name }}</td>
+                <td>Target Type</td>
+                <td>
+                    <input type='button' class='btn btn-success btn-sm btn-update' value='Edit' data-tid="{{t.id}}" />
+                    <input type='button' class='btn btn-warning btn-sm btn-delete' value='Delete' data-tid="{{t.id}}" /> 
+                </td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+{% endblock center_content %}
+
+{% block extra_js %}
+<script>
+    // for updating the S.N of all rows after deleting and updating
+    function UpdateSN(xid, xloopId, x) {
+        // let loopID = $("#loopID")
+        // for(i=0; i<x.length; i++){
+        xloopId.innerHTML(x+1);
+        // }
+    }
+
+    // for madeUp Html for appending while creating new row
+    function fillup(xid,i,xname) {
+        return (
+            "<tr><td class='loopID'>" + i + "</td><td>" + xname + "</td><td>" + xname + 
+                        "</td><td>" +  "<input type='button' class='btn btn-success btn-sm btn-update' value='Edit' data-tid=" + xid + 
+                        "> <input type='button' class='btn btn-warning btn-sm btn-delete' value='delete' data-tid=" + xid + ">"
+        )
+    }
+
+    // Creation of target object
+    $("#btnsave1").on("click", function () {
+        let output = "";
+        let csr = $("input[name=csrfmiddlewaretoken]").val();
+        let tid = $("#targetId").val();
+        let target_name = $("#target_nameid").val();
+        let target_remarks = $("#target_remarksid").val();
+        console.log(target_name)
+        console.log(target_remarks)
+        mydata = { tid:tid, name:target_name, remarks:target_remarks,
+        csrfmiddlewaretoken: csr };
+        console.log(mydata)
+        $.ajax({
+            url: "{% url 'master_data:target_save' %}",
+            method: 'POST',
+            data: mydata,
+            dataType: 'json',
+            success: function(data) {
+                x = data.target_data;
+                if(data.status == "Save"){
+                // console.log(data)
+                // console.log("Form submitted successfully")
+                for(i=0; i<x.length; i++){
+                    output += 
+                    fillup(x[i].id,i+1,x[i].name)
+                }
+                // console.log(output)
+                $("#tbody").html(output);
+
+                // getting the id of the id from the row
+                // let loopID = $("#loopID")
+                // for(i=0; i<x.length; i++){
+                //     updateSN(x[i].id, loopId, i)
+                // }
+
+                $("#targetId").val("");
+                $("#btnsave1").val("Submit")
+                $('form')[0].reset();
+                }
+            } 
+        });
+    })
+
+    // // For Target Type object Update
+    // $("tbody").on("click", ".btn-update", function (){
+    //     let id = $(this).attr('data-tid')
+    //     let csr = $("input[name=csrfmiddlewaretoken]").val()
+    //     mydata = {tid: id, csrfmiddlewaretoken: csr}
+
+    //     $.ajax({
+    //         url: "{% url 'master_data:target_update' %}",
+    //         method: 'POST',
+    //         data: mydata,
+    //         dataType: 'json',
+    //         success: function(data) {
+    //             console.log("Update Button Clicked")
+    //             $("#targetId").val(data.id)
+    //             $("#target_nameid").val(data.name)
+    //             $("#target_remarksid").val(data.remarks)
+    //             $("#btnsave1").val("Update")
+    //         }
+    //     })
+    // })
+
+    // // For Severity object Delete
+    // $("tbody").on("click", ".btn-delete", function (){
+    //     let id = $(this).attr('data-tid')
+    //     let csr = $("input[name=csrfmiddlewaretoken]").val()
+    //     mydata = {tid: id, csrfmiddlewaretoken: csr}
+    //     mythis = this;
+
+    //     $.ajax({
+    //         url: "{% url 'master_data:target_delete' %}",
+    //         method: 'POST',
+    //         data: mydata,
+    //         dataType: 'json',
+    //         success: function(data) {
+    //             if(data.status == 1) {
+    //                 console.log("Data Deleted Successfully")
+    //                 $(mythis).closest('tr').fadeOut();
+                    
+    //             }
+    //         }
+    //     })
+    // })
+</script>
+{% endblock extra_js %}
