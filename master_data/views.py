@@ -118,7 +118,7 @@ def targetUpdateView(request):
         id = request.POST.get('tid')
         print(id)
         target = TargetType.objects.get(pk=id)
-        target_data = {"id": TargetType.id, 'name': TargetType.name, 'remarks': TargetType.remarks}
+        target_data = {"id": target.id, 'name': target.name, 'remarks': target.remarks}
         return JsonResponse(target_data)
 
 def targetDeleteView(request):

@@ -97,28 +97,28 @@
         });
     })
 
-    // // For Target Type object Update
-    // $("tbody").on("click", ".btn-update", function (){
-    //     let id = $(this).attr('data-tid')
-    //     let csr = $("input[name=csrfmiddlewaretoken]").val()
-    //     mydata = {tid: id, csrfmiddlewaretoken: csr}
+    // For Target Type object Update
+    $("tbody").on("click", ".btn-update", function (){
+        let id = $(this).attr('data-tid')
+        let csr = $("input[name=csrfmiddlewaretoken]").val()
+        mydata = {tid: id, csrfmiddlewaretoken: csr}
 
-    //     $.ajax({
-    //         url: "{% url 'master_data:target_update' %}",
-    //         method: 'POST',
-    //         data: mydata,
-    //         dataType: 'json',
-    //         success: function(data) {
-    //             console.log("Update Button Clicked")
-    //             $("#targetId").val(data.id)
-    //             $("#target_nameid").val(data.name)
-    //             $("#target_remarksid").val(data.remarks)
-    //             $("#btnsave1").val("Update")
-    //         }
-    //     })
-    // })
+        $.ajax({
+            url: "{% url 'master_data:target_update' %}",
+            method: 'POST',
+            data: mydata,
+            dataType: 'json',
+            success: function(data) {
+                console.log("Update Button Clicked")
+                $("#targetId").val(data.id)
+                $("#target_nameid").val(data.name)
+                $("#target_remarksid").val(data.remarks)
+                $("#btnsave1").val("Update")
+            }
+        })
+    })
 
-    // // For Severity object Delete
+    // For Target object Delete
     // $("tbody").on("click", ".btn-delete", function (){
     //     let id = $(this).attr('data-tid')
     //     let csr = $("input[name=csrfmiddlewaretoken]").val()
