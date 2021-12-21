@@ -57,14 +57,11 @@
     // Creation of target object
     $("#btnsave1").on("click", function () {
         let output = "";
-        let csr = $("input[name=csrfmiddlewaretoken]").val();
+        let csrf = $("input[name=csrfmiddlewaretoken]").val();
         let tid = $("#targetId").val();
         let target_name = $("#target_nameid").val();
-        let target_remarks = $("#target_remarksid").val();
         console.log(target_name)
-        console.log(target_remarks)
-        mydata = { tid:tid, name:target_name, remarks:target_remarks,
-        csrfmiddlewaretoken: csr };
+        mydata = { tid:tid, name:target_name, csrfmiddlewaretoken: csrf };
         console.log(mydata)
         $.ajax({
             url: "{% url 'master_data:target_save' %}",
@@ -100,8 +97,8 @@
     // For Target Type object Update
     $("tbody").on("click", ".btn-update", function (){
         let id = $(this).attr('data-tid')
-        let csr = $("input[name=csrfmiddlewaretoken]").val()
-        mydata = {tid: id, csrfmiddlewaretoken: csr}
+        let csrf = $("input[name=csrfmiddlewaretoken]").val()
+        mydata = {tid: id, csrfmiddlewaretoken: csrf}
 
         $.ajax({
             url: "{% url 'master_data:target_update' %}",
@@ -112,32 +109,31 @@
                 console.log("Update Button Clicked")
                 $("#targetId").val(data.id)
                 $("#target_nameid").val(data.name)
-                $("#target_remarksid").val(data.remarks)
                 $("#btnsave1").val("Update")
             }
         })
     })
 
     // For Target object Delete
-    // $("tbody").on("click", ".btn-delete", function (){
-    //     let id = $(this).attr('data-tid')
-    //     let csr = $("input[name=csrfmiddlewaretoken]").val()
-    //     mydata = {tid: id, csrfmiddlewaretoken: csr}
-    //     mythis = this;
+    $("tbody").on("click", ".btn-delete", function (){
+        let id = $(this).attr('data-tid')
+        let csr = $("input[name=csrfmiddlewaretoken]").val()
+        mydata = {tid: id, csrfmiddlewaretoken: csr}
+        mythis = this;
 
-    //     $.ajax({
-    //         url: "{% url 'master_data:target_delete' %}",
-    //         method: 'POST',
-    //         data: mydata,
-    //         dataType: 'json',
-    //         success: function(data) {
-    //             if(data.status == 1) {
-    //                 console.log("Data Deleted Successfully")
-    //                 $(mythis).closest('tr').fadeOut();
+        $.ajax({
+            url: "{% url 'master_data:target_delete' %}",
+            method: 'POST',
+            data: mydata,
+            dataType: 'json',
+            success: function(data) {
+                if(data.status == 1) {
+                    console.log("Data Deleted Successfully")
+                    $(mythis).closest('tr').fadeOut();
                     
-    //             }
-    //         }
-    //     })
-    // })
+                }
+            }
+        })
+    })
 </script>
 {% endblock extra_js %}
