@@ -1014,6 +1014,7 @@ project form ends */
   object-fit: cover;
   height: 100%;
   width: 100%;
+  border-radius: 50%;
 }
 .maincontent .maincontentbody .table tr td:nth-child(3) {
   color: #bf2900;

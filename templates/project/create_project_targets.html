@@ -1,7 +1,61 @@
 {% extends 'pentest/base.html' %}
 {% load static %}
-{% block center_content %}
 
+{% block modal %}
+    <div class="modelcontainer">
+    <div class="model">
+        <form method="post">
+            {% csrf_token %}
+            <div
+                    class="
+              modelheader
+              d-flex
+              justify-content-between
+              align-items-center
+            "
+            >
+                <h3>Add project Target</h3>
+                <button type="button" class="btn dangerbtn" onclick="removemodel()">x</button>
+            </div>
+            <div class="modelbody">
+                <div class="col-lg-12">
+                    <div class="form-group d-flex flex-column">
+                        {{ project_target_form.target.label }}
+                        {{ project_target_form.target }}
+                    </div>
+                </div>
+                <div class="col-lg-12">
+                    <div class="form-group">
+                        {{ project_target_form.url.label }}
+                        {{ project_target_form.url }}
+                    </div>
+                </div>
+            </div>
+            <div class="model-footer">
+                <div
+                        class="buttons d-flex align-items-center justify-content-end"
+                        style="gap: 10px; width: 100%"
+                >
+                    <div class="button">
+                        <a href="">
+                            <button type="submit" class="btn primarybtn add">Save</button>
+                        </a>
+                    </div>
+                    <div class="button">
+                        <a href="">
+                            <button type="button" class="btn secondarybtn" onclick="removemodel()">
+                                Cancel
+                            </button>
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </form>
+    </div>
+</div>
+{% endblock modal %}
+
+{% block center_content %}
     <div class="maincontentbody">
         <div class="row">
             <div class="col-lg-2">
@@ -13,7 +67,7 @@
                             <div class="line"></div>
                         </div>
                         <div class="step">
-                            <div class="circle"></div>
+                            <div class="circle active"></div>
                             <div class="line"></div>
                         </div>
                         <div class="step">
@@ -22,13 +76,13 @@
                     </div>
                     <div class="links">
                         <div class="link">
-                            <p class="active">Detail</p>
+                            <p>Details</p>
                         </div>
                         <div class="link">
-                            <p>Detail</p>
+                            <p class="active">Targets</p>
                         </div>
                         <div class="link">
-                            <p>Detail</p>
+                            <p>Review and Submit</p>
                         </div>
                     </div>
                 </div>
@@ -53,13 +107,6 @@
                             <td>Target Url</td>
                             <td>Action</td>
                         </tr>
-                        <tr>
-                            <td>#</td>
-                            <td>No target Available</td>
-                            <td></td>
-                            <td></td>
-                        </tr>
-
                         {% for project_target in project_targets %}
                             <tr>
                                 <td>project_target.id</td>
@@ -70,10 +117,17 @@
                                             class="icon d-flex align-items-center"
                                             style="gap: 10px"
                                     >
-                                        <i class="far fa-edit"></i>
+                                        <i class="far fa-edit" onclick="model()"></i>
                                         <i class="far fa-trash-alt"></i>
                                     </div>
                                 </td>
+                            </tr>
+                        {% empty %}
+                            <tr>
+                                <td>#</td>
+                                <td>No target Available</td>
+                                <td></td>
+                                <td></td>
                             </tr>
                         {% endfor %}
 
@@ -104,36 +158,36 @@
     </div>
 
 
-{#    <div class="maincontentbody">#}
-{#        <div class="form">#}
-{#            <form method="post">#}
-{#                {% csrf_token %}#}
-{#                {{ project_target_form.url.label }}#}
-{#                {{ project_target_form.url }}#}
-{#                {{ project_target_form.target.label }}#}
-{#                {{ project_target_form.target }}#}
-{#                <div class="form-group d-flex button justify-content-end" style="gap: 20px">#}
-{#                    <button type="submit" class="btn Save">Add</button>#}
-{#                </div>#}
-{#            </form>#}
-{#            <table>#}
-{#                {% for project_target in project_targets %}#}
-{#                    <tr>#}
-{#                        <td>{{ project_target.url|upper }}</td>#}
-{#                        <td>{{ project_target.target|upper }}</td>#}
-{#                    </tr>#}
-{#                {% endfor %}#}
-{#            </table>#}
-{#            <div class="form-group d-flex button justify-content-end" style="gap: 20px">#}
-{#                <a href="{% url 'project:update_project_details' project_id %}">#}
-{#                    <button type="button" class="btn Save">Back</button>#}
-{#                </a>#}
-{#            </div>#}
-{#            <div class="form-group d-flex button justify-content-end" style="gap: 20px">#}
-{#                <button type="button" class="btn Save">Continue</button>#}
-{#            </div>#}
-{#        </div>#}
-{#    </div>#}
+    {#    <div class="maincontentbody">#}
+    {#        <div class="form">#}
+    {#            <form method="post">#}
+    {#                {% csrf_token %}#}
+    {#                {{ project_target_form.url.label }}#}
+    {#                {{ project_target_form.url }}#}
+    {#                {{ project_target_form.target.label }}#}
+    {#                {{ project_target_form.target }}#}
+    {#                <div class="form-group d-flex button justify-content-end" style="gap: 20px">#}
+    {#                    <button type="submit" class="btn Save">Add</button>#}
+    {#                </div>#}
+    {#            </form>#}
+    {#            <table>#}
+    {#                {% for project_target in project_targets %}#}
+    {#                    <tr>#}
+    {#                        <td>{{ project_target.url|upper }}</td>#}
+    {#                        <td>{{ project_target.target|upper }}</td>#}
+    {#                    </tr>#}
+    {#                {% endfor %}#}
+    {#            </table>#}
+    {#            <div class="form-group d-flex button justify-content-end" style="gap: 20px">#}
+    {#                <a href="{% url 'project:update_project_details' project_id %}">#}
+    {#                    <button type="button" class="btn Save">Back</button>#}
+    {#                </a>#}
+    {#            </div>#}
+    {#            <div class="form-group d-flex button justify-content-end" style="gap: 20px">#}
+    {#                <button type="button" class="btn Save">Continue</button>#}
+    {#            </div>#}
+    {#        </div>#}
+    {#    </div>#}
 
 {% endblock center_content %}
 
