@@ -1,23 +1,7 @@
 from django.db import models
 from django.utils.translation import ugettext_lazy as _
 
-
-class TimeStamp(models.Model):
-    """General Abstract model that can inherited by other model which requires timestamp"""
-
-    created_at = models.DateTimeField(
-        _("Created Date"),
-        auto_now_add=True,
-        help_text=_("Eg. 2021-09-28T19:40:02.785988+05:45"),
-    )
-    updated_at = models.DateTimeField(
-        _("Updated Date"),
-        auto_now=True,
-        help_text=_("Eg. 2021-09-28T19:40:02.785988+05:45"),
-    )
-
-    class Meta:
-        abstract = True
+from pentest.models import TimeStamp
 
 
 class Menu(TimeStamp):

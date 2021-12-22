@@ -1,6 +1,7 @@
 from django.db import models
 
 # Create your models here.
+from pentest.models import TimeStamp
 from users.models import User
 
 
@@ -25,7 +26,7 @@ class TargetType(models.Model):
         return self.name
 
 
-class Project(models.Model):
+class Project(TimeStamp):
     logo = models.ImageField(blank=True, null=True, upload_to='logos/')
     project_name = models.CharField(max_length=100, blank=True, null=True)
     tagline = models.CharField(max_length=100, blank=True, null=True)

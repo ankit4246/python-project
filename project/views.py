@@ -1,16 +1,18 @@
+from django.contrib import messages
 from django.http import JsonResponse
 from django.shortcuts import render, redirect
 
 # Create your views here.
-from django.urls import reverse
+from django.urls import reverse, reverse_lazy
 from django.views import View
-from django.views.generic import ListView, FormView, CreateView
+from django.views.generic import ListView, FormView, CreateView, DeleteView
 
 from project.forms import ProjectDetailsForm, ProjectUsersForm, ProjectTargetForm
 from project.models import Project, TargetType, ProjectTargets
 
 
 class ListProjectsView(ListView):
+    # ordering = ['-date_created']
     model = Project
     paginate_by = 5
     template_name = 'project/list_projects.html'
@@ -105,6 +107,7 @@ class ListProjectView(ListView):
     form_class = ProjectUsersForm
     template_name = 'project/create_project_details.html'
 
+
 # class VehicleManufacturerCreateView(SuccessMessageMixin, CreateView):
 #     model = Manufacturer
 #     fields = [
@@ -113,3 +116,11 @@ class ListProjectView(ListView):
 #     template_name = "core/vehiclemanufacturer/vehiclemanufacturer_create.html"
 #     success_url = reverse_lazy("core:vehiclemanufacturer-list")
 #     success_message = "VehicleManufacturer created successfully"
+class ProjectDeleteView(DeleteView):
+    model = Project
+    success_url = reverse_lazy("project:list_projects")
+    success_message = "Deleted successfully."
+
+    def delete(self, request, *args, **kwargs):
+        messages.success(self.request, self.success_message)
+        return super().delete(request, *args, **kwargs)
