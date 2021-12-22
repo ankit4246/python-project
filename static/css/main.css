@@ -8,7 +8,7 @@
 :root {
   --clr-secondary-text: #5b5858;
   --clr-primary-text: #000000;
-  --clr-primary: #623ce7;
+  --clr-primary: #336cfb;
 }
 p {
   font-size: 14px !important;
@@ -17,6 +17,9 @@ img {
   object-fit: cover;
   height: 100%;
   width: 100%;
+}
+.card {
+  border: none;
 }
 p,
 h1,
@@ -84,7 +87,7 @@ section > div > .active {
   gap: 40px;
 }
 .sidebar .Sidebarlinks a.active {
-  color: #623ce7 !important;
+  color: #336cfb !important;
 }
 .sidebar .Sidebarlinks .link .icon {
   color: var(--clr-secondary-text);
@@ -94,7 +97,7 @@ section > div > .active {
   width: 26px;
 }
 .sidebar .Sidebarlinks a:hover {
-  color: #623ce7 !important;
+  color: #336cfb !important;
 }
 .rightcontent {
   position: sticky;
@@ -115,8 +118,8 @@ section > div > .active {
   background: white;
 }
 .profile .leftcontainer .image {
-  height: 69px;
-  width: 69px;
+  height: 50px;
+  width: 50px;
   border-radius: 50%;
   overflow: hidden;
 }
@@ -133,15 +136,16 @@ section > div > .active {
   width: 100%;
 }
 .profile .rightcontainer .nameDescription h4 {
-  font-size: 18px;
+  font-size: 16px;
   font-weight: 500;
 }
 .profile .rightcontainer .nameDescription p {
   font-size: 13px;
   color: #a1a1a1;
 }
+
 .profile .rightcontainer .icons {
-  font-size: 20px;
+  font-size: 18px;
   color: #5b5b5b;
 }
 
@@ -159,14 +163,49 @@ section > div > .active {
   z-index: 99999;
   top: 0;
   background-color: white;
-  margin-bottom: 4rem;
+
   padding: 2rem 50px;
 }
 
 .maincontent .maincontentbody {
   padding: 0 50px;
 }
+
+.btn {
+  font-weight: 500;
+}
+.primarybtn:hover {
+  color: white;
+}
+.secondarybtn {
+  color: #336cfb;
+
+  border: 1.5px solid #336cfb;
+  box-sizing: border-box;
+  border-radius: 0px 14px 14px 14px;
+  box-shadow: 0px 12px 24px rgba(98, 60, 231, 0.15);
+  padding: 10px 20px;
+}
+.primarybtn {
+  color: white;
+  background: #336cfb;
+  box-shadow: 0px 12px 24px rgba(98, 60, 231, 0.15);
+  border-radius: 0px 14px 14px 14px;
+  padding: 10px 20px;
+}
+.dangerbtn {
+  color: white;
+  background: #fb3333;
+  box-shadow: 0px 12px 24px rgba(98, 60, 231, 0.15);
+  border-radius: 0px 14px 14px 14px;
+  padding: 10px 20px;
+}
+
 /* Main Dashboard starts */
+
+.homepage .maincontent .maincontentheader {
+  margin-bottom: 4rem;
+}
 
 .homepage .maincontent .createTask button {
   padding: 10px 20px;
@@ -287,7 +326,7 @@ section > div > .active {
 }
 .homepage .taskheader .nav-tabs .nav-link:focus,
 .homepage .taskheader .nav-tabs .nav-link:hover {
-  color: #623ce7;
+  color: #336cfb;
   border-color: transparent;
 }
 .homepage .taskheader .nav-tabs .nav-item.show .nav-link,
@@ -310,7 +349,7 @@ section > div > .active {
 .taskheader .nav-tabs .nav-link .counter {
   padding: 4px 8px;
   background: #ece7fe;
-  color: #623ce7;
+  color: #336cfb;
   font-size: 12px;
   border-radius: 4px;
 }
@@ -453,7 +492,7 @@ section > div > .active {
 }
 .taskheader .tab-pane .tasks button.Approved {
   background-color: #ece7fe;
-  color: #623ce7;
+  color: #336cfb;
 }
 
 .taskheader .tab-pane .tasks button.inProgress {
@@ -475,9 +514,7 @@ section > div > .active {
   color: #000000;
   font-weight: 500;
 }
-.rightcontent {
-  overflow: auto;
-}
+
 .rightcontent .overview {
   margin-bottom: 3rem;
 }
@@ -541,6 +578,7 @@ section > div > .active {
 .chart {
   display: none;
 }
+FB3333
 /*
 Main dashboard finished */
 
@@ -572,11 +610,14 @@ Main dashboard finished */
 /* ProjectTable ends */
 
 /* project form */
-
-.form > div {
+/*
+.ProjectForm .form > div {
   margin-bottom: 3rem;
+  border-radius: 12px;
 }
-
+.ProjectForm .form .BugStatus {
+  box-shadow: 0px 0px 12px rgb(0 0 0 / 5%), 4px 36px 46px rgb(0 0 0 / 5%);
+}
 .ProjectForm .maincontent .maincontentbody h4 {
   font-size: 18px;
   color: #5b5858;
@@ -589,14 +630,51 @@ Main dashboard finished */
     4px 36px 46px rgba(0, 0, 0, 0.05);
   border-radius: 12px;
 }
+
+.ProjectForm .maincontent .maincontentbody .projectDetail .content {
+  width: 100%;
+  padding: 2rem 2rem;
+  height: 15rem;
+}
+
+.ProjectForm .maincontent .maincontentbody .projectDetail .content .logo {
+  height: 100px;
+  width: 100px;
+  overflow: hidden;
+}
+.ProjectForm .maincontent .maincontentbody .projectDetail .content .logo img {
+  object-fit: cover;
+  height: 100%;
+  width: 100%;
+}
 .ProjectForm .maincontent .maincontentbody .projectDetail > div > * {
   margin-bottom: 40px;
+}
+.ProjectForm
+  .maincontent
+  .maincontentbody
+  .projectDetail
+  > div
+  > *:nth-child(4) {
+  margin: 0;
 }
 .ProjectForm .maincontent .maincontentbody .projectDetail > div h5 {
   font-weight: 400;
   font-size: 14px;
   margin-bottom: 12px;
 }
+.ProjectForm .maincontent .maincontentbody .textarea {
+  background: #ffffff;
+  box-shadow: 0px 0px 12px rgba(0, 0, 0, 0.05),
+    4px 36px 46px rgba(0, 0, 0, 0.05);
+  width: 100%;
+  padding: 20px 15px;
+  color: #52575c;
+  font-weight: 400;
+  line-height: 1.6rem;
+  font-size: 14px;
+}
+
 .ProjectForm .maincontent .maincontentbody input,
 .ProjectForm .maincontent .maincontentbody textarea {
   background: #ffffff;
@@ -604,7 +682,7 @@ Main dashboard finished */
     4px 36px 46px rgba(0, 0, 0, 0.05);
   width: 100%;
   outline: none;
-  border-radius: 6px;
+  border-radius: 8px;
   border: none;
   font-size: 14px;
   padding: 15px 15px;
@@ -627,7 +705,7 @@ Main dashboard finished */
 }
 
 .ProjectForm .maincontent .maincontentbody button.Save {
-  background: #623ce7;
+  background: #336cfb;
 }
 
 .ProjectForm .target {
@@ -649,7 +727,8 @@ Main dashboard finished */
   padding: 15px 10px;
 }
 .ProjectForm .target button {
-  background: #623ce7;
+  background: #336cfb;
+  border-radius: 0px 4px 4px 4px !;
 }
 .ProjectForm .rewardscontainer {
   background: #ffffff;
@@ -736,6 +815,144 @@ Main dashboard finished */
 .ProjectForm .rightcontent .Hackercontainer .userlist .list .delete {
   margin-left: auto;
   color: #f8896b;
+} */
+
+.ProjectForm .maincontentbody h4 {
+  margin-bottom: 2rem;
+  font-size: 20px;
+}
+
+.ProjectForm .maincontentbody .card {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  gap: 20px;
+  padding: 2rem;
+  background: #ffffff;
+  box-shadow: 0px 0px 12px rgba(0, 0, 0, 0.05),
+    4px 36px 46px rgba(0, 0, 0, 0.05);
+  border-radius: 12px;
+}
+
+.ProjectForm .maincontentbody .card .WizardForm {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  gap: 50px;
+}
+.ProjectForm .maincontentbody .card .WizardForm .step {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+.ProjectForm .maincontentbody .card .WizardForm .step .line {
+  position: absolute;
+  width: 4px;
+  z-index: 0;
+  height: 70px;
+  background: #5b5858;
+}
+.ProjectForm .maincontentbody .card .WizardForm .step .line.active {
+  background: #336cfb;
+}
+.ProjectForm .maincontentbody .card .WizardForm .step .circle {
+  position: absoulte;
+  z-index: 1;
+  height: 18px;
+  width: 18px;
+  background-color: white;
+  border-radius: 50%;
+  border: 3px solid #5b5858;
+}
+.ProjectForm .maincontentbody .card .WizardForm .step .circle.active {
+  background: #336cfb;
+  border: none;
+}
+
+.ProjectForm .maincontentbody .card .links {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  gap: 25px;
+}
+.ProjectForm .maincontentbody .card .links .link {
+  background: #ffffff;
+  box-shadow: 0px 0px 12px rgba(0, 0, 0, 0.05);
+  padding: 10px;
+  width: 100%;
+}
+.ProjectForm .maincontentbody .card .links .link p {
+  text-decoration: none;
+  color: #5b5858;
+}
+.ProjectForm .maincontentbody .card .links .link p.active {
+  color: #336cfb;
+}
+.ProjectForm .maincontentbody .projectDetail input {
+  border: 1px solid #cecdcd;
+}
+.ProjectForm .maincontentbody .projectDetail label {
+  margin-bottom: 10px;
+  font-size: 16px;
+}
+.ProjectForm .maincontentbody .projectDetail h4 {
+  font-size: 20px;
+  margin-bottom: 10px;
+}
+
+.ProjectForm .maincontentbody .table {
+  background: #ffffff;
+  border-radius: 12px;
+  overflow: hidden;
+  box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.05);
+}
+.ProjectForm .maincontentbody .table tr td {
+  padding: 30px !important;
+  color: #9f9fbb;
+}
+.ProjectForm .maincontentbody .table tr td:nth-child(3) {
+  color: #9f9fbb !important;
+}
+.ProjectForm .maincontentbody .table tr:first-child {
+  background: #adc4fd;
+}
+.ProjectForm .maincontentbody .table tr:first-child td {
+  color: #2d2b2b !important;
+}
+.modelcontainer {
+  display: none;
+  background-color: rgba(0, 0, 0, 0.486);
+  position: absolute;
+  z-index: 9999999;
+  align-items: center;
+  justify-content: center;
+  height: 100%;
+  width: 100%;
+}
+.model {
+  background: #ffffff;
+  box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.05);
+  width: 40rem;
+  padding: 2rem;
+  border-radius: 6px;
+}
+.model .modelheader {
+  margin-bottom: 2rem;
+}
+
+.modelcontainer .modelbody > form {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+  margin-bottom: 30px;
+}
+.modelcontainer .modelbody > form label {
+  margin-bottom: 5px;
+}
+.modelcontainer .modelbody > form select {
+  padding: 5px 10px;
+  border: 1px solid #8f8e8e;
+  background-color: transparent;
 }
 
 /*
@@ -743,19 +960,22 @@ project form ends */
 
 /* projectlistview :start */
 
-.projectlist .maincontent,
-.MasterDataEntry .maincontent {
+.projectlist,
+.ProjectForm,
+.MasterDataEntry {
   width: calc(100vw - 10vh) !important;
 }
-.projectlist .maincontent .profile,
-.MasterDataEntry .maincontent .profile {
+.projectlist .profile,
+.ProjectForm .profile,
+.MasterDataEntry .profile {
   margin: 0;
   padding: 0;
 }
 
-.projectlist .maincontent .profile .rightcontainer,
-.MasterDataEntry .maincontent .profile .rightcontainer {
-  gap: 20px;
+.projectlist .profile .rightcontainer,
+.ProjectForm .profile .rightcontainer,
+.MasterDataEntry .profile .rightcontainer {
+  gap: 10px;
 }
 .maincontent .maincontentbody > .table {
   box-shadow: 0px 0px 12px rgba(0, 0, 0, 0.05),
@@ -765,7 +985,7 @@ project form ends */
 }
 
 .maincontent .maincontentbody .table tr:nth-child(even) {
-  background: #fff6f8;
+  background: #f9f9f9;
 }
 .maincontent .maincontentbody .search {
   box-shadow: 4px 36px 46px rgba(0, 0, 0, 0.05);
@@ -820,44 +1040,44 @@ project form ends */
 }
 
 /*
-projectlist :end */
+Project list :end */
 
 /*
 .MasterDataEntry :start */
-.MasterDataEntry .maincontent .maincontentbody > h4 {
+.MasterDataEntry .maincontentbody > h4 {
   font-size: 20px;
   font-weight: 500;
   margin-bottom: 2rem;
 }
-.MasterDataEntry .maincontent .card {
+.MasterDataEntry .card {
   border: none;
   box-shadow: 0px 0px 12px rgba(0, 0, 0, 0.05),
     4px 36px 46px rgba(0, 0, 0, 0.05);
 
   border-radius: 6px;
 }
-.MasterDataEntry .maincontent .card .nav-tabs {
+.MasterDataEntry .card .nav-tabs {
   border: none;
 }
-.MasterDataEntry .maincontent .card ul li button {
+.MasterDataEntry .card ul li button {
   width: 100%;
   padding: 20px;
 
   color: #252525;
   border: none;
 }
-.MasterDataEntry .maincontent .card ul li button p {
+.MasterDataEntry .card ul li button p {
   font-size: 16px !important;
   font-weight: 500;
 }
-.MasterDataEntry .maincontent .card ul li:nth-child(odd) {
+.MasterDataEntry .card ul li:nth-child(odd) {
   background: #fff6f8;
 }
-.MasterDataEntry .maincontent .card ul li button.active {
+.MasterDataEntry .card ul li button.active {
   background-color: #c4b9f2;
 }
 
-.MasterDataEntry .maincontent .card .form input {
+.MasterDataEntry .card .form input {
   border: none;
   outline: none;
   font-size: 14px;
@@ -867,16 +1087,16 @@ projectlist :end */
     4px 36px 46px rgba(0, 0, 0, 0.05);
 }
 
-.MasterDataEntry .maincontent .card .form button {
+.MasterDataEntry .card .form button {
   padding: 10px 15px;
-  background: #623ce7;
+  background: #336cfb;
   color: #ffffff;
   font-weight: 600;
   box-shadow: 0px 12px 24px rgba(98, 60, 231, 0.5);
   border-radius: 0px 7px 7px 7px;
   font-size: 14px;
 }
-.MasterDataEntry .maincontent .maincontentheader {
+.MasterDataEntry .maincontentheader {
   margin-bottom: 0;
 }
 @media all and (max-width: 1366px) {

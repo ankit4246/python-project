@@ -6,8 +6,8 @@ from django.urls import reverse
 from django.views import View
 from django.views.generic import ListView, FormView, CreateView
 
-from project.forms import ProjectForm, ProjectUsersForm
-from project.models import Project
+from project.forms import ProjectDetailsForm, ProjectUsersForm, ProjectTargetForm
+from project.models import Project, TargetType, ProjectTargets
 
 
 class ListProjectsView(ListView):
@@ -16,27 +16,80 @@ class ListProjectsView(ListView):
     template_name = 'project/list_projects.html'
 
 
-class CreateProjectView(View):
+class ProjectDetailsView(View):
     template_name = 'project/create_project_details.html'
 
     def get(self, request, *args, **kwargs):
-        project_form = ProjectForm()
+        if 'project_id' in kwargs:
+            try:
+                current_project = Project.objects.get(pk=kwargs['project_id'])
+            except Project.DoesNotExist:
+                current_project = None
+            project_details_form = ProjectDetailsForm(instance=current_project)
+        else:
+            project_details_form = ProjectDetailsForm()
 
         context = {
-            'project_form': project_form,
+            'project_details_form': project_details_form,
         }
         return render(request, self.template_name, context)
 
     def post(self, request, *args, **kwargs):
-        project_form = ProjectForm(request.POST, request.FILES)
-        if project_form.is_valid():
-            created_form = project_form.save(commit=False)
+        if 'project_id' in kwargs:
+            try:
+                current_project = Project.objects.get(pk=kwargs['project_id'])
+            except Project.DoesNotExist:
+                current_project = None
+            project_details_form = ProjectDetailsForm(request.POST, request.FILES, instance=current_project)
+        else:
+            project_details_form = ProjectDetailsForm(request.POST, request.FILES)
+
+        if project_details_form.is_valid():
+            created_form = project_details_form.save(commit=False)
             created_form.created_by = request.user
             created_form.save()
-            return redirect(reverse('project:list_projects'))
+            return redirect(reverse('project:create_project_targets',
+                                    kwargs={'project_id': created_form.id}))
         context = {
-            'project_form': project_form,
+            'project_details_form': project_details_form,
         }
+        return render(request, self.template_name, context)
+
+
+class ProjectTargetsView(View):
+    template_name = 'project/create_project_targets.html'
+
+    def get(self, request, *args, **kwargs):
+        # try:
+        #     current_project = Project.objects.get(pk=kwargs['project_id'])
+        # except Project.DoesNotExist:
+        #     current_project = None
+        # if current_project is None:
+        #     return redirect(reverse('page_not_found')
+        project_target_form = ProjectTargetForm()
+        context = {
+            'project_target_form': project_target_form,
+            'project_targets': ProjectTargets.objects.filter(project=kwargs['project_id']),
+            'project_id': kwargs['project_id'],
+        }
+        return render(request, self.template_name, context)
+
+    def post(self, request, *args, **kwargs):
+        project_target_form = ProjectTargetForm(request.POST)
+        try:
+            current_project = Project.objects.get(pk=kwargs['project_id'])
+        except Project.DoesNotExist:
+            current_project = None
+        context = {
+            'project_target_form': project_target_form,
+            'project_targets': ProjectTargets.objects.filter(project=kwargs['project_id']),
+            'project_id': kwargs['project_id'],
+        }
+        if project_target_form.is_valid():
+            created_form = project_target_form.save(commit=False)
+            created_form.project = current_project
+            created_form.save()
+            return render(request, self.template_name, context)
         return render(request, self.template_name, context)
 
 

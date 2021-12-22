@@ -1,107 +1,161 @@
 {% extends 'pentest/base.html' %}
 {% load static %}
 {% block center_content %}
-    <div class="ProjectForm">
-    <div class="maincontent">
-    <div class="maincontentheader d-flex justify-content-between">
-        <div class="d-flex align-items-center" style="gap: 20px">
-            <div class="hamrburgericon" onclick="extendedsidebar() ">
-                <i class="fas fa-bars"></i>
-            </div>
-        </div>
-        <div class="options d-flex align-items-center">
-            <div class="security d-flex align-items-center">
-                <div class="icon">
-                    <img src="{% static 'Icons/ic_baseline-security.png' %}" alt=""/>
-                </div>
-                <p>Security Center</p>
-            </div>
-            <div class="setting d-flex align-items-center">
-                <div class="icon">
-                    <img src="{% static 'Icons/ant-design_setting-outlined.png' %}" alt=""/>
-                </div>
-                <p>Setting</p>
-            </div>
-        </div>
-    </div>
+
     <div class="maincontentbody">
-        <div class="form">
-            <form method="post" enctype="multipart/form-data">
-                {% csrf_token %}
-                {{ project_form.logo.label }}
-                {{ project_form.logo }}
-
-                {{ project_form.project_name.label }}
-                {{ project_form.project_name }}
-
-                {{ project_form.tagline.label }}
-                {{ project_form.tagline }}
-
-                {{ project_form.objectives.label }}
-                {{ project_form.objectives }}
-
-                {{ project_form.policies.label }}
-                {{ project_form.policies }}
-
-                {{ project_form.budget.label }}
-                {{ project_form.budget }}
-
-                {{ project_form.start_date.label }}
-                {{ project_form.start_date }}
-
-                {{ project_form.end_date.label }}
-                {{ project_form.end_date }}
-                <div class="form-group d-flex button justify-content-end" style="gap: 20px">
-                    <button type="submit" class="btn Save">Continue</button>
+        <div class="row">
+            <div class="col-lg-2">
+                <h4>Create a Project</h4>
+                <div class="card">
+                    <div class="WizardForm">
+                        <div class="step">
+                            <div class="circle active"></div>
+                            <div class="line"></div>
+                        </div>
+                        <div class="step">
+                            <div class="circle"></div>
+                            <div class="line"></div>
+                        </div>
+                        <div class="step">
+                            <div class="circle"></div>
+                        </div>
+                    </div>
+                    <div class="links">
+                        <div class="link">
+                            <p class="active">Detail</p>
+                        </div>
+                        <div class="link">
+                            <p>Detail</p>
+                        </div>
+                        <div class="link">
+                            <p>Detail</p>
+                        </div>
+                    </div>
                 </div>
-            </form>
+            </div>
+            <div class="col-lg-10">
+                <h4>Set Target</h4>
+                <div
+                        class="card"
+                        style="flex-direction: column; padding: 20px 40px"
+                >
+                    <div
+                            class="addbtn d-flex justify-content-end"
+                            style="width: 100%"
+                    >
+                        <button class="btn primarybtn" onclick="model()">+</button>
+                    </div>
+
+                    <table class="table table-hovered">
+                        <tr>
+                            <td>SN</td>
+                            <td>Types</td>
+                            <td>Target Url</td>
+                            <td>Action</td>
+                        </tr>
+                        <tr>
+                            <td>#</td>
+                            <td>No target Available</td>
+                            <td></td>
+                            <td></td>
+                        </tr>
+
+                        {% for project_target in project_targets %}
+                            <tr>
+                                <td>project_target.id</td>
+                                <td>{{ project_target.target.name }}</td>
+                                <td>{{ project_target.url }}</td>
+                                <td>
+                                    <div
+                                            class="icon d-flex align-items-center"
+                                            style="gap: 10px"
+                                    >
+                                        <i class="far fa-edit"></i>
+                                        <i class="far fa-trash-alt"></i>
+                                    </div>
+                                </td>
+                            </tr>
+                        {% endfor %}
+
+                    </table>
+                    <div
+                            class="
+                      buttons
+                      d-flex
+                      align-items-center
+                      justify-content-end
+                    "
+                            style="gap: 10px; width: 100%"
+                    >
+                        <div class="button">
+                            <a href="{% url 'project:update_project_details' project_id %}">
+                                <button type="button" class="btn secondarybtn">Back</button>
+                            </a>
+                        </div>
+                        <div class="button">
+                            <a href="">
+                                <button class="btn primarybtn">Continue</button>
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
         </div>
     </div>
+
+
+{#    <div class="maincontentbody">#}
+{#        <div class="form">#}
+{#            <form method="post">#}
+{#                {% csrf_token %}#}
+{#                {{ project_target_form.url.label }}#}
+{#                {{ project_target_form.url }}#}
+{#                {{ project_target_form.target.label }}#}
+{#                {{ project_target_form.target }}#}
+{#                <div class="form-group d-flex button justify-content-end" style="gap: 20px">#}
+{#                    <button type="submit" class="btn Save">Add</button>#}
+{#                </div>#}
+{#            </form>#}
+{#            <table>#}
+{#                {% for project_target in project_targets %}#}
+{#                    <tr>#}
+{#                        <td>{{ project_target.url|upper }}</td>#}
+{#                        <td>{{ project_target.target|upper }}</td>#}
+{#                    </tr>#}
+{#                {% endfor %}#}
+{#            </table>#}
+{#            <div class="form-group d-flex button justify-content-end" style="gap: 20px">#}
+{#                <a href="{% url 'project:update_project_details' project_id %}">#}
+{#                    <button type="button" class="btn Save">Back</button>#}
+{#                </a>#}
+{#            </div>#}
+{#            <div class="form-group d-flex button justify-content-end" style="gap: 20px">#}
+{#                <button type="button" class="btn Save">Continue</button>#}
+{#            </div>#}
+{#        </div>#}
+{#    </div>#}
 
 {% endblock center_content %}
 
-</div>
-</div>
 
 {% block extra_js %}
     <script>
-        // for updating the S.N of all rows after deleting and updating
-        function UpdateSN(xid, xloopId, x) {
-            // let loopID = $("#loopID")
-            // for(i=0; i<x.length; i++){
-            xloopId.innerHTML(x + 1);
-            // }
+        function model() {
+            var modelcontainer = document.querySelector(".modelcontainer");
+            modelcontainer.style.display = "flex";
         }
 
-        // for madeUp Html for appending while creating new row
-        function fillup(xid, i, xname) {
-            return (
-                "<tr><td class='loopID'>" + i + "</td><td>" + xname + "</td><td>" + xname +
-                "</td><td>" + "<input type='button' class='btn btn-success btn-sm btn-update' value='Edit' data-sid=" + xid +
-                "> <input type='button' class='btn btn-warning btn-sm btn-delete' value='delete' data-sid=" + xid + ">"
-            )
+        function removemodel() {
+            var modelcontainer = document.querySelector(".modelcontainer");
+            modelcontainer.style.display = "none";
         }
 
-        // Creation of Severity object
-        $("#btnsave").on("click", function () {
-            let output = "";
-            let csr = $("input[name=csrfmiddlewaretoken]").val();
-            let user = $("#user-id").val();
-            console.log(user)
-            mydata = {
-                user: user,
-                csrfmiddlewaretoken: csr
-            };
-            console.log(mydata)
-            $.ajax({
-                url: "{% url 'project:create_project_user' %}",
-                method: 'POST',
-                data: mydata,
-                dataType: 'json',
-                success: function (data) {
-                    console.log('success')
-                }
-            });
-        })
+        function extendedsidebar() {
+            var text = document.querySelector(".link");
+            var sidebar = document.querySelector(".sidebar");
+            sidebar.classList.toggle("active");
+            text.classList.toggle("active");
+            console.log(text);
+        }
     </script>
 {% endblock extra_js %}
