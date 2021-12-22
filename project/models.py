@@ -33,7 +33,6 @@ class Project(models.Model):
     policies = models.CharField(max_length=600, blank=True, null=True)
     budget = models.IntegerField(blank=True, null=True)
     created_by = models.ForeignKey(User, models.SET_NULL, blank=True, null=True, related_name='created_by')
-    target = models.ForeignKey(TargetType, models.DO_NOTHING, blank=True, null=True)
     start_date = models.DateField(blank=True, null=True)
     end_date = models.DateField(blank=True, null=True)
     is_draft = models.BooleanField(default=True)
@@ -41,6 +40,12 @@ class Project(models.Model):
 
     def __str__(self):
         return self.project_name
+
+
+class ProjectTargets(models.Model):
+    url = models.URLField()
+    target = models.ForeignKey(TargetType, models.DO_NOTHING, blank=True, null=True)
+    project = models.ForeignKey(Project, models.DO_NOTHING, blank=True, null=True)
 
 
 class Bug(models.Model):
