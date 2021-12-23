@@ -120,7 +120,7 @@
         let csr = $("input[name=csrfmiddlewaretoken]").val()
         mydata = {tid: id, csrfmiddlewaretoken: csr}
         mythis = this;
-
+        
         $.ajax({
             url: "{% url 'master_data:target_delete' %}",
             method: 'POST',

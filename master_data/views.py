@@ -7,6 +7,7 @@ from django.contrib import messages
 from django.contrib.messages.views import SuccessMessageMixin
 from django.urls import reverse_lazy
 from django.http import JsonResponse
+from django.views.generic.base import View
 
 
 # For CRUD Severity
@@ -36,7 +37,11 @@ from django.http import JsonResponse
 
 #     def delete(self, request, *args, **kwargs):
 #         messages.success(self.request, self.success_message)
-#         return super().delete(request, *args, **kwargs)
+#         return super().delete(request, *arg
+    
+    
+def masterdata(request):
+        return render(request,"master_data/MasterDataEntry.html")
 
 
 def severityCreateView(request):

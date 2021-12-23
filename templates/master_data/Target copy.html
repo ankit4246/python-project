@@ -1,0 +1,385 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+    <!-- CSS only -->
+    <link
+      href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css"
+      rel="stylesheet"
+      integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3"
+      crossorigin="anonymous"
+    />
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css"
+      integrity="sha512-Fo3rlrZj/k7ujTnHg4CGR2D7kSs0v4LLanw2qksYuRlEzO+tcaEPQogQ0KaoGN26/zrn20ImR1DfuLWnOo7aBA=="
+      crossorigin="anonymous"
+      referrerpolicy="no-referrer"
+    />
+    <link rel="stylesheet" href="../Css/main.css" />
+  </head>
+  <body>
+    <section>
+      <div class="modelcontainer">
+        <div class="model">
+          <div
+            class="
+              modelheader
+              d-flex
+              justify-content-between
+              align-items-center
+            "
+          >
+            <h3>Add project Target</h3>
+            <button class="btn dangerbtn" onclick="removemodel()">x</button>
+          </div>
+          <div class="modelbody">
+            <form action="">
+              <div class="col-lg-12">
+                <div class="form-group d-flex flex-column">
+                  <label for="Website">Types</label>
+                  <select name="" id="Website">
+                    <option value="">sad</option>
+                    <option value="">sad</option>
+                    <option value="">sad</option>
+                    <option value="">sad</option>
+                  </select>
+                </div>
+              </div>
+              <div class="col-lg-12">
+                <div class="form-group">
+                  <label for="">Target Url</label>
+                  <input type="text" class="form-control" />
+                </div>
+              </div>
+            </form>
+          </div>
+          <div class="model-footer">
+            <div
+              class="buttons d-flex align-items-center justify-content-end"
+              style="gap: 10px; width: 100%"
+            >
+              <div class="button">
+                <a href="">
+                  <button class="btn primarybtn add">Save</button>
+                </a>
+              </div>
+
+              <div class="button">
+                <a href="">
+                  <button class="btn secondarybtn" onclick="removemodel()">
+                    Cancel
+                  </button>
+                </a>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="d-flex">
+        <div class="sidebar d-flex flex-column align-items-center">
+          <div class="logo">
+            <img src="../image/Group 23.png" alt="" />
+          </div>
+          <div class="Sidebarlinks">
+            <div class="link">
+              <a href="" class="active">
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  width="24"
+                  height="24"
+                  viewBox="0 0 24 24"
+                  fill="none"
+                  stroke="currentColor"
+                  stroke-width="2"
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                >
+                  <rect x="3" y="3" width="7" height="9"></rect>
+                  <rect x="14" y="3" width="7" height="5"></rect>
+                  <rect x="14" y="12" width="7" height="9"></rect>
+                  <rect x="3" y="16" width="7" height="5"></rect>
+                </svg>
+
+                <p>Dashboard</p>
+              </a>
+              <a href="">
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  width="24"
+                  height="24"
+                  viewBox="0 0 24 24"
+                  fill="none"
+                  stroke="currentColor"
+                  stroke-width="2"
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                  class="ai ai-File"
+                >
+                  <path
+                    d="M4 4v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8.342a2 2 0 0 0-.602-1.43l-4.44-4.342A2 2 0 0 0 13.56 2H6a2 2 0 0 0-2 2z"
+                  />
+                  <path d="M9 13h6" />
+                  <path d="M9 17h3" />
+                  <path d="M14 2v4a2 2 0 0 0 2 2h4" />
+                </svg>
+
+                <p>Program</p>
+              </a>
+              <a href="">
+                <svg
+                  width="24"
+                  height="24"
+                  stroke-width="1.5"
+                  viewBox="0 0 24 24"
+                  fill="none"
+                  xmlns="http://www.w3.org/2000/svg"
+                >
+                  <path
+                    d="M17 13.01L17.01 12.9989"
+                    stroke="currentColor"
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                  />
+                  <path
+                    d="M7 17H17M6 10V3.6C6 3.26863 6.26863 3 6.6 3H17.4C17.7314 3 18 3.26863 18 3.6V10M21 20.4V14C21 11.7909 19.2091 10 17 10H7C4.79086 10 3 11.7909 3 14V20.4C3 20.7314 3.26863 21 3.6 21H20.4C20.7314 21 21 20.7314 21 20.4Z"
+                    stroke="currentColor"
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                  />
+                </svg>
+                <p>Report</p>
+              </a>
+              <a href="">
+                <svg
+                  width="24"
+                  height="24"
+                  stroke-width="1.5"
+                  viewBox="0 0 24 24"
+                  fill="none"
+                  xmlns="http://www.w3.org/2000/svg"
+                >
+                  <path
+                    d="M7 15C7.55228 15 8 14.5523 8 14C8 13.4477 7.55228 13 7 13C6.44772 13 6 13.4477 6 14C6 14.5523 6.44772 15 7 15Z"
+                    fill="currentColor"
+                    stroke="currentColor"
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                  />
+                  <path
+                    d="M2 9V5.6C2 5.26863 2.26863 5 2.6 5H21.4C21.7314 5 22 5.26863 22 5.6V9M2 9V18.4C2 18.7314 2.26863 19 2.6 19H21.4C21.7314 19 22 18.7314 22 18.4V9M2 9H22"
+                    stroke="currentColor"
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                  />
+                </svg>
+                <p>Payment</p>
+              </a>
+              <a href="">
+                <svg
+                  width="24"
+                  height="24"
+                  stroke-width="1.5"
+                  viewBox="0 0 24 24"
+                  fill="none"
+                  xmlns="http://www.w3.org/2000/svg"
+                >
+                  <path
+                    d="M15 21H9V12.6C9 12.2686 9.26863 12 9.6 12H14.4C14.7314 12 15 12.2686 15 12.6V21Z"
+                    stroke="currentColor"
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                  />
+                  <path
+                    d="M20.4 21H15V18.1C15 17.7686 15.2686 17.5 15.6 17.5H20.4C20.7314 17.5 21 17.7686 21 18.1V20.4C21 20.7314 20.7314 21 20.4 21Z"
+                    stroke="currentColor"
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                  />
+                  <path
+                    d="M9 21V16.1C9 15.7686 8.73137 15.5 8.4 15.5H3.6C3.26863 15.5 3 15.7686 3 16.1V20.4C3 20.7314 3.26863 21 3.6 21H9Z"
+                    stroke="currentColor"
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                  />
+                  <path
+                    d="M10.8056 5.11325L11.7147 3.1856C11.8314 2.93813 12.1686 2.93813 12.2853 3.1856L13.1944 5.11325L15.2275 5.42427C15.4884 5.46418 15.5923 5.79977 15.4035 5.99229L13.9326 7.4917L14.2797 9.60999C14.3243 9.88202 14.0515 10.0895 13.8181 9.96099L12 8.96031L10.1819 9.96099C9.94851 10.0895 9.67568 9.88202 9.72026 9.60999L10.0674 7.4917L8.59651 5.99229C8.40766 5.79977 8.51163 5.46418 8.77248 5.42427L10.8056 5.11325Z"
+                    stroke="currentColor"
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                  />
+                </svg>
+                <p>Leaderboard</p>
+              </a>
+            </div>
+          </div>
+        </div>
+
+        <div class="ProjectForm maincontent">
+          <div class="maincontentheader d-flex justify-content-between">
+            <div class="d-flex align-items-center" style="gap: 20px">
+              <div class="hamrburgericon" onclick="extendedsidebar() ">
+                <i class="fas fa-bars"></i>
+              </div>
+            </div>
+            <div class="options d-flex align-items-center">
+              <div class="profile d-flex align-items-center" style="gap: 10px">
+                <div class="leftcontainer">
+                  <div class="image">
+                    <img
+                      src="https://images.unsplash.com/photo-1492288991661-058aa541ff43?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=687&q=80"
+                      alt=""
+                    />
+                  </div>
+                </div>
+                <div
+                  class="
+                    rightcontainer
+                    d-flex
+                    align-items-center
+                    justify-content-between
+                  "
+                >
+                  <div class="nameDescription">
+                    <h4>Lorem Ispum</h4>
+                  </div>
+                  <div
+                    class="icons d-flex align-items-center"
+                    style="gap: 10px"
+                  >
+                    <i class="far fa-bell"></i>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="maincontentbody">
+            <div class="row">
+              <div class="col-lg-2">
+                <h4>Create a Project</h4>
+                <div class="card">
+                  <div class="WizardForm">
+                    <div class="step">
+                      <div class="circle active"></div>
+                      <div class="line"></div>
+                    </div>
+                    <div class="step">
+                      <div class="circle"></div>
+                      <div class="line"></div>
+                    </div>
+                    <div class="step">
+                      <div class="circle"></div>
+                    </div>
+                  </div>
+                  <div class="links">
+                    <div class="link">
+                      <p class="active">Detail</p>
+                    </div>
+                    <div class="link">
+                      <p>Detail</p>
+                    </div>
+                    <div class="link">
+                      <p>Detail</p>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <div class="col-lg-10">
+                <h4>Set Target</h4>
+                <div
+                  class="card"
+                  style="flex-direction: column; padding: 20px 40px"
+                >
+                  <div
+                    class="addbtn d-flex justify-content-end"
+                    style="width: 100%"
+                  >
+                    <button class="btn primarybtn" onclick="model()">+</button>
+                  </div>
+
+                  <table class="table table-hovered">
+                    <tr>
+                      <td>SN</td>
+                      <td>Types</td>
+                      <td>Target Url</td>
+                      <td>Action</td>
+                    </tr>
+                    <tr>
+                      <td>#</td>
+                      <td>No target Available</td>
+                      <td></td>
+                      <td></td>
+                    </tr>
+                    <tr>
+                      <td>SN</td>
+                      <td>Types</td>
+                      <td>Target Url</td>
+                      <td>
+                        <div
+                          class="icon d-flex align-items-center"
+                          style="gap: 10px"
+                        >
+                          <i class="far fa-edit"></i>
+                          <i class="far fa-trash-alt"></i>
+                        </div>
+                      </td>
+                    </tr>
+                  </table>
+                  <div
+                    class="
+                      buttons
+                      d-flex
+                      align-items-center
+                      justify-content-end
+                    "
+                    style="gap: 10px; width: 100%"
+                  >
+                    <div class="button">
+                      <a href="">
+                        <button class="btn secondarybtn">Back</button>
+                      </a>
+                    </div>
+                    <div class="button">
+                      <a href="">
+                        <button class="btn primarybtn">Continue</button>
+                      </a>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- JavaScript Bundle with Popper -->
+    <script
+      src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"
+      integrity="sha384-ka7Sk0Gln4gmtz2MlQnikT1wXgYsOg+OMhuP+IlRH9sENBO0LRn5q+8nbTov4+1p"
+      crossorigin="anonymous"
+    ></script>
+    <script>
+      function model() {
+        var modelcontainer = document.querySelector(".modelcontainer");
+        modelcontainer.style.display = "flex";
+      }
+
+      function removemodel() {
+        var modelcontainer = document.querySelector(".modelcontainer");
+        modelcontainer.style.display = "none";
+      }
+
+      function extendedsidebar() {
+        var text = document.querySelector(".link");
+        var sidebar = document.querySelector(".sidebar");
+        sidebar.classList.toggle("active");
+        text.classList.toggle("active");
+        console.log(text);
+      }
+    </script>
+  </body>
+</html>
