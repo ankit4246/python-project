@@ -191,3 +191,55 @@ def reportTypeDeleteView(request):
         return JsonResponse({'status':1, 'report_data':report_data,})
     else:
         return JsonResponse({'status': 0})
+
+
+
+# for Degree
+def degreeCreateView(request):
+    form = DegreeForm
+    degree = Degree.objects.all().order_by('-id')
+    return render(request, 'master_data/degree.html', {"form":form, "degree":degree,})
+
+# ajax function
+def degreeSaveView(request):
+    if request.method == "POST":
+        form = DegreeForm(request.POST)
+        if form.is_valid():
+            name = request.POST['name']
+            types = request.POST['types']
+            remarks = request.POST['remarks']
+            sid = request.POST.get('sid')
+
+            if (sid == ""):
+                degree = Degree(name=name, types=types, remarks=remarks)
+            else:
+                degree = Degree(id=sid, name=name, types=types, remarks=remarks)
+            degree.save()
+
+            sv = Degree.objects.values().order_by("-id") #important
+            degree_data = list(sv)
+            return JsonResponse({"status": "Save", 'degree_data': degree_data, })
+        else:
+            return JsonResponse({"status": 0})
+
+
+def degreeUpdateView(request):
+    if request.method == 'POST':
+        id = request.POST.get('sid')
+        print(id)
+        degree = Degree.objects.get(pk=id)
+        degree_data = {"id": degree.id, 'name': degree.name, 'types': degree.types, 'remarks': degree.remarks}
+        return JsonResponse(degree_data)
+
+
+def degreeDeleteView(request):
+    if request.method == 'POST':
+        id = request.POST.get('sid')
+        print(id)
+        degree = Degree.objects.get(pk=id)
+        degree.delete()
+        sv = Degree.objects.values().order_by("-id") #important
+        degree_data = list(sv)
+        return JsonResponse({'status':1, 'degree_data':degree_data,})
+    else:
+        return JsonResponse({'status': 0})

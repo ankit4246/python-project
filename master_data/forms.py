@@ -47,4 +47,9 @@ class ProvinceForm(forms.ModelForm):
 class DegreeForm(forms.ModelForm):
     class Meta:
         model = Degree
-        fields = ["types", "name", "remarks"]
+        fields = ["name", "types", "remarks"]
+        widgets = {
+            'name': forms.TextInput(attrs={'class': 'form-control', 'id': 'nameid'}),
+            'types': forms.TextInput(attrs={'class': 'form-control', 'id': 'typesid'}),
+            'remarks': forms.TextInput(attrs={'class': 'form-control', 'id': 'remarksid'}),
+        }
