@@ -28,11 +28,25 @@
                 <td>{{ d.name }}</td>
                 <td>
                     <input type='button' class='btn btn-success btn-sm btn-update' value='Edit' data-sid="{{d.id}}" />
-                    <input type='button' class='btn btn-warning btn-sm btn-delete' value='Delete' data-sid="{{d.id}}" /> 
+                    <input type='button' class='btn btn-warning btn-sm' value='Delete' data-sid="{{d.id}}" onclick="forwardVehicleDetail({{d.id}})" /> 
                 </td>
             </tr>
             {% endfor %}
         </tbody>
+        <div class="vehicleDetailModal" id="vehicleDetailModal">
+            <div class="vehicleDetailModalMain">
+                <div class="vehicleDetailModalIcon"><i class="fas fa-check-circle"></i></div>
+                <div class="vehicleDetailModalConfirmTitle">Delete User</div>
+                <div class="vehicleDetailModalBtns">
+                    <div class="vehicleDetailModalConfirm">
+                    <input type='button' class='btn btn-delete btn-modal' value='Confirm' data-sid="" />
+                    </div>
+                    <div class="vehicleDetailModalCancle">
+                        <h1 onclick="BackwardVehicleDetail()">Cancel</h1>
+                    </div>
+                </div>
+            </div>
+        </div>
     </table>
 {% endblock 'center_content' %}
 
@@ -46,15 +60,25 @@
     //     // }
     // }
 
-    // for madeUp Html for appending while creating new row
     function fillup(xid,i,xname) {
         return (
             "<tr><td class='loopID'>" + i + "</td><td>" + xname + "</td><td>" + xname + 
-                        "</td><td>" +  "<input type='button' class='btn btn-success btn-sm btn-update' value='Edit' data-sid=" + xid + 
-                        "> <input type='button' class='btn btn-warning btn-sm btn-delete' value='delete' data-sid=" + xid + ">"
-        )
+                "</td><td>" +  "<input type='button' class='btn btn-success btn-sm btn-update' value='Edit' data-sid=" + xid + 
+                    "> <input type='button' class='btn btn-warning btn-sm' value='delete' onclick='forwardVehicleDetail("+xid+")' data-sid=" + xid + ">"
+                    )
     }
-
+    function forwardVehicleDetail(xid) {
+            // id = xid['id']
+            console.log(xid)
+            document.getElementById("vehicleDetailModal").style.display = "flex"
+            // document.getElementsByClassName('btn-modal').setAttribute('data-sid', xid);
+            $('.btn-modal').attr('data-sid', xid);
+    }
+    
+    function BackwardVehicleDetail() {
+            document.getElementById("vehicleDetailModal").style.display = "none"
+    }
+    // for madeUp Html for appending while creating new row
     // Creation of Severity object
     $("#btnsave").on("click", function () {
         let output = "";
@@ -62,11 +86,8 @@
         let sid = $("#severityId").val();
         let name = $("#nameid").val();
         let remarks = $("#remarksid").val();
-        console.log(name)
-        console.log(remarks)
         mydata = { sid:sid, name:name, remarks:remarks,
         csrfmiddlewaretoken: csr };
-        console.log(mydata)
         $.ajax({
             url: "{% url 'master_data:severity_save' %}",
             method: 'POST',
@@ -102,6 +123,7 @@
     $("tbody").on("click", ".btn-update", function (){
         let id = $(this).attr('data-sid')
         let csr = $("input[name=csrfmiddlewaretoken]").val()
+        // console.log(csr)
         mydata = {sid: id, csrfmiddlewaretoken: csr}
 
         $.ajax({
@@ -120,13 +142,16 @@
     })
 
     // For Severity object Delete
-    $("tbody").on("click", ".btn-delete", function (){
+    const delModal = document.getElementsByClassName('btn-modal')[0]
+    delModal.addEventListener('click', function() {
         let output = "";
         let id = $(this).attr('data-sid')
+        print(id)
         let csr = $("input[name=csrfmiddlewaretoken]").val()
+        print(csr)
         mydata = {sid: id, csrfmiddlewaretoken: csr}
         mythis = this;
-
+        
         $.ajax({
             url: "{% url 'master_data:severity_delete' %}",
             method: 'POST',
@@ -136,16 +161,19 @@
                 x = data.severity_data;
                 if(data.status == 1) {
                     console.log("Data Deleted Successfully")
+                    
                     $(mythis).closest('tr').fadeOut();
+                    
                     for(i=0; i<x.length; i++){
-                    output += 
-                    fillup(x[i].id,i+1,x[i].name)
+                        output += 
+                        fillup(x[i].id,i+1,x[i].name)
                     }
-                    // console.log(output)
                     $("#tbody").html(output);
+                    BackwardVehicleDetail()      
                 }
             }
         })
-    })
+    }) 
+    
 </script>
 {% endblock extra_js %}
