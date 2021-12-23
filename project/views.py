@@ -124,3 +124,20 @@ class ProjectDeleteView(DeleteView):
     def delete(self, request, *args, **kwargs):
         messages.success(self.request, self.success_message)
         return super().delete(request, *args, **kwargs)
+
+
+class ProjectTargetDeleteView(DeleteView):
+    model = ProjectTargets
+    success_message = "Deleted successfully."
+
+    def delete(self, request, *args, **kwargs):
+        messages.success(self.request, self.success_message)
+        return super().delete(request, *args, **kwargs)
+
+    def get_success_url(self):
+        try:
+            current_project_target = ProjectTargets.objects.get(id=self.kwargs['pk'])
+        except ProjectTargets.DoesNotExist:
+            current_project_target = None
+        return reverse('project:create_project_targets',
+                       kwargs={'project_id': current_project_target.project.id})

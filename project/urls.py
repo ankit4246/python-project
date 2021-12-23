@@ -6,7 +6,8 @@ urlpatterns = [
     path('', login_required(views.ListProjectsView.as_view()), name='list_projects'),
     path('project-details/', login_required(views.ProjectDetailsView.as_view()), name='create_project_details'),
     path('project-details/<int:project_id>/', login_required(views.ProjectDetailsView.as_view()), name='update_project_details'),
-    path('project-delete/<int:pk>', login_required(views.ProjectDeleteView.as_view()), name='delete_project'),
+    path('project-delete/<int:pk>/', login_required(views.ProjectDeleteView.as_view()), name='delete_project'),
+    path('project-target-delete/<int:pk>/', login_required(views.ProjectTargetDeleteView.as_view()), name='delete_project_target'),
 
     path('project-targets/<int:project_id>/', login_required(views.ProjectTargetsView.as_view()), name='create_project_targets'),
     path('project-user/', views.create_project_users_view, name='create_project_user'),
