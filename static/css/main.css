@@ -8,7 +8,7 @@
 :root {
   --clr-secondary-text: #5b5858;
   --clr-primary-text: #000000;
-  --clr-primary: #623ce7;
+  --clr-primary: #336cfb;
 }
 p {
   font-size: 14px !important;
@@ -17,6 +17,9 @@ img {
   object-fit: cover;
   height: 100%;
   width: 100%;
+}
+.card {
+  border: none;
 }
 p,
 h1,
@@ -44,7 +47,6 @@ section > div > .active {
 
 .maincontent {
   width: calc(100vw - 55vh);
-  padding: 2rem 50px;
 }
 .sidebar .logo {
   margin-bottom: 5rem;
@@ -85,7 +87,7 @@ section > div > .active {
   gap: 40px;
 }
 .sidebar .Sidebarlinks a.active {
-  color: #623ce7 !important;
+  color: #336cfb !important;
 }
 .sidebar .Sidebarlinks .link .icon {
   color: var(--clr-secondary-text);
@@ -95,7 +97,7 @@ section > div > .active {
   width: 26px;
 }
 .sidebar .Sidebarlinks a:hover {
-  color: #623ce7 !important;
+  color: #336cfb !important;
 }
 .rightcontent {
   position: sticky;
@@ -106,12 +108,45 @@ section > div > .active {
   width: 40vh;
 }
 
-.maincontent .createTask button {
-  padding: 10px 20px;
+.rightcontent .rightbody {
+  padding: 0 2rem;
+}
+.profile {
+  position: sticky;
+  top: 0;
+  z-index: 9999;
+  background: white;
+}
+.profile .leftcontainer .image {
+  height: 50px;
+  width: 50px;
+  border-radius: 50%;
+  overflow: hidden;
+}
+.profile .leftcontainer .image img {
+  object-fit: cover;
+  height: 100%;
+  width: 100%;
+}
+.profile {
+  padding: 2rem;
+  margin-bottom: 2rem;
+}
+.profile .rightcontainer {
+  width: 100%;
+}
+.profile .rightcontainer .nameDescription h4 {
   font-size: 16px;
-  background: #ffffff;
-  box-shadow: 0px 24px 24px rgba(0, 0, 0, 0.05);
-  border-radius: 12px;
+  font-weight: 500;
+}
+.profile .rightcontainer .nameDescription p {
+  font-size: 13px;
+  color: #a1a1a1;
+}
+
+.profile .rightcontainer .icons {
+  font-size: 18px;
+  color: #5b5b5b;
 }
 
 .maincontent .options {
@@ -124,10 +159,62 @@ section > div > .active {
 }
 
 .maincontent .maincontentheader {
+  position: sticky;
+  z-index: 99999;
+  top: 0;
+  background-color: white;
+
+  padding: 2rem 50px;
+}
+
+.maincontent .maincontentbody {
+  padding: 0 50px;
+}
+
+.btn {
+  font-weight: 500;
+}
+.primarybtn:hover {
+  color: white;
+}
+.secondarybtn {
+  color: #336cfb;
+
+  border: 1.5px solid #336cfb;
+  box-sizing: border-box;
+  border-radius: 0px 14px 14px 14px;
+  box-shadow: 0px 12px 24px rgba(98, 60, 231, 0.15);
+  padding: 10px 20px;
+}
+.primarybtn {
+  color: white;
+  background: #336cfb;
+  box-shadow: 0px 12px 24px rgba(98, 60, 231, 0.15);
+  border-radius: 0px 14px 14px 14px;
+  padding: 10px 20px;
+}
+.dangerbtn {
+  color: white;
+  background: #fb3333;
+  box-shadow: 0px 12px 24px rgba(98, 60, 231, 0.15);
+  border-radius: 0px 14px 14px 14px;
+  padding: 10px 20px;
+}
+
+/* Main Dashboard starts */
+
+.homepage .maincontent .maincontentheader {
   margin-bottom: 4rem;
 }
 
-.maincontent .maincontentbody .card {
+.homepage .maincontent .createTask button {
+  padding: 10px 20px;
+  font-size: 16px;
+  background: #ffffff;
+  box-shadow: 0px 24px 24px rgba(0, 0, 0, 0.05);
+  border-radius: 12px;
+}
+.homepage .maincontent .maincontentbody .card {
   width: 100%;
   height: 100%;
   background: #ffffff;
@@ -137,30 +224,29 @@ section > div > .active {
   border: none;
 }
 
-.maincontent .maincontentbody .card .progressbar {
+.homepage .maincontent .maincontentbody .card .progressbar {
   height: 4px;
   background: #dddddd;
   border-radius: 20px;
   overflow: hidden;
   width: 30px;
 }
-.maincontent .maincontentbody .card .progressbar .progressStatus {
+.homepage .maincontent .maincontentbody .card .progressbar .progressStatus {
   background-color: #6cd032;
   height: 100%;
 }
-.maincontent .maincontentbody .cards {
+.homepage .maincontent .maincontentbody .cards {
   margin-bottom: 5rem;
 }
-
-.maincontent .maincontentbody .card .menu {
+.homepage .maincontent .maincontentbody .card .menu {
   font-size: 16px;
   letter-spacing: 1px;
 }
-.maincontent .maincontentbody .cardbody {
+.homepage .maincontent .maincontentbody .cardbody {
   gap: 20px;
   margin-bottom: 20px;
 }
-.maincontent .maincontentbody .cardbody .bodyheader {
+.homepage .maincontent .maincontentbody .cardbody .bodyheader {
   display: flex;
   justify-content: center;
   align-items: center;
@@ -170,29 +256,29 @@ section > div > .active {
   background: #ececec;
   border-radius: 50%;
 }
-.maincontent .maincontentbody .cardbody .bodyheader h1 {
+.homepage .maincontent .maincontentbody .cardbody .bodyheader h1 {
   font-size: 30px;
   color: #a1a1a1;
 }
 
-.maincontent .maincontentbody .cardbody h4 {
+.homepage .maincontent .maincontentbody .cardbody h4 {
   font-size: 14px;
 }
-.maincontent .maincontentbody .cardbody h1 {
+.homepage .maincontent .maincontentbody .cardbody h1 {
   font-size: 30px;
   font-weight: 600;
 }
-.maincontent .maincontentbody .cardfooter {
+.homepage .maincontent .maincontentbody .cardfooter {
   padding-bottom: 20px;
 }
-.imagesection {
+.homepage .imagesection {
   display: flex;
   justify-content: center;
   width: 7rem;
   height: 29px;
   position: relative;
 }
-.imagesection .image {
+.homepage .imagesection .image {
   overflow: hidden;
   position: absolute;
   background-color: #ececec;
@@ -200,17 +286,17 @@ section > div > .active {
   height: 30px;
   border-radius: 50%;
 }
-.imagesection .image:first-child {
+.homepage .imagesection .image:first-child {
   background-color: blue;
   left: 0;
 }
-.imagesection .image:nth-child(2) {
+.homepage .imagesection .image:nth-child(2) {
   left: 20px;
 }
-.imagesection .image:nth-child(3) {
+.homepage .imagesection .image:nth-child(3) {
   left: 40px;
 }
-.imagesection .image:nth-child(4) {
+.homepage .imagesection .image:nth-child(4) {
   display: flex;
   justify-content: center;
   align-items: center;
@@ -218,33 +304,33 @@ section > div > .active {
   color: #9a9a9a;
   left: 60px;
 }
-.imagesection .image:nth-child(4) p {
+.homepage .imagesection .image:nth-child(4) p {
   font-size: 10px;
   font-weight: 600;
 }
 
-.nav-tabs {
+.homepage .nav-tabs {
   border-bottom: 3px solid #f2f2f2;
 }
-.maincontent .maincontentbody .content h1 {
+.homepage .maincontent .maincontentbody .content h1 {
   font-size: 20px;
   font-weight: 500;
   margin-bottom: 3rem;
 }
-.taskheader .nav-tabs .nav-item {
+.homepage .taskheader .nav-tabs .nav-item {
   width: 25%;
 }
-.taskheader .nav-tabs .nav-item.show .nav-link,
+.homepage .taskheader .nav-tabs .nav-item.show .nav-link,
 .taskheader .nav-tabs .nav-link {
   color: #a7a7a7;
 }
-.taskheader .nav-tabs .nav-link:focus,
-.taskheader .nav-tabs .nav-link:hover {
-  color: #623ce7;
+.homepage .taskheader .nav-tabs .nav-link:focus,
+.homepage .taskheader .nav-tabs .nav-link:hover {
+  color: #336cfb;
   border-color: transparent;
 }
-.taskheader .nav-tabs .nav-item.show .nav-link,
-.nav-tabs .nav-link {
+.homepage .taskheader .nav-tabs .nav-item.show .nav-link,
+.homepage .nav-tabs .nav-link {
   width: 100%;
   padding: 40px 0rem;
 }
@@ -263,19 +349,19 @@ section > div > .active {
 .taskheader .nav-tabs .nav-link .counter {
   padding: 4px 8px;
   background: #ece7fe;
-  color: #623ce7;
+  color: #336cfb;
   font-size: 12px;
   border-radius: 4px;
 }
 
-.content .progress {
+.homepage .content .progress {
   width: 80px;
   height: 80px;
   background: none;
   position: relative;
 }
 
-.content .progress::after {
+.homepage .content .progress::after {
   content: "";
   width: 100%;
   height: 100%;
@@ -286,7 +372,7 @@ section > div > .active {
   left: 0;
 }
 
-.content .progress > span {
+.homepage .content .progress > span {
   width: 50%;
   height: 100%;
   overflow: hidden;
@@ -295,11 +381,11 @@ section > div > .active {
   z-index: 1;
 }
 
-.content .progress .progress-left {
+.homepage .content .progress .progress-left {
   left: 0;
 }
 
-.content .progress .progress-bar {
+.homepage .content .progress .progress-bar {
   width: 100%;
   height: 100%;
   background: none;
@@ -309,7 +395,7 @@ section > div > .active {
   top: 0;
 }
 
-.content .progress .progress-left .progress-bar {
+.homepage .content .progress .progress-left .progress-bar {
   left: 100%;
   border-top-right-radius: 80px;
   border-bottom-right-radius: 80px;
@@ -318,11 +404,11 @@ section > div > .active {
   transform-origin: center left;
 }
 
-.content .progress .progress-right {
+.homepage .content .progress .progress-right {
   right: 0;
 }
 
-.content .progress .progress-right .progress-bar {
+.homepage .content .progress .progress-right .progress-bar {
   left: -100%;
   border-top-left-radius: 80px;
   border-bottom-left-radius: 80px;
@@ -331,13 +417,13 @@ section > div > .active {
   transform-origin: center right;
 }
 
-.content .border-primary {
+.homepage.content .border-primary {
   border-color: var(--clr-primary) !important;
 }
-.content .border-secondary {
+.homepage .content .border-secondary {
   border-color: coral !important;
 }
-.content .progress .progress-value {
+.homepage .content .progress .progress-value {
   position: absolute;
   top: 0;
   left: 0;
@@ -406,7 +492,7 @@ section > div > .active {
 }
 .taskheader .tab-pane .tasks button.Approved {
   background-color: #ece7fe;
-  color: #623ce7;
+  color: #336cfb;
 }
 
 .taskheader .tab-pane .tasks button.inProgress {
@@ -424,45 +510,11 @@ section > div > .active {
 }
 
 .content .weeksummary .cards .card p {
-  font-size: 20px;
+  font-size: 20px !important;
   color: #000000;
   font-weight: 500;
 }
 
-.rightcontent {
-  padding: 2rem;
-}
-
-.rightcontent .profile .leftcontainer .image {
-  height: 69px;
-  width: 69px;
-  border-radius: 50%;
-  overflow: hidden;
-}
-.rightcontent .profile .leftcontainer .image img {
-  object-fit: cover;
-  height: 100%;
-  width: 100%;
-}
-.rightcontent .profile {
-  margin-bottom: 4rem;
-}
-
-.rightcontent .profile .rightcontainer {
-  width: 100%;
-}
-.rightcontent .profile .rightcontainer .nameDescription h4 {
-  font-size: 18px;
-  font-weight: 500;
-}
-.rightcontent .profile .rightcontainer .nameDescription p {
-  font-size: 13px;
-  color: #a1a1a1;
-}
-.rightcontent .profile .rightcontainer .icons {
-  font-size: 20px;
-  color: #5b5b5b;
-}
 .rightcontent .overview {
   margin-bottom: 3rem;
 }
@@ -526,7 +578,528 @@ section > div > .active {
 .chart {
   display: none;
 }
+FB3333
+/*
+Main dashboard finished */
 
+/* ProjectTable starts */
+.projectlist .maincontentbody .tables {
+  box-shadow: 0px 0px 12px rgba(0, 0, 0, 0.05),
+    4px 36px 46px rgba(0, 0, 0, 0.05);
+  border-radius: 12px;
+  overflow: hidden;
+}
+.projectlist .maincontentbody .tables .table {
+  margin: 0;
+}
+.projectlist .maincontentbody .tables .table tr .icon {
+  height: 100%;
+}
+.projectlist .maincontentbody .tables .table tr td {
+  border: none;
+  padding: 21px 20px;
+}
+.projectlist .maincontentbody .tables .table tr:nth-child(1) {
+  font-size: 18px;
+  font-weight: 500;
+}
+.projectlist .maincontentbody .tables .table tr:nth-child(even) {
+  background: #fff6f8;
+}
+
+/* ProjectTable ends */
+
+/* project form */
+/*
+.ProjectForm .form > div {
+  margin-bottom: 3rem;
+  border-radius: 12px;
+}
+.ProjectForm .form .BugStatus {
+  box-shadow: 0px 0px 12px rgb(0 0 0 / 5%), 4px 36px 46px rgb(0 0 0 / 5%);
+}
+.ProjectForm .maincontent .maincontentbody h4 {
+  font-size: 18px;
+  color: #5b5858;
+  margin-bottom: 20px;
+}
+
+.ProjectForm .maincontent .maincontentbody .projectDetail > div {
+  background: #ffffff;
+  box-shadow: 0px 0px 12px rgba(0, 0, 0, 0.05),
+    4px 36px 46px rgba(0, 0, 0, 0.05);
+  border-radius: 12px;
+}
+
+.ProjectForm .maincontent .maincontentbody .projectDetail .content {
+  width: 100%;
+  padding: 2rem 2rem;
+  height: 15rem;
+}
+
+.ProjectForm .maincontent .maincontentbody .projectDetail .content .logo {
+  height: 100px;
+  width: 100px;
+  overflow: hidden;
+}
+.ProjectForm .maincontent .maincontentbody .projectDetail .content .logo img {
+  object-fit: cover;
+  height: 100%;
+  width: 100%;
+}
+.ProjectForm .maincontent .maincontentbody .projectDetail > div > * {
+  margin-bottom: 40px;
+}
+.ProjectForm
+  .maincontent
+  .maincontentbody
+  .projectDetail
+  > div
+  > *:nth-child(4) {
+  margin: 0;
+}
+.ProjectForm .maincontent .maincontentbody .projectDetail > div h5 {
+  font-weight: 400;
+  font-size: 14px;
+  margin-bottom: 12px;
+}
+.ProjectForm .maincontent .maincontentbody .textarea {
+  background: #ffffff;
+  box-shadow: 0px 0px 12px rgba(0, 0, 0, 0.05),
+    4px 36px 46px rgba(0, 0, 0, 0.05);
+  width: 100%;
+  padding: 20px 15px;
+  color: #52575c;
+  font-weight: 400;
+  line-height: 1.6rem;
+  font-size: 14px;
+}
+
+.ProjectForm .maincontent .maincontentbody input,
+.ProjectForm .maincontent .maincontentbody textarea {
+  background: #ffffff;
+  box-shadow: 0px 0px 12px rgba(0, 0, 0, 0.05),
+    4px 36px 46px rgba(0, 0, 0, 0.05);
+  width: 100%;
+  outline: none;
+  border-radius: 8px;
+  border: none;
+  font-size: 14px;
+  padding: 15px 15px;
+}
+
+.ProjectForm .maincontent .maincontentbody button {
+  padding: 10px 20px;
+  color: white;
+  border-radius: 0px 14px 14px 14px;
+  box-shadow: 0px 12px 24px rgba(98, 60, 231, 0.5);
+  font-weight: 600;
+}
+.ProjectForm .maincontent .maincontentbody button.draft {
+  border: 2px solid #623ce6;
+  color: #623ce6;
+}
+
+.ProjectForm .maincontent .maincontentbody button.Preview {
+  background: rgba(98, 60, 231, 0.6);
+}
+
+.ProjectForm .maincontent .maincontentbody button.Save {
+  background: #336cfb;
+}
+
+.ProjectForm .target {
+  margin-bottom: 3rem;
+}
+
+.ProjectForm h4 {
+  font-size: 18px;
+  color: #5b5858;
+}
+.ProjectForm .target select {
+  background: #ffffff;
+  box-shadow: 0px 0px 12px rgba(0, 0, 0, 0.05),
+    4px 36px 46px rgba(0, 0, 0, 0.05);
+  width: 100%;
+  outline: none;
+  border-radius: 6px;
+  border: none;
+  padding: 15px 10px;
+}
+.ProjectForm .target button {
+  background: #336cfb;
+  border-radius: 0px 4px 4px 4px !;
+}
+.ProjectForm .rewardscontainer {
+  background: #ffffff;
+  box-shadow: 0px 0px 12px rgba(0, 0, 0, 0.05),
+    4px 36px 46px rgba(0, 0, 0, 0.05);
+}
+.ProjectForm .rewardscontainer .box {
+  padding: 5px 15px;
+  text-align: center;
+  width: 145.83px;
+  border-radius: 7px 0px 7px 7px;
+  color: #ffffff;
+}
+.ProjectForm .rewardscontainer .box.Critical {
+  background-color: #f66262;
+}
+.ProjectForm .rewardscontainer .box.High {
+  background-color: #f78888;
+}
+.ProjectForm .rewardscontainer .box.Moderate {
+  background-color: #f5ad40;
+}
+.ProjectForm .rewardscontainer .box.Low {
+  background-color: #47bb60;
+}
+.ProjectForm .rewardscontainer .rewardrange input {
+  outline: none;
+  font-size: 12px;
+  padding: 5px;
+  border: 2px solid #e9e9e9;
+  height: 30px;
+  border-radius: 7px 0px 7px 7px;
+}
+.ProjectForm .rewardscontainer .rewardrange input.Critical {
+  border-color: #f66262;
+}
+.ProjectForm .rewardscontainer .rewardrange input.High {
+  border-color: #f78888;
+}
+.ProjectForm .rewardscontainer .rewardrange input.Moderate {
+  border-color: #f5ad40;
+}
+.ProjectForm .rewardscontainer .rewardrange input.Low {
+  border-color: #47bb60;
+}
+
+.ProjectForm .Hackercontainer {
+  background: #ffffff;
+  box-shadow: 0px 0px 12px rgba(0, 0, 0, 0.05),
+    4px 36px 46px rgba(0, 0, 0, 0.05);
+}
+.ProjectForm .Hackerlist .button button {
+  padding: 5px 15px;
+  box-shadow: 0px 0px 12px rgba(0, 0, 0, 0.05),
+    4px 36px 46px rgba(0, 0, 0, 0.05);
+  border-radius: 0px 7px 7px 7px;
+  font-size: 14px;
+}
+
+.ProjectForm .rightcontent .Hackerlist .button button.cancel {
+  border: 2px solid #47bb60;
+  color: #47bb60;
+}
+.ProjectForm .rightcontent .Hackerlist .button button.Invite {
+  background: #47bb60;
+  color: white;
+  font-weight: 600;
+}
+
+.ProjectForm .rightcontent .Hackercontainer .userlist .list {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin-bottom: 10px;
+}
+.ProjectForm .rightcontent .Hackercontainer .userlist .list:last-child {
+  margin-bottom: 0px;
+}
+.ProjectForm .rightcontent .Hackercontainer .userlist .list .icon {
+  height: 10px;
+  background-color: var(--clr-primary);
+  width: 10px;
+}
+.ProjectForm .rightcontent .Hackercontainer .userlist .list .delete {
+  margin-left: auto;
+  color: #f8896b;
+} */
+
+.ProjectForm .maincontentbody h4 {
+  margin-bottom: 2rem;
+  font-size: 20px;
+}
+
+.ProjectForm .maincontentbody .card {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  gap: 20px;
+  padding: 2rem;
+  background: #ffffff;
+  box-shadow: 0px 0px 12px rgba(0, 0, 0, 0.05),
+    4px 36px 46px rgba(0, 0, 0, 0.05);
+  border-radius: 12px;
+}
+
+.ProjectForm .maincontentbody .card .WizardForm {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  gap: 50px;
+}
+.ProjectForm .maincontentbody .card .WizardForm .step {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+.ProjectForm .maincontentbody .card .WizardForm .step .line {
+  position: absolute;
+  width: 4px;
+  z-index: 0;
+  height: 70px;
+  background: #5b5858;
+}
+.ProjectForm .maincontentbody .card .WizardForm .step .line.active {
+  background: #336cfb;
+}
+.ProjectForm .maincontentbody .card .WizardForm .step .circle {
+  position: absoulte;
+  z-index: 1;
+  height: 18px;
+  width: 18px;
+  background-color: white;
+  border-radius: 50%;
+  border: 3px solid #5b5858;
+}
+.ProjectForm .maincontentbody .card .WizardForm .step .circle.active {
+  background: #336cfb;
+  border: none;
+}
+
+.ProjectForm .maincontentbody .card .links {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  gap: 25px;
+}
+.ProjectForm .maincontentbody .card .links .link {
+  background: #ffffff;
+  box-shadow: 0px 0px 12px rgba(0, 0, 0, 0.05);
+  padding: 10px;
+  width: 100%;
+}
+.ProjectForm .maincontentbody .card .links .link p {
+  text-decoration: none;
+  color: #5b5858;
+}
+.ProjectForm .maincontentbody .card .links .link p.active {
+  color: #336cfb;
+}
+.ProjectForm .maincontentbody .projectDetail input {
+  border: 1px solid #cecdcd;
+}
+.ProjectForm .maincontentbody .projectDetail label {
+  margin-bottom: 10px;
+  font-size: 16px;
+}
+.ProjectForm .maincontentbody .projectDetail h4 {
+  font-size: 20px;
+  margin-bottom: 10px;
+}
+
+.ProjectForm .maincontentbody .table {
+  background: #ffffff;
+  border-radius: 12px;
+  overflow: hidden;
+  box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.05);
+}
+.ProjectForm .maincontentbody .table tr td {
+  padding: 30px !important;
+  color: #9f9fbb;
+}
+.ProjectForm .maincontentbody .table tr td:nth-child(3) {
+  color: #9f9fbb !important;
+}
+.ProjectForm .maincontentbody .table tr:first-child {
+  background: #adc4fd;
+}
+.ProjectForm .maincontentbody .table tr:first-child td {
+  color: #2d2b2b !important;
+}
+.modelcontainer {
+  display: none;
+  background-color: rgba(0, 0, 0, 0.486);
+  position: absolute;
+  z-index: 9999999;
+  align-items: center;
+  justify-content: center;
+  height: 100%;
+  width: 100%;
+}
+.model {
+  background: #ffffff;
+  box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.05);
+  width: 40rem;
+  padding: 2rem;
+  border-radius: 6px;
+}
+.model .modelheader {
+  margin-bottom: 2rem;
+}
+
+.modelcontainer .modelbody > form {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+  margin-bottom: 30px;
+}
+.modelcontainer .modelbody > form label {
+  margin-bottom: 5px;
+}
+.modelcontainer .modelbody > form select {
+  padding: 5px 10px;
+  border: 1px solid #8f8e8e;
+  background-color: transparent;
+}
+
+/*
+project form ends */
+
+/* projectlistview :start */
+
+.projectlist,
+.ProjectForm,
+.MasterDataEntry {
+  width: calc(100vw - 10vh) !important;
+}
+.projectlist .profile,
+.ProjectForm .profile,
+.MasterDataEntry .profile {
+  margin: 0;
+  padding: 0;
+}
+
+.projectlist .profile .rightcontainer,
+.ProjectForm .profile .rightcontainer,
+.MasterDataEntry .profile .rightcontainer {
+  gap: 10px;
+}
+.maincontent .maincontentbody > .table {
+  box-shadow: 0px 0px 12px rgba(0, 0, 0, 0.05),
+    4px 36px 46px rgba(0, 0, 0, 0.05);
+  padding: 20px;
+  border-radius: 6px;
+}
+
+.maincontent .maincontentbody .table tr:nth-child(even) {
+  background: #f9f9f9;
+}
+.maincontent .maincontentbody .search {
+  box-shadow: 4px 36px 46px rgba(0, 0, 0, 0.05);
+  padding: 20px 20px;
+  border-radius: 6px;
+  width: 20%;
+}
+
+.maincontent .maincontentbody .search input {
+  border: none;
+  background: transparent;
+  outline: none;
+  width: 100%;
+  font-size: 14px;
+}
+
+.maincontent .maincontentbody .table tr td,
+.maincontent .maincontentbody .table tr th {
+  border: none !important;
+  vertical-align: middle;
+  height: 100%;
+  padding: 20px;
+}
+
+.maincontent .maincontentbody .table tr td .image img {
+  object-fit: cover;
+  height: 100%;
+  width: 100%;
+  border-radius: 50%;
+}
+.maincontent .maincontentbody .table tr td:nth-child(3) {
+  color: #bf2900;
+}
+
+.maincontent .maincontentbody .table tr td:nth-child(4) {
+  color: #388f1a;
+}
+
+.maincontent .maincontentbody .table tr td .icon .fa-eye {
+  color: #388f1a;
+}
+.maincontent .maincontentbody .table tr td .icon .fa-edit {
+  color: #6b51df;
+}
+.maincontent .maincontentbody .table tr td .icon .fa-trash-alt {
+  color: #eb1616;
+}
+
+.maincontent .maincontentbody .table tr td .image {
+  height: 40px;
+  width: 40px;
+  overflow: hidden;
+}
+
+/*
+Project list :end */
+
+/*
+.MasterDataEntry :start */
+.MasterDataEntry .maincontentbody > h4 {
+  font-size: 20px;
+  font-weight: 500;
+  margin-bottom: 2rem;
+}
+.MasterDataEntry .card {
+  border: none;
+  box-shadow: 0px 0px 12px rgba(0, 0, 0, 0.05),
+    4px 36px 46px rgba(0, 0, 0, 0.05);
+
+  border-radius: 6px;
+}
+.MasterDataEntry .card .nav-tabs {
+  border: none;
+}
+.MasterDataEntry .card ul li button {
+  width: 100%;
+  padding: 20px;
+
+  color: #252525;
+  border: none;
+}
+.MasterDataEntry .card ul li button p {
+  font-size: 16px !important;
+  font-weight: 500;
+}
+.MasterDataEntry .card ul li:nth-child(odd) {
+  background: #fff6f8;
+}
+.MasterDataEntry .card ul li button.active {
+  background-color: #c4b9f2;
+}
+
+.MasterDataEntry .card .form input {
+  border: none;
+  outline: none;
+  font-size: 14px;
+  padding: 15px 15px;
+  background: #ffffff;
+  box-shadow: 0px 0px 12px rgba(0, 0, 0, 0.05),
+    4px 36px 46px rgba(0, 0, 0, 0.05);
+}
+
+.MasterDataEntry .card .form button {
+  padding: 10px 15px;
+  background: #336cfb;
+  color: #ffffff;
+  font-weight: 600;
+  box-shadow: 0px 12px 24px rgba(98, 60, 231, 0.5);
+  border-radius: 0px 7px 7px 7px;
+  font-size: 14px;
+}
+.MasterDataEntry .maincontentheader {
+  margin-bottom: 0;
+}
 @media all and (max-width: 1366px) {
   p {
     font-size: 12px !important;

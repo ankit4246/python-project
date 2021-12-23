@@ -1,24 +1,108 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>Projects</title>
-</head>
-<body>
-<a href="{% url 'project:create_project' %}"> Create Project </a>
-<br>
-{% for project in page_obj %}
-    {{ project.project_name|upper }}<br>
-{% endfor %}
+{% extends 'pentest/base.html' %}
+{% load static %}
+
+{% block modal %}
+
+    <!-- Modal -->
+    <div class="modal fade" id="basicModal">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">Manufacturer</h5>
+                    <button type="button" class="close" data-bs-dismiss="modal"><span>&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <form action="" method="post" id="delete_form">
+                        {% csrf_token %}
+                        <h6>Are you sure you want to delete ?</h6>
+
+                        <div class="modal-footer">
+                            <a href="#" class="btn btn-outline-primary" data-bs-dismiss="modal">
+                                Close
+                            </a>
+                            <button class="btn btn-outline-danger" type="submit">
+                                Delete
+                            </button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock modal %}
 
 
-<div class="pagination">
+{% block center_content %}
+    <div class="maincontentbody">
+        <a href="{% url 'project:create_project_details' %}"> Create Project </a>
+        <div class="searchcontainer mb-4 d-flex justify-content-end">
+            <div class="search d-flex align-items-center" style="gap: 20px">
+                <i class="fas fa-search"></i>
+                <input type="text" placeholder="Search"/>
+            </div>
+        </div>
+        <div class="table">
+            <table class="table table-hover">
+                <tr>
+                    <th>Logo</th>
+                    <th>Project Name</th>
+                    <th>Budget</th>
+                    <th>Timeline</th>
+                    <th>Actions</th>
+                </tr>
+                {% for project in page_obj %}
+                    <tr>
+                        <td>
+                            <div class="image">
+                                {% if project.logo %}
+                                    <img src="{{ project.logo.url }}" alt="LOGO">
+                                {% endif %}
+                            </div>
+                        </td>
+                        <td>{{ project.project_name|upper }}</td>
+                        <td>
+                            {% if project.budget %}
+                                Rs {{ project.budget }}
+                            {% endif %}
+                        </td>
+                        <td>
+                            {% if project.start_date and project.end_date %}
+                                {{ project.start_date }} - {{ project.end_date }}
+                            {% endif %}
+                        </td>
+                        <td>
+                            <div class="icon d-flex align-items-center" style="gap: 10px">
+                                <i class="far fa-eye"></i>
+                                <a href="{% url 'project:update_project_details' project.id %}"><i
+                                        class="far fa-edit"></i></a>
+                                <a href="#">
+                                    <button type="button" class="btn  vehicle_delete" data-bs-toggle="modal"
+                                            data-bs-target="#basicModal" data-bs-id="{{ project.id }}" href="">
+                                        <i class="far fa-trash-alt"></i>
+                                    </button>
+                                </a>
+
+                            </div>
+                        </td>
+                    </tr>
+                {% empty %}
+                    <tr>
+                        <td>#</td>
+                        <td>No Projects Available</td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                    </tr>
+                {% endfor %}
+            </table>
+        </div>
+        <div class="pagination">
     <span class="step-links">
         {% if page_obj.has_previous %}
             <a href="?page=1">&laquo; first</a>
             <a href="?page={{ page_obj.previous_page_number }}">previous</a>
         {% endif %}
-
         <span class="current">
             Page {{ page_obj.number }} of {{ page_obj.paginator.num_pages }}.
         </span>
@@ -28,6 +112,23 @@
             <a href="?page={{ page_obj.paginator.num_pages }}">last &raquo;</a>
         {% endif %}
     </span>
-</div>
-</body>
-</html>
+        </div>
+    </div>
+{% endblock center_content %}
+
+{% block extra_js %}
+    <script>
+        $(".vehicle_delete").click(function () {
+            let id = $(this).attr("data-bs-id");
+            let vehicle_delete_url = "{% url 'project:delete_project' 123 %}".replace(123, id);
+            $("#delete_form").attr('action', vehicle_delete_url);
+        });
+        -
+    </script>
+{% endblock %}
+
+
+
+
+
+

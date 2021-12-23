@@ -7,6 +7,8 @@ from django.contrib import messages
 from django.contrib.messages.views import SuccessMessageMixin
 from django.urls import reverse_lazy
 from django.http import JsonResponse
+
+
 # For CRUD Severity
 # class SeverityCreateView(SuccessMessageMixin, CreateView):
 #     model = Severity
@@ -51,7 +53,7 @@ def severitySaveView(request):
             remarks = request.POST['remarks']
             sid = request.POST.get('sid')
 
-            if(sid == ""):
+            if (sid == ""):
                 severity = Severity(name=name, remarks=remarks)
             else:
                 severity = Severity(id=sid, name=name, remarks=remarks)
@@ -59,9 +61,10 @@ def severitySaveView(request):
 
             sv = Severity.objects.values().order_by("-id") #important
             severity_data = list(sv)
-            return JsonResponse({"status": "Save", 'severity_data':severity_data,})
+            return JsonResponse({"status": "Save", 'severity_data': severity_data, })
         else:
             return JsonResponse({"status": 0})
+
 
 def severityUpdateView(request):
     if request.method == 'POST':
@@ -70,6 +73,7 @@ def severityUpdateView(request):
         severity = Severity.objects.get(pk=id)
         severity_data = {"id": severity.id, 'name': severity.name, 'remarks': severity.remarks}
         return JsonResponse(severity_data)
+
 
 def severityDeleteView(request):
     if request.method == 'POST':
@@ -81,4 +85,4 @@ def severityDeleteView(request):
         severity_data = list(sv)
         return JsonResponse({'status':1, 'severity_data':severity_data,})
     else:
-        return JsonResponse({'status':0})
+        return JsonResponse({'status': 0})

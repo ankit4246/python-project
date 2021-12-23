@@ -1,0 +1,189 @@
+{% extends 'pentest/base.html' %}
+{% block title %}Project Details{% endblock title %}
+{% block center_content %}
+    <div class="maincontentbody">
+        <div class="row">
+            <div class="col-lg-2">
+                <h4>Create a Project</h4>
+                <div class="card">
+                    <div class="WizardForm">
+                        <div class="step">
+                            <div class="circle active"></div>
+                            <div class="line"></div>
+                        </div>
+                        <div class="step">
+                            <div class="circle"></div>
+                            <div class="line"></div>
+                        </div>
+                        <div class="step">
+                            <div class="circle"></div>
+                        </div>
+                    </div>
+                    <div class="links">
+                        <div class="link">
+                            <p class="active">Details</p>
+                        </div>
+                        <div class="link">
+                            <p>Targets</p>
+                        </div>
+                        <div class="link">
+                            <p>Review and Submit</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-lg-10">
+                 <form method="post" enctype="multipart/form-data">
+                     {% csrf_token %}
+                    <h4>Project Details</h4>
+                    <div class="card projectDetail">
+                        <div class="row gy-4">
+                            <div class="col-lg-6">
+                                <div class="form-group">
+                                    {{ project_details_form.logo.label }}
+                                    {{ project_details_form.logo }}
+                                </div>
+                            </div>
+                            <div class="col-lg-6">
+                                <div class="form-group">
+                                    {{ project_details_form.project_name.label }}
+                                    {{ project_details_form.project_name }}
+                                </div>
+                            </div>
+                            <div class="col-lg-6">
+                                <div class="form-group">
+                                    {{ project_details_form.tagline.label }}
+                                    {{ project_details_form.tagline }}
+                                </div>
+                            </div>
+                            <div class="col-lg-6">
+                                <div class="form-group">
+                                    {{ project_details_form.budget.label }}
+                                    {{ project_details_form.budget }}
+                                </div>
+                            </div>
+
+                            <div class="col-lg-12">
+                                <label>Timeline</label>
+                                <div class="row gy-4">
+                                    <div class="col-lg-6">
+                                        <div class="form-group">
+                                            {{ project_details_form.start_date.label }}
+                                            {{ project_details_form.start_date }}
+                                        </div>
+                                    </div>
+                                    <div class="col-lg-6">
+                                        <div class="form-group">
+                                            {{ project_details_form.end_date.label }}
+                                            {{ project_details_form.end_date }}
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-lg-12">
+                                <div class="form-group">
+                                    {{ project_details_form.objectives.label }}
+                                    {{ project_details_form.objectives }}
+                                </div>
+                            </div>
+                            <div class="col-lg-12">
+                                <div class="form-group">
+                                    {{ project_details_form.policies.label }}
+                                    {{ project_details_form.policies }}
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div
+                            class="
+                    buttons
+                    d-flex
+                    align-items-center
+                    justify-content-end
+                    p-4
+                  "
+                            style="gap: 10px"
+                    >
+                        <div class="button">
+                            <a href="{% url 'project:list_projects' %}">
+                                <button type="button" class="btn secondarybtn">Back</button>
+                            </a>
+                        </div>
+                        <div class="button">
+                            <input type="submit" class="btn primarybtn" value="Continue"
+                                   name='create_project'>
+                        </div>
+                    </div>
+                </form>
+
+            </div>
+        </div>
+    </div>
+{% endblock center_content %}
+
+
+{% block extra_js %}
+    <script>
+        // for updating the S.N of all rows after deleting and updating
+        function UpdateSN(xid, xloopId, x) {
+            // let loopID = $("#loopID")
+            // for(i=0; i<x.length; i++){
+            xloopId.innerHTML(x + 1);
+            // }
+        }
+
+        // for madeUp Html for appending while creating new row
+        function fillup(xid, i, xname) {
+            return (
+                "<tr><td class='loopID'>" + i + "</td><td>" + xname + "</td><td>" + xname +
+                "</td><td>" + "<input type='button' class='btn btn-success btn-sm btn-update' value='Edit' data-sid=" + xid +
+                "> <input type='button' class='btn btn-warning btn-sm btn-delete' value='delete' data-sid=" + xid + ">"
+            )
+        }
+
+        // Creation of Severity object
+        $("#btnsave").on("click", function () {
+            let output = "";
+            let csr = $("input[name=csrfmiddlewaretoken]").val();
+            let sid = $("#severityId").val();
+            let name = $("#nameid").val();
+            let remarks = $("#remarksid").val();
+            console.log(name)
+            console.log(remarks)
+            mydata = {
+                sid: sid, name: name, remarks: remarks,
+                csrfmiddlewaretoken: csr
+            };
+            console.log(mydata)
+            $.ajax({
+                url: "{% url 'master_data:severity_save' %}",
+                method: 'POST',
+                data: mydata,
+                dataType: 'json',
+                success: function (data) {
+                    x = data.severity_data;
+                    if (data.status == "Save") {
+                        // console.log(data)
+                        // console.log("Form submitted successfully")
+                        for (i = 0; i < x.length; i++) {
+                            output +=
+                                fillup(x[i].id, i + 1, x[i].name)
+                        }
+                        // console.log(output)
+                        $("#tbody").html(output);
+
+                        // getting the id of the id from the row
+                        // let loopID = $("#loopID")
+                        // for(i=0; i<x.length; i++){
+                        //     updateSN(x[i].id, loopId, i)
+                        // }
+
+                        $("#severityId").val("");
+                        $("#btnsave").val("Submit")
+                        $('form')[0].reset();
+                    }
+                }
+            });
+        })
+    </script>
+{% endblock extra_js %}

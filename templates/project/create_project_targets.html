@@ -1,0 +1,255 @@
+{% extends 'pentest/base.html' %}
+{% load static %}
+
+{% block modal %}
+    <div class="modelcontainer">
+        <div class="model">
+            <form method="post">
+                {% csrf_token %}
+                <div
+                        class="
+              modelheader
+              d-flex
+              justify-content-between
+              align-items-center
+            "
+                >
+                    <h3>Add project Target</h3>
+                    <button type="button" class="btn dangerbtn" onclick="removemodel()">x</button>
+                </div>
+                <div class="modelbody">
+                    <div class="col-lg-12">
+                        <div class="form-group d-flex flex-column">
+                            {{ project_target_form.target.label }}
+                            {{ project_target_form.target }}
+                        </div>
+                    </div>
+                    <div class="col-lg-12">
+                        <div class="form-group">
+                            {{ project_target_form.url.label }}
+                            {{ project_target_form.url }}
+                        </div>
+                    </div>
+                </div>
+                <div class="model-footer">
+                    <div
+                            class="buttons d-flex align-items-center justify-content-end"
+                            style="gap: 10px; width: 100%"
+                    >
+                        <div class="button">
+                            <a href="">
+                                <button type="submit" class="btn primarybtn add">Save</button>
+                            </a>
+                        </div>
+                        <div class="button">
+                            <a href="">
+                                <button type="button" class="btn secondarybtn" onclick="removemodel()">
+                                    Cancel
+                                </button>
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <div class="modal fade" id="basicModal">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">Delete Project Target</h5>
+                    <button type="button" class="close" data-bs-dismiss="modal"><span>&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <form action="" method="post" id="delete_form">
+                        {% csrf_token %}
+                        <h6>Are you sure you want to delete ?</h6>
+
+                        <div class="modal-footer">
+                            <a href="#" class="btn btn-outline-primary" data-bs-dismiss="modal">
+                                Close
+                            </a>
+                            <button class="btn btn-outline-danger" type="submit">
+                                Delete
+                            </button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock modal %}
+
+{% block center_content %}
+    <div class="maincontentbody">
+        <div class="row">
+            <div class="col-lg-2">
+                <h4>Create a Project</h4>
+                <div class="card">
+                    <div class="WizardForm">
+                        <div class="step">
+                            <div class="circle active"></div>
+                            <div class="line"></div>
+                        </div>
+                        <div class="step">
+                            <div class="circle active"></div>
+                            <div class="line"></div>
+                        </div>
+                        <div class="step">
+                            <div class="circle"></div>
+                        </div>
+                    </div>
+                    <div class="links">
+                        <div class="link">
+                            <p>Details</p>
+                        </div>
+                        <div class="link">
+                            <p class="active">Targets</p>
+                        </div>
+                        <div class="link">
+                            <p>Review and Submit</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-lg-10">
+                <h4>Set Target</h4>
+                <div
+                        class="card"
+                        style="flex-direction: column; padding: 20px 40px"
+                >
+                    <div
+                            class="addbtn d-flex justify-content-end"
+                            style="width: 100%"
+                    >
+                        <button class="btn primarybtn" onclick="model()">+</button>
+                    </div>
+
+                    <table class="table table-hovered">
+                        <tr>
+                            <td>SN</td>
+                            <td>Types</td>
+                            <td>Target Url</td>
+                            <td>Action</td>
+                        </tr>
+                        {% for project_target in project_targets %}
+                            <tr>
+                                <td>project_target.id</td>
+                                <td>{{ project_target.target.name }}</td>
+                                <td>{{ project_target.url }}</td>
+                                <td>
+                                    <div
+                                            class="icon d-flex align-items-center"
+                                            style="gap: 10px"
+                                    >
+                                        <i class="far fa-edit" onclick="model()"></i>
+                                        <a href="#">
+                                            <button type="button" class="btn  vehicle_delete" data-bs-toggle="modal"
+                                                    data-bs-target="#basicModal" data-bs-id="{{ project_target.id }}" href="">
+                                                <i class="far fa-trash-alt"></i>
+                                            </button>
+                                        </a>
+                                    </div>
+                                </td>
+                            </tr>
+                        {% empty %}
+                            <tr>
+                                <td>#</td>
+                                <td>No target Available</td>
+                                <td></td>
+                                <td></td>
+                            </tr>
+                        {% endfor %}
+
+                    </table>
+                    <div
+                            class="
+                      buttons
+                      d-flex
+                      align-items-center
+                      justify-content-end
+                    "
+                            style="gap: 10px; width: 100%"
+                    >
+                        <div class="button">
+                            <a href="{% url 'project:update_project_details' project_id %}">
+                                <button type="button" class="btn secondarybtn">Back</button>
+                            </a>
+                        </div>
+                        <div class="button">
+                            <a href="">
+                                <button class="btn primarybtn">Continue</button>
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+    {#    <div class="maincontentbody">#}
+    {#        <div class="form">#}
+    {#            <form method="post">#}
+    {#                {% csrf_token %}#}
+    {#                {{ project_target_form.url.label }}#}
+    {#                {{ project_target_form.url }}#}
+    {#                {{ project_target_form.target.label }}#}
+    {#                {{ project_target_form.target }}#}
+    {#                <div class="form-group d-flex button justify-content-end" style="gap: 20px">#}
+    {#                    <button type="submit" class="btn Save">Add</button>#}
+    {#                </div>#}
+    {#            </form>#}
+    {#            <table>#}
+    {#                {% for project_target in project_targets %}#}
+    {#                    <tr>#}
+    {#                        <td>{{ project_target.url|upper }}</td>#}
+    {#                        <td>{{ project_target.target|upper }}</td>#}
+    {#                    </tr>#}
+    {#                {% endfor %}#}
+    {#            </table>#}
+    {#            <div class="form-group d-flex button justify-content-end" style="gap: 20px">#}
+    {#                <a href="{% url 'project:update_project_details' project_id %}">#}
+    {#                    <button type="button" class="btn Save">Back</button>#}
+    {#                </a>#}
+    {#            </div>#}
+    {#            <div class="form-group d-flex button justify-content-end" style="gap: 20px">#}
+    {#                <button type="button" class="btn Save">Continue</button>#}
+    {#            </div>#}
+    {#        </div>#}
+    {#    </div>#}
+
+{% endblock center_content %}
+
+
+{% block extra_js %}
+    <script>
+        function model() {
+            var modelcontainer = document.querySelector(".modelcontainer");
+            modelcontainer.style.display = "flex";
+        }
+
+        function removemodel() {
+            var modelcontainer = document.querySelector(".modelcontainer");
+            modelcontainer.style.display = "none";
+        }
+
+        function extendedsidebar() {
+            var text = document.querySelector(".link");
+            var sidebar = document.querySelector(".sidebar");
+            sidebar.classList.toggle("active");
+            text.classList.toggle("active");
+            console.log(text);
+        }
+    </script>
+    <script>
+        $(".vehicle_delete").click(function () {
+            let id = $(this).attr("data-bs-id");
+            let vehicle_delete_url = "{% url 'project:delete_project_target' 123 %}".replace(123, id);
+            $("#delete_form").attr('action', vehicle_delete_url);
+            console.log(vehicle_delete_url)
+        });
+    </script>
+{% endblock extra_js %}
