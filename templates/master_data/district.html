@@ -1,0 +1,176 @@
+{% extends "pentest/base.html" %}
+{% block center_content %}
+    <form action="POST" action=''>
+        
+        {% csrf_token %}
+        <input type="hidden" name="sid" id="districtId">
+        {{form}}
+        <!-- <button type="button" id="btnsave">Submit</button> -->
+        <input type='button' class='btn btn-success btn-sm' value='submit' id="btnsave"/>
+
+    </form>
+    <hr>
+    <table id="example" class="display" style="min-width: 845px">
+        <thead>
+            <tr>
+                <th>S.N.</th>
+                <th>District Name</th>
+                <th>Province No</th>
+                <th>Action</th>
+            </tr>
+        </thead>
+        <tbody id="tbody">
+            {% for d in district %}
+            <tr>
+                <td class="cell-num">{{ forloop.counter }}</td>
+                <td>{{ d.name }}</td>
+                <td>{{ d.name }}</td>
+                <td>
+                    <input type='button' class='btn btn-success btn-sm btn-update' value='Edit' data-sid="{{d.id}}" />
+                    <input type='button' class='btn btn-warning btn-sm' value='Delete' data-sid="{{d.id}}" onclick="forwardVehicleDetail({{d.id}})" /> 
+                </td>
+            </tr>
+            {% endfor %}
+        </tbody>
+        <div class="vehicleDetailModal" id="vehicleDetailModal">
+            <div class="vehicleDetailModalMain">
+                <div class="vehicleDetailModalIcon"><i class="fas fa-check-circle"></i></div>
+                <div class="vehicleDetailModalConfirmTitle">Delete District</div>
+                <div class="vehicleDetailModalBtns">
+                    <div class="vehicleDetailModalConfirm">
+                    <input type='button' class='btn btn-delete btn-modal' value='Confirm' data-sid="" />
+                    </div>
+                    <div class="vehicleDetailModalCancle">
+                        <h1 onclick="BackwardVehicleDetail()">Cancel</h1>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </table>
+{% endblock center_content %}
+
+{% block extra_js %}
+<script>
+    // for updating the S.N of all rows after deleting and updating
+    // function UpdateSN(xid, xloopId, x) {
+    //     // let loopID = $("#loopID")
+    //     // for(i=0; i<x.length; i++){
+    //     xloopId.innerHTML(x+1);
+    //     // }
+    // }
+
+    function fillup(xid,i,xname) {
+        return (
+            "<tr><td class='loopID'>" + i + "</td><td>" + xname + "</td><td>" + xname + 
+                "</td><td>" +  "<input type='button' class='btn btn-success btn-sm btn-update' value='Edit' data-sid=" + xid + 
+                    "> <input type='button' class='btn btn-warning btn-sm' value='delete' onclick='forwardVehicleDetail("+xid+")' data-sid=" + xid + ">"
+                    )
+    }
+    function forwardVehicleDetail(xid) {
+            // id = xid['id']
+            console.log(xid)
+            document.getElementById("vehicleDetailModal").style.display = "flex"
+            // document.getElementsByClassName('btn-modal').setAttribute('data-sid', xid);
+            $('.btn-modal').attr('data-sid', xid);
+    }
+    
+    function BackwardVehicleDetail() {
+            document.getElementById("vehicleDetailModal").style.display = "none"
+    }
+    // for madeUp Html for appending while creating new row
+    // Creation of Severity object
+    $("#btnsave").on("click", function () {
+        let output = "";
+        let csr = $("input[name=csrfmiddlewaretoken]").val();
+        let sid = $("#districtId").val();
+        let name = $("#nameid").val();
+        mydata = { sid:sid, name:name,
+        csrfmiddlewaretoken: csr };
+        $.ajax({
+            url: "{% url 'master_data:district_save' %}",
+            method: 'POST',
+            data: mydata,
+            dataType: 'json',
+            success: function(data) {
+                x = data.district_data;
+                if(data.status == "Save"){
+                // console.log(data)
+                // console.log("Form submitted successfully")
+                for(i=0; i<x.length; i++){
+                    output += 
+                    fillup(x[i].id,i+1,x[i].name)
+                }
+                // console.log(output)
+                $("#tbody").html(output);
+
+                // getting the id of the id from the row
+                // let loopID = $("#loopID")
+                // for(i=0; i<x.length; i++){
+                //     updateSN(x[i].id, loopId, i)
+                // }
+
+                $("#districtId").val("");
+                $("#btnsave").val("Submit")
+                $('form')[0].reset();
+                }
+            } 
+        });
+    })
+
+    // For Severity object Update
+    $("tbody").on("click", ".btn-update", function (){
+        let id = $(this).attr('data-sid')
+        let csr = $("input[name=csrfmiddlewaretoken]").val()
+        // console.log(csr)
+        mydata = {sid: id, csrfmiddlewaretoken: csr}
+
+        $.ajax({
+            url: "{% url 'master_data:district_update' %}",
+            method: 'POST',
+            data: mydata,
+            dataType: 'json',
+            success: function(data) {
+                console.log("Update Button Clicked")
+                $("#districtId").val(data.id)
+                $("#nameid").val(data.name)
+                $("#btnsave").val("Update")
+            }
+        })
+    })
+
+    // For Severity object Delete
+    const delModal = document.getElementsByClassName('btn-modal')[0]
+    delModal.addEventListener('click', function() {
+        let output = "";
+        let id = $(this).attr('data-sid')
+        print(id)
+        let csr = $("input[name=csrfmiddlewaretoken]").val()
+        print(csr)
+        mydata = {sid: id, csrfmiddlewaretoken: csr}
+        mythis = this;
+        
+        $.ajax({
+            url: "{% url 'master_data:district_delete' %}",
+            method: 'POST',
+            data: mydata,
+            dataType: 'json',
+            success: function(data) {
+                x = data.district_data;
+                if(data.status == 1) {
+                    console.log("Data Deleted Successfully")
+                    
+                    $(mythis).closest('tr').fadeOut();
+                    
+                    for(i=0; i<x.length; i++){
+                        output += 
+                        fillup(x[i].id,i+1,x[i].name)
+                    }
+                    $("#tbody").html(output);
+                    BackwardVehicleDetail()     
+                }
+            }
+        })
+    }) 
+    
+</script>
+{% endblock extra_js %}

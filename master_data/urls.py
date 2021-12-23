@@ -4,6 +4,7 @@ from master_data.views import targetTypeCreateView, targetTypeSaveView, targetTy
 from master_data.views import reportTypeCreateView, reportTypeSaveView, reportTypeUpdateView, reportTypeDeleteView
 from master_data.views import degreeCreateView, degreeSaveView, degreeUpdateView, degreeDeleteView
 from master_data.views import provinceCreateView, provinceSaveView, provinceUpdateView, provinceDeleteView
+from master_data.views import districtCreateView, districtSaveView, districtUpdateView, districtDeleteView
 
 #  , SeverityListView, SeverityUpdateView, SeverityDeleteView
 
@@ -38,6 +39,12 @@ urlpatterns = [
     path("province/save/", provinceSaveView, name="province_save"),
     path("province/update/", provinceUpdateView, name="province_update"),
     path("province/delete/", provinceDeleteView, name="province_delete"),
+
+    # For District
+    path("district/", districtCreateView, name="district_create"),
+    path("district/save/", districtSaveView, name="district_save"),
+    path("district/update/", districtUpdateView, name="district_update"),
+    path("district/delete/", districtDeleteView, name="district_delete"),
 
     # path("severity/list/", SeverityListView.as_view(), name="severity_list"),
     # path("severity/<pk>/update/", SeverityUpdateView.as_view(), name="severity_update"),

@@ -293,3 +293,53 @@ def provinceDeleteView(request):
         return JsonResponse({'status':1, 'province_data':province_data,})
     else:
         return JsonResponse({'status': 0})
+
+
+
+# For District
+def districtCreateView(request):
+    form = DistrictForm
+    district = District.objects.all().order_by('-id')
+    return render(request, 'master_data/district.html', {"form":form, "district":district,})
+
+# ajax function
+def districtSaveView(request):
+    if request.method == "POST":
+        form = DistrictForm(request.POST)
+        if form.is_valid():
+            name = request.POST['name']
+            sid = request.POST.get('sid')
+
+            if (sid == ""):
+                district = District(name=name)
+            else:
+                district = District(id=sid, name=name)
+            district.save()
+
+            sv = District.objects.values().order_by("-id") #important
+            district_data = list(sv)
+            return JsonResponse({"status": "Save", 'district_data': district_data, })
+        else:
+            return JsonResponse({"status": 0})
+
+
+def districtUpdateView(request):
+    if request.method == 'POST':
+        id = request.POST.get('sid')
+        print(id)
+        district = District.objects.get(pk=id)
+        district_data = {"id": district.id, 'name': district.name,}
+        return JsonResponse(district_data)
+
+
+def districtDeleteView(request):
+    if request.method == 'POST':
+        id = request.POST.get('sid')
+        print(id)
+        district = District.objects.get(pk=id)
+        district.delete()
+        sv = District.objects.values().order_by("-id") #important
+        district_data = list(sv)
+        return JsonResponse({'status':1, 'district_data':district_data,})
+    else:
+        return JsonResponse({'status': 0})

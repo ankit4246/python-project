@@ -36,7 +36,9 @@ class DistrictForm(forms.ModelForm):
     class Meta:
         model = District
         fields = ["name"]
-
+        widgets = {
+            'name': forms.TextInput(attrs={'class': 'form-control', 'id': 'nameid'}),
+        }
 
 class ProvinceForm(forms.ModelForm):
     class Meta:
