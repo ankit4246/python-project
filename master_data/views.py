@@ -139,3 +139,55 @@ def targetTypeDeleteView(request):
         return JsonResponse({'status':1, 'target_data':target_data,})
     else:
         return JsonResponse({'status': 0})
+
+
+
+# For ReportType
+def reportTypeCreateView(request):
+    form = ReportTypeForm
+    report = ReportType.objects.all().order_by('-id')
+    return render(request, 'master_data/report.html', {"form":form, "report":report,})
+
+# ajax function
+def reportTypeSaveView(request):
+    if request.method == "POST":
+        form = ReportTypeForm(request.POST)
+        if form.is_valid():
+            name = request.POST['name']
+            types = request.POST['types']
+            remarks = request.POST['remarks']
+            sid = request.POST.get('sid')
+
+            if (sid == ""):
+                report = ReportType(name=name, types=types, remarks=remarks)
+            else:
+                report = ReportType(id=sid, types=types, name=name, remarks=remarks)
+            report.save()
+
+            sv = ReportType.objects.values().order_by("-id") #important
+            report_data = list(sv)
+            return JsonResponse({"status": "Save", 'report_data': report_data, })
+        else:
+            return JsonResponse({"status": 0})
+
+
+def reportTypeUpdateView(request):
+    if request.method == 'POST':
+        id = request.POST.get('sid')
+        print(id)
+        report = ReportType.objects.get(pk=id)
+        report_data = {"id": report.id, 'name': report.name, 'types': report.types, 'remarks': report.remarks}
+        return JsonResponse(report_data)
+
+
+def reportTypeDeleteView(request):
+    if request.method == 'POST':
+        id = request.POST.get('sid')
+        print(id)
+        report = ReportType.objects.get(pk=id)
+        report.delete()
+        sv = ReportType.objects.values().order_by("-id") #important
+        report_data = list(sv)
+        return JsonResponse({'status':1, 'report_data':report_data,})
+    else:
+        return JsonResponse({'status': 0})

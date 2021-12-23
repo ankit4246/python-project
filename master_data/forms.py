@@ -26,7 +26,11 @@ class ReportTypeForm(forms.ModelForm):
     class Meta:
         model = ReportType
         fields = ["name", "types", "remarks"]
-
+        widgets = {
+            'name': forms.TextInput(attrs={'class': 'form-control', 'id': 'nameid'}),
+            'types': forms.TextInput(attrs={'class': 'form-control', 'id': 'typesid'}),
+            'remarks': forms.TextInput(attrs={'class': 'form-control', 'id': 'remarksid'}),
+        }
 
 class DistrictForm(forms.ModelForm):
     class Meta:

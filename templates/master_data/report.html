@@ -3,7 +3,7 @@
     <form action="POST" action=''>
         
         {% csrf_token %}
-        <input type="hidden" name="sid" id="targetId">
+        <input type="hidden" name="sid" id="reportId">
         {{form}}
         <!-- <button type="button" id="btnsave">Submit</button> -->
         <input type='button' class='btn btn-success btn-sm' value='submit' id="btnsave"/>
@@ -14,17 +14,17 @@
         <thead>
             <tr>
                 <th>S.N.</th>
-                <th>Target Name</th>
-                <th>Master Division Type</th>
+                <th>Report Name</th>
+                <th>Report Type</th>
                 <th>Action</th>
             </tr>
         </thead>
         <tbody id="tbody">
-            {% for d in target %}
+            {% for d in report %}
             <tr>
                 <td class="cell-num">{{ forloop.counter }}</td>
                 <td>{{ d.name }}</td>
-                <td>{{ d.name }}</td>
+                <td>{{ d.types }}</td>
                 <td>
                     <input type='button' class='btn btn-success btn-sm btn-update' value='Edit' data-sid="{{d.id}}" />
                     <input type='button' class='btn btn-warning btn-sm' value='Delete' data-sid="{{d.id}}" onclick="forwardVehicleDetail({{d.id}})" /> 
@@ -35,7 +35,7 @@
         <div class="vehicleDetailModal" id="vehicleDetailModal">
             <div class="vehicleDetailModalMain">
                 <div class="vehicleDetailModalIcon"><i class="fas fa-check-circle"></i></div>
-                <div class="vehicleDetailModalConfirmTitle">Delete Target</div>
+                <div class="vehicleDetailModalConfirmTitle">Delete Report</div>
                 <div class="vehicleDetailModalBtns">
                     <div class="vehicleDetailModalConfirm">
                     <input type='button' class='btn btn-delete btn-modal' value='Confirm' data-sid="" />
@@ -59,9 +59,9 @@
     //     // }
     // }
 
-    function fillup(xid,i,xname) {
+    function fillup(xid,i,xname,xtypes) {
         return (
-            "<tr><td class='loopID'>" + i + "</td><td>" + xname + "</td><td>" + xname + 
+            "<tr><td class='loopID'>" + i + "</td><td>" + xname + "</td><td>" + xtypes + 
                 "</td><td>" +  "<input type='button' class='btn btn-success btn-sm btn-update' value='Edit' data-sid=" + xid + 
                     "> <input type='button' class='btn btn-warning btn-sm' value='delete' onclick='forwardVehicleDetail("+xid+")' data-sid=" + xid + ">"
                     )
@@ -82,24 +82,25 @@
     $("#btnsave").on("click", function () {
         let output = "";
         let csr = $("input[name=csrfmiddlewaretoken]").val();
-        let sid = $("#targetId").val();
+        let sid = $("#reportId").val();
         let name = $("#nameid").val();
+        let types = $("#typesid").val();
         let remarks = $("#remarksid").val();
-        mydata = { sid:sid, name:name, remarks:remarks,
+        mydata = { sid:sid, name:name, types:types, remarks:remarks,
         csrfmiddlewaretoken: csr };
         $.ajax({
-            url: "{% url 'master_data:target_save' %}",
+            url: "{% url 'master_data:report_save' %}",
             method: 'POST',
             data: mydata,
             dataType: 'json',
             success: function(data) {
-                x = data.target_data;
+                x = data.report_data;
                 if(data.status == "Save"){
                 // console.log(data)
                 // console.log("Form submitted successfully")
                 for(i=0; i<x.length; i++){
                     output += 
-                    fillup(x[i].id,i+1,x[i].name)
+                    fillup(x[i].id,i+1,x[i].name, x[i].types)
                 }
                 // console.log(output)
                 $("#tbody").html(output);
@@ -110,7 +111,7 @@
                 //     updateSN(x[i].id, loopId, i)
                 // }
 
-                $("#targetId").val("");
+                $("#reportId").val("");
                 $("#btnsave").val("Submit")
                 $('form')[0].reset();
                 }
@@ -126,14 +127,15 @@
         mydata = {sid: id, csrfmiddlewaretoken: csr}
 
         $.ajax({
-            url: "{% url 'master_data:target_update' %}",
+            url: "{% url 'master_data:report_update' %}",
             method: 'POST',
             data: mydata,
             dataType: 'json',
             success: function(data) {
                 console.log("Update Button Clicked")
-                $("#targetId").val(data.id)
+                $("#reportId").val(data.id)
                 $("#nameid").val(data.name)
+                $("#typesid").val(data.types)
                 $("#remarksid").val(data.remarks)
                 $("#btnsave").val("Update")
             }
@@ -152,12 +154,12 @@
         mythis = this;
         
         $.ajax({
-            url: "{% url 'master_data:target_delete' %}",
+            url: "{% url 'master_data:report_delete' %}",
             method: 'POST',
             data: mydata,
             dataType: 'json',
             success: function(data) {
-                x = data.target_data;
+                x = data.report_data;
                 if(data.status == 1) {
                     console.log("Data Deleted Successfully")
                     
@@ -165,7 +167,7 @@
                     
                     for(i=0; i<x.length; i++){
                         output += 
-                        fillup(x[i].id,i+1,x[i].name)
+                        fillup(x[i].id,i+1,x[i].name,x[i].types)
                     }
                     $("#tbody").html(output);
                     BackwardVehicleDetail()      
