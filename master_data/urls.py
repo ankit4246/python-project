@@ -1,7 +1,7 @@
 from django import views
 from django.urls import path
 from master_data.views import severityCreateView, severitySaveView, severityUpdateView, \
-    severityDeleteView, targetCreateView, targetSaveView,targetUpdateView, targetDeleteView, MasterDataView
+    severityDeleteView, targetCreateView, targetSaveView,targetUpdateView, targetDeleteView, masterdata
 #  , SeverityListView, SeverityUpdateView, SeverityDeleteView
 
 urlpatterns = [
@@ -13,7 +13,7 @@ urlpatterns = [
     path("target/save/",targetSaveView, name="target_save"),
     path('target/update/',targetUpdateView, name="target_update"),
     path("target/delete/",targetDeleteView, name="target_delete"),
-    path("masterdata/",MasterDataView.as_view(), name="master_data_entry"),
+    path("masterdata/",masterdata, name="master_data_entry"),
 
     # path("severity/list/", SeverityListView.as_view(), name="severity_list"),
     # path("severity/<pk>/update/", SeverityUpdateView.as_view(), name="severity_update"),
