@@ -38,7 +38,7 @@ from django.http import JsonResponse
 #         messages.success(self.request, self.success_message)
 #         return super().delete(request, *args, **kwargs)
 
-
+# for severity
 def severityCreateView(request):
     form = SeverityForm
     severity = Severity.objects.all().order_by('-id')
@@ -84,5 +84,58 @@ def severityDeleteView(request):
         sv = Severity.objects.values().order_by("-id") #important
         severity_data = list(sv)
         return JsonResponse({'status':1, 'severity_data':severity_data,})
+    else:
+        return JsonResponse({'status': 0})
+
+
+
+
+
+# For TargetType
+def targetTypeCreateView(request):
+    form = TargetTypeForm
+    target = TargetType.objects.all().order_by('-id')
+    return render(request, 'master_data/target.html', {"form":form, "target":target,})
+
+# ajax function
+def targetTypeSaveView(request):
+    if request.method == "POST":
+        form = TargetTypeForm(request.POST)
+        if form.is_valid():
+            name = request.POST['name']
+            remarks = request.POST['remarks']
+            sid = request.POST.get('sid')
+
+            if (sid == ""):
+                target = TargetType(name=name, remarks=remarks)
+            else:
+                target = TargetType(id=sid, name=name, remarks=remarks)
+            target.save()
+
+            sv = TargetType.objects.values().order_by("-id") #important
+            target_data = list(sv)
+            return JsonResponse({"status": "Save", 'target_data': target_data, })
+        else:
+            return JsonResponse({"status": 0})
+
+
+def targetTypeUpdateView(request):
+    if request.method == 'POST':
+        id = request.POST.get('sid')
+        print(id)
+        target = TargetType.objects.get(pk=id)
+        target_data = {"id": target.id, 'name': target.name, 'remarks': target.remarks}
+        return JsonResponse(target_data)
+
+
+def targetTypeDeleteView(request):
+    if request.method == 'POST':
+        id = request.POST.get('sid')
+        print(id)
+        target = TargetType.objects.get(pk=id)
+        target.delete()
+        sv = TargetType.objects.values().order_by("-id") #important
+        target_data = list(sv)
+        return JsonResponse({'status':1, 'target_data':target_data,})
     else:
         return JsonResponse({'status': 0})
