@@ -41,9 +41,8 @@ from django.http import JsonResponse
 
 def severityCreateView(request):
     form = SeverityForm
-    severity = Severity.objects.all()
-    return render(request, 'master_data/severity.html', {"form": form, "severity": severity, })
-
+    severity = Severity.objects.all().order_by('-id')
+    return render(request, 'master_data/severity.html', {"form":form, "severity":severity,})
 
 # ajax function
 def severitySaveView(request):
@@ -60,7 +59,7 @@ def severitySaveView(request):
                 severity = Severity(id=sid, name=name, remarks=remarks)
             severity.save()
 
-            sv = Severity.objects.values()
+            sv = Severity.objects.values().order_by("-id") #important
             severity_data = list(sv)
             return JsonResponse({"status": "Save", 'severity_data': severity_data, })
         else:
@@ -82,6 +81,8 @@ def severityDeleteView(request):
         print(id)
         severity = Severity.objects.get(pk=id)
         severity.delete()
-        return JsonResponse({'status': 1})
+        sv = Severity.objects.values().order_by("-id") #important
+        severity_data = list(sv)
+        return JsonResponse({'status':1, 'severity_data':severity_data,})
     else:
         return JsonResponse({'status': 0})
