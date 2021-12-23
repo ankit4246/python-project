@@ -38,7 +38,7 @@ from django.http import JsonResponse
 #         messages.success(self.request, self.success_message)
 #         return super().delete(request, *args, **kwargs)
 
-# for severity
+# For severity
 def severityCreateView(request):
     form = SeverityForm
     severity = Severity.objects.all().order_by('-id')
@@ -241,5 +241,55 @@ def degreeDeleteView(request):
         sv = Degree.objects.values().order_by("-id") #important
         degree_data = list(sv)
         return JsonResponse({'status':1, 'degree_data':degree_data,})
+    else:
+        return JsonResponse({'status': 0})
+
+
+
+# For Province
+def provinceCreateView(request):
+    form = ProvinceForm
+    province = Province.objects.all().order_by('-id')
+    return render(request, 'master_data/province.html', {"form":form, "province":province,})
+
+# ajax function
+def provinceSaveView(request):
+    if request.method == "POST":
+        form = ProvinceForm(request.POST)
+        if form.is_valid():
+            name = request.POST['name']
+            sid = request.POST.get('sid')
+
+            if (sid == ""):
+                province = Province(name=name)
+            else:
+                province = Province(id=sid, name=name)
+            province.save()
+
+            sv = Province.objects.values().order_by("-id") #important
+            province_data = list(sv)
+            return JsonResponse({"status": "Save", 'province_data': province_data, })
+        else:
+            return JsonResponse({"status": 0})
+
+
+def provinceUpdateView(request):
+    if request.method == 'POST':
+        id = request.POST.get('sid')
+        print(id)
+        province = Province.objects.get(pk=id)
+        province_data = {"id": province.id, 'name': province.name,}
+        return JsonResponse(province_data)
+
+
+def provinceDeleteView(request):
+    if request.method == 'POST':
+        id = request.POST.get('sid')
+        print(id)
+        province = Province.objects.get(pk=id)
+        province.delete()
+        sv = Province.objects.values().order_by("-id") #important
+        province_data = list(sv)
+        return JsonResponse({'status':1, 'province_data':province_data,})
     else:
         return JsonResponse({'status': 0})
