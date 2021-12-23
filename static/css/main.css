@@ -899,8 +899,18 @@ Main dashboard finished */
   font-size: 20px;
   margin-bottom: 10px;
 }
+.ProjectForm .maincontentbody .tablewrapper {
+  height: 30rem;
+  overflow-y: auto;
+  width: 100%;
+}
+.ProjectForm .maincontentbody .tablewrapper .table > tr:first-child {
+  position: sticky;
+  top: 0px;
+}
 
 .ProjectForm .maincontentbody .table {
+  position: relative;
   background: #ffffff;
   border-radius: 12px;
   overflow: hidden;
@@ -914,14 +924,17 @@ Main dashboard finished */
   color: #9f9fbb !important;
 }
 .ProjectForm .maincontentbody .table tr:first-child {
+  position: sticky;
+  top: 0;
   background: #adc4fd;
 }
 .ProjectForm .maincontentbody .table tr:first-child td {
   color: #2d2b2b !important;
 }
-.modelcontainer {
+.modelcontainer,
+.modelcontainer1 {
   display: none;
-  background-color: rgba(0, 0, 0, 0.486);
+  background: rgba(35, 34, 34, 0.5);
   position: absolute;
   z-index: 9999999;
   align-items: center;
@@ -929,7 +942,31 @@ Main dashboard finished */
   height: 100%;
   width: 100%;
 }
-.model {
+
+.ProjectForm .maincontentbody .projectDetail .submit .logo {
+  height: 100px;
+  width: 100px;
+  border-radius: 100%;
+  overflow: hidden;
+}
+
+.ProjectForm .maincontentbody .projectDetail .submit h5 {
+  color: #5b5858;
+}
+.ProjectForm .maincontentbody .projectDetail .submit h6 {
+  color: #5b5858;
+}
+.ProjectForm .maincontentbody .projectDetail .submit textarea {
+  outline: none;
+  width: 100%;
+  padding: 10px 15px;
+  border: 1.5px solid rgba(91, 88, 88, 0.5);
+  color: #5b5858;
+  border-radius: 12px;
+}
+
+.model,
+.model1 {
   background: #ffffff;
   box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.05);
   width: 40rem;
@@ -939,6 +976,9 @@ Main dashboard finished */
 .model .modelheader {
   margin-bottom: 2rem;
 }
+.model1 .modelheader1 {
+  margin-bottom: 1rem;
+}
 
 .modelcontainer .modelbody > form {
   display: flex;
@@ -947,10 +987,10 @@ Main dashboard finished */
   margin-bottom: 30px;
 }
 .modelcontainer .modelbody > form label {
-  margin-bottom: 5px;
+  margin-bottom: 10px;
 }
 .modelcontainer .modelbody > form select {
-  padding: 5px 10px;
+  padding: 10px 10px;
   border: 1px solid #8f8e8e;
   background-color: transparent;
 }
@@ -1014,7 +1054,6 @@ project form ends */
   object-fit: cover;
   height: 100%;
   width: 100%;
-  border-radius: 50%;
 }
 .maincontent .maincontentbody .table tr td:nth-child(3) {
   color: #bf2900;

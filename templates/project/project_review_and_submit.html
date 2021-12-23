@@ -1,0 +1,161 @@
+{% extends 'pentest/base.html' %}
+{% load static %}
+{% block center_content %}
+   <div class="maincontentbody">
+            <div class="row">
+              <div class="col-lg-2">
+                <h4>Create a Project</h4>
+                <div class="card">
+                  <div class="WizardForm">
+                    <div class="step">
+                      <div class="circle active"></div>
+                      <div class="line"></div>
+                    </div>
+                    <div class="step">
+                      <div class="circle"></div>
+                      <div class="line"></div>
+                    </div>
+                    <div class="step">
+                      <div class="circle"></div>
+                    </div>
+                  </div>
+                  <div class="links">
+                    <div class="link">
+                      <p class="active">Detail</p>
+                    </div>
+                    <div class="link">
+                      <p>Detail</p>
+                    </div>
+                    <div class="link">
+                      <p>Detail</p>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <div class="col-lg-10">
+                <h4>Summary</h4>
+                <div class="card mb-4 projectDetail">
+                  <div class="row submit gy-4" style="width: 100%">
+                    <div class="col-lg-12">
+                      <h5>Project Details</h5>
+                    </div>
+                    <div class="col-lg-12">
+                      <div class="row mb-4" style="width: 100%">
+                        <div class="col-lg-2">
+                          <h6 class="mb-3">Logo</h6>
+                          <div class="logo">
+                            <img
+                              src="https://images.unsplash.com/photo-1636716642781-a668f4600219?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=687&q=80"
+                              alt=""
+                            />
+                          </div>
+                        </div>
+                        <div class="col-lg-10">
+                          <div class="row gy-4">
+                            <div class="col-lg-2">
+                              <h6 class="mb-2">Project Name</h6>
+                              <p>Esewa</p>
+                            </div>
+                            <div class="col-lg-4">
+                              <h6 class="mb-2">Tagline</h6>
+                              <p>First Online Payments Gateways of Nepal</p>
+                            </div>
+                            <div class="col-lg-4">
+                              <h6 class="mb-2">Timeline</h6>
+                              <div
+                                class="d-flex align-items-center"
+                                style="gap: 20px"
+                              >
+                                <p>Start Date <span>2020-01-15</span></p>
+                                <p>End Date <span>2020-01-15</span></p>
+                              </div>
+                            </div>
+                            <div class="col-lg-4">
+                              <h6 class="mb-2">Projects Budget</h6>
+                              <p>Amount <span>Rs 10000</span></p>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                    <div class="col-lg-12">
+                      <h6>Description</h6>
+                      <textarea name="" id="" rows="5">
+eSewa is a digital wallet based in Nepal providing instant online payment solutions. Recharge your mobile, pay for electricity (NEA), Internet, TV, water bills, insurance premium, buy tickets for bus, airlines, or movies, and enjoy other services.</textarea
+                      >
+                    </div>
+                    <div class="col-lg-12">
+                      <h6>policies</h6>
+                      <textarea name="" id="" rows="5"> </textarea>
+                    </div>
+                  </div>
+                </div>
+                <div class="card" style="flex-direction: column">
+                  <div class="col-lg-12">
+                    <h4 class="mb-2">Targets</h4>
+                  </div>
+                  <div class="tablewrapper" style="height: 100%">
+                    <table class="table table-hovered">
+                      <tr>
+                        <td>SN</td>
+                        <td>Types</td>
+                        <td>Target Url</td>
+                        <td>Action</td>
+                      </tr>
+                      <tr>
+                        <td>#</td>
+                        <td>No target Available</td>
+                        <td></td>
+                        <td></td>
+                      </tr>
+                      <tr>
+                        <td>#</td>
+                        <td>No target Available</td>
+                        <td></td>
+                        <td></td>
+                      </tr>
+                      <tr>
+                        <td>SN</td>
+                        <td>Types</td>
+                        <td>Target Url</td>
+                        <td>
+                          <div
+                            class="icon d-flex align-items-center"
+                            style="gap: 10px"
+                          >
+                            <i class="far fa-edit"></i>
+                            <i
+                              class="far fa-trash-alt"
+                              onclick="deletecontainer()"
+                            ></i>
+                          </div>
+                        </td>
+                      </tr>
+                    </table>
+                  </div>
+                </div>
+                <div
+                  class="
+                    buttons
+                    d-flex
+                    align-items-center
+                    justify-content-end
+                    p-4
+                  "
+                  style="gap: 10px"
+                >
+                  <div class="button">
+                    <a href="">
+                      <button class="btn secondarybtn">Back</button>
+                    </a>
+                  </div>
+                  <div class="button">
+                    <a href="">
+                      <button class="btn primarybtn">Submit</button>
+                    </a>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+{% endblock center_content %}

@@ -108,14 +108,31 @@ class ListProjectView(ListView):
     template_name = 'project/create_project_details.html'
 
 
-# class VehicleManufacturerCreateView(SuccessMessageMixin, CreateView):
-#     model = Manufacturer
-#     fields = [
-#         "name",
-#     ]
-#     template_name = "core/vehiclemanufacturer/vehiclemanufacturer_create.html"
-#     success_url = reverse_lazy("core:vehiclemanufacturer-list")
-#     success_message = "VehicleManufacturer created successfully"
+class ReviewSubmitView(View):
+    template_name = 'project/project_review_and_submit.html'
+
+    def get(self, request, *args, **kwargs):
+        try:
+            current_project = Project.objects.get(pk=kwargs['project_id'])
+        except Project.DoesNotExist:
+            current_project = None
+        context = {
+            'project': current_project,
+            'project_targets': ProjectTargets.objects.filter(project=kwargs['project_id']),
+        }
+        return render(request, self.template_name, context)
+
+    def post(self, request, *args, **kwargs):
+        try:
+            current_project = Project.objects.get(pk=kwargs['project_id'])
+        except Project.DoesNotExist:
+            current_project = None
+        current_project.is_draft = False
+        current_project.is_published = True
+        current_project.save()
+        return redirect(reverse('project:list_projects'))
+
+
 class ProjectDeleteView(DeleteView):
     model = Project
     success_url = reverse_lazy("project:list_projects")
