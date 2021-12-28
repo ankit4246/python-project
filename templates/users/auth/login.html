@@ -37,6 +37,7 @@
             <form action="{% url 'users:login' %}" method="POST">
                 <div class="personalDetail-name">
                     {% csrf_token %}
+                    hello hello
                     <div class="personalDetail-fname">
                         <h4>{{ form.username.label_tag }}</h4>
                         {{ form.username }}
